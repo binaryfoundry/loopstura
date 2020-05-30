@@ -46,6 +46,20 @@ set(HEADERS_OPENGL
     src/opengl/GL.hpp
     src/opengl/GLRenderer.hpp)
 
+set(SOURCES_IMGUI
+    lib/imgui/imgui.cpp
+    lib/imgui/imgui_draw.cpp
+    lib/imgui/imgui_demo.cpp
+    lib/imgui/imgui_widgets.cpp)
+
+set(HEADERS_IMGUI
+    lib/imgui/imconfig.h
+    lib/imgui/imgui.h
+    lib/imgui/imgui_internal.h
+    lib/imgui/imstb_rectpack.h
+    lib/imgui/imstb_textedit.h
+    lib/imgui/imstb_truetype.h)
+
 SOURCE_GROUP("src" FILES ${SOURCES})
 SOURCE_GROUP("src" FILES ${HEADERS})
 
@@ -54,6 +68,9 @@ SOURCE_GROUP("src\\main" FILES ${HEADERS_MAIN})
 
 SOURCE_GROUP("src\\opengl" FILES ${SOURCES_OPENGL})
 SOURCE_GROUP("src\\opengl" FILES ${HEADERS_OPENGL})
+
+SOURCE_GROUP("src\\imgui" FILES ${SOURCES_IMGUI})
+SOURCE_GROUP("src\\imgui" FILES ${HEADERS_IMGUI})
 
 if (MSVC)
     message(STATUS "Platform: MSVC")
@@ -100,7 +117,9 @@ add_executable(
     ${SOURCES_MAIN}
     ${HEADERS_MAIN}
     ${SOURCES_OPENGL}
-    ${HEADERS_OPENGL})
+    ${HEADERS_OPENGL}
+    ${SOURCES_IMGUI}
+    ${HEADERS_IMGUI})
 
 target_include_directories(
     ${PROJECT}
