@@ -15,8 +15,8 @@ namespace OpenGL
     private:
         const std::function<void()> swap_buffers;
 
-        GLuint tri_vertex_buffer = 0;
-        GLuint tri_index_buffer = 0;
+        GLuint quad_vertex_buffer = 0;
+        GLuint quad_index_buffer = 0;
 
         //GLuint vao = 0;
 

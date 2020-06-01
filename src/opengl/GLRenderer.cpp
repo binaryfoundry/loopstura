@@ -8,16 +8,17 @@ namespace Application
 {
 namespace OpenGL
 {
-    std::vector<GLfloat> tri_vertices =
+    std::vector<GLfloat> quad_vertices =
     {
-         0.0f,  0.5f, 0.0f,
-        -0.5f, -0.5f, 0.0f,
-         0.5f, -0.5f, 0.0f
+        -1.0f,  1.0f, 0.0f,
+        -1.0f, -1.0f, 0.0f,
+         1.0f, -1.0f, 0.0f,
+         1.0f,  1.0f, 0.0f
     };
 
-    std::vector<GLuint> tri_indices =
+    std::vector<GLuint> quad_indices =
     {
-         0, 1, 2
+         0, 1, 2, 2, 3, 0
     };
 
     std::string vertex_shader_string =
@@ -75,13 +76,16 @@ namespace OpenGL
             height),
         swap_buffers(swap_buffers)
     {
-        tri_vertex_buffer = GenBuffer(
-            tri_vertices,
+        glDisable(GL_CULL_FACE);
+        glCullFace(GL_BACK);
+
+        quad_vertex_buffer = GenBuffer(
+            quad_vertices,
             GL_ARRAY_BUFFER,
             GL_STATIC_DRAW);
 
-        tri_index_buffer = GenBuffer(
-            tri_indices,
+        quad_index_buffer = GenBuffer(
+            quad_indices,
             GL_ELEMENT_ARRAY_BUFFER,
             GL_STATIC_DRAW);
 
@@ -93,9 +97,9 @@ namespace OpenGL
     GLRenderer::~GLRenderer()
     {
         glDeleteBuffers(
-            1, &tri_vertex_buffer);
+            1, &quad_vertex_buffer);
         glDeleteBuffers(
-            1, &tri_index_buffer);
+            1, &quad_index_buffer);
 
         glDeleteProgram(
             shader);
@@ -122,7 +126,7 @@ namespace OpenGL
 
         glBindBuffer(
             GL_ARRAY_BUFFER,
-            tri_vertex_buffer);
+            quad_vertex_buffer);
 
         glEnableVertexAttribArray(0);
 
@@ -136,12 +140,13 @@ namespace OpenGL
 
         glBindBuffer(
             GL_ELEMENT_ARRAY_BUFFER,
-            tri_index_buffer);
+            quad_index_buffer);
 
-        glDrawArrays(
+        glDrawElements(
             GL_TRIANGLES,
-            0,
-            3);
+            static_cast<GLsizei>(quad_indices.size()),
+            GL_UNSIGNED_INT,
+            static_cast<char const*>(0));
 
         swap_buffers();
     }
