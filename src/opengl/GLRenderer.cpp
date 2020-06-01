@@ -11,9 +11,13 @@ namespace OpenGL
     std::vector<GLfloat> quad_vertices =
     {
         -1.0f,  1.0f, 0.0f,
+         1.0f,  0.0f,
         -1.0f, -1.0f, 0.0f,
+         1.0f,  1.0f,
          1.0f, -1.0f, 0.0f,
-         1.0f,  1.0f, 0.0f
+         0.0f,  1.0f,
+         1.0f,  1.0f, 0.0f,
+         0.0f,  0.0f
     };
 
     std::vector<GLuint> quad_indices =
@@ -27,8 +31,11 @@ namespace OpenGL
         precision mediump float;
         #endif
         layout(location = 0) in vec3 v_position;
+        layout(location = 1) in vec2 texcoord;
+        out vec2 v_texcoord;
         void main()
         {
+            v_texcoord = texcoord;
             gl_Position = vec4(v_position, 1.0);
         })";
 
@@ -37,10 +44,11 @@ namespace OpenGL
         #ifdef GL_ES
         precision mediump float;
         #endif
+        in vec2 v_texcoord;
         layout(location = 0) out vec4 out_color;
         void main()
         {
-            out_color = vec4(1.0, 0.0, 0.0, 1.0);
+            out_color = vec4(v_texcoord.x, v_texcoord.y, 0.0, 1.0);
         })";
 
     void CheckError()
@@ -135,8 +143,18 @@ namespace OpenGL
             3,
             GL_FLOAT,
             GL_FALSE,
-            0,
-            static_cast<char const*>(0));
+            5 * sizeof(GLfloat),
+            (GLvoid*)0);
+
+        glEnableVertexAttribArray(1);
+
+        glVertexAttribPointer(
+            1,
+            2,
+            GL_FLOAT,
+            GL_FALSE,
+            5 * sizeof(GLfloat),
+            (GLvoid*)(3 * sizeof(GLfloat)));
 
         glBindBuffer(
             GL_ELEMENT_ARRAY_BUFFER,
