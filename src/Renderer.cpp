@@ -8,6 +8,13 @@ namespace Application
         width(width),
         height(height)
     {
+        texture_data.resize(
+            texture_width * texture_height * 4);
+
+        for (size_t i = 0; i < texture_data.size(); i++)
+        {
+            texture_data[i] = rand() % 255;
+        }
     }
 
     Renderer::~Renderer()

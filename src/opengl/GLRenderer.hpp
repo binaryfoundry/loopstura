@@ -22,6 +22,7 @@ namespace OpenGL
 
         GLuint shader = 0;
         GLuint sampler_state = 0;
+        GLuint texture = 0;
 
     public:
         GLRenderer(

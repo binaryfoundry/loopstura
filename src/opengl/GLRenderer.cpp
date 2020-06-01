@@ -71,6 +71,11 @@ namespace OpenGL
         GLenum target,
         GLenum usage);
 
+    GLuint GenTexture(
+        uint32_t width,
+        uint32_t height,
+        std::vector<uint8_t>& data);
+
     GLuint LinkShader(
         std::string vertex_shader_string,
         std::string fragment_shader_string);
@@ -101,8 +106,16 @@ namespace OpenGL
             vertex_shader_string,
             fragment_shader_string);
 
+        texture = GenTexture(
+            texture_width,
+            texture_height,
+            texture_data);
+
         glGenSamplers(
             1, &sampler_state);
+
+        glActiveTexture(
+            GL_TEXTURE0);
 
         glSamplerParameteri(
             sampler_state,
@@ -135,6 +148,8 @@ namespace OpenGL
         glDeleteProgram(
             shader);
 
+        glDeleteTextures(
+            1, &texture);
         glDeleteSamplers(
             1, &sampler_state);
     }
@@ -222,6 +237,44 @@ namespace OpenGL
             NULL);
 
         return buffer;
+    }
+
+    GLuint GenTexture(
+        uint32_t width,
+        uint32_t height,
+        std::vector<uint8_t>& data)
+    {
+        GLuint tex;
+
+        glActiveTexture(
+            GL_TEXTURE0);
+
+        glGenTextures(
+            1, &tex);
+
+        glBindTexture(
+            GL_TEXTURE_2D,
+            tex);
+
+        glTexImage2D(
+            GL_TEXTURE_2D,
+            0,
+            GL_RGBA8,
+            width,
+            height,
+            0,
+            GL_RGBA,
+            GL_UNSIGNED_BYTE,
+            (GLvoid*)&data[0]);
+
+        glGenerateMipmap(
+            GL_TEXTURE_2D);
+
+        glBindTexture(
+            GL_TEXTURE_2D,
+            NULL);
+
+        return tex;
     }
 
     GLuint LoadShader(
