@@ -26,7 +26,7 @@ namespace OpenGL
     };
 
     std::string vertex_shader_string =
-        R"(#version 300 es
+        R"(#version 310 es
         #ifdef GL_ES
         precision mediump float;
         #endif
@@ -40,15 +40,17 @@ namespace OpenGL
         })";
 
     std::string fragment_shader_string =
-        R"(#version 300 es
+        R"(#version 310 es
         #ifdef GL_ES
         precision mediump float;
         #endif
         in vec2 v_texcoord;
         layout(location = 0) out vec4 out_color;
+        layout(location = 0) uniform sampler2D tex;
         void main()
         {
-            out_color = vec4(v_texcoord.x, v_texcoord.y, 0.0, 1.0);
+            vec4 c = texture(tex, v_texcoord);
+            out_color = vec4(c.xyz, 1.0);
         })";
 
     void CheckError()
@@ -172,6 +174,21 @@ namespace OpenGL
 
         glUseProgram(
             shader);
+
+        glActiveTexture(
+            GL_TEXTURE0);
+
+        glBindTexture(
+            GL_TEXTURE_2D,
+            texture);
+
+        glBindSampler(
+            0,
+            sampler_state);
+
+        glUniform1i(
+            0,
+            0);
 
         glBindBuffer(
             GL_ARRAY_BUFFER,
