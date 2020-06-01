@@ -26,7 +26,7 @@ namespace OpenGL
     };
 
     std::string vertex_shader_string =
-        R"(#version 310 es
+        R"(#version 300 es
         #ifdef GL_ES
         precision mediump float;
         #endif
@@ -40,13 +40,13 @@ namespace OpenGL
         })";
 
     std::string fragment_shader_string =
-        R"(#version 310 es
+        R"(#version 300 es
         #ifdef GL_ES
         precision mediump float;
         #endif
         in vec2 v_texcoord;
         layout(location = 0) out vec4 out_color;
-        layout(location = 0) uniform sampler2D tex;
+        uniform sampler2D tex;
         void main()
         {
             vec4 c = texture(tex, v_texcoord);
@@ -107,6 +107,10 @@ namespace OpenGL
         shader = LinkShader(
             vertex_shader_string,
             fragment_shader_string);
+
+        texture_uniform_location = glGetUniformLocation(
+            shader,
+            "tex");
 
         texture = GenTexture(
             texture_width,
@@ -188,7 +192,7 @@ namespace OpenGL
 
         glUniform1i(
             0,
-            0);
+            texture_uniform_location);
 
         glBindBuffer(
             GL_ARRAY_BUFFER,
