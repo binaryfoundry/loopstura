@@ -21,6 +21,7 @@ namespace OpenGL
         //GLuint vao = 0;
 
         GLuint shader = 0;
+        GLuint sampler_state = 0;
 
     public:
         GLRenderer(

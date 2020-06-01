@@ -100,6 +100,29 @@ namespace OpenGL
         shader = LinkShader(
             vertex_shader_string,
             fragment_shader_string);
+
+        glGenSamplers(
+            1, &sampler_state);
+
+        glSamplerParameteri(
+            sampler_state,
+            GL_TEXTURE_WRAP_S,
+            GL_CLAMP_TO_EDGE);
+
+        glSamplerParameteri(
+            sampler_state,
+            GL_TEXTURE_WRAP_T,
+            GL_CLAMP_TO_EDGE);
+
+        glSamplerParameteri(
+            sampler_state,
+            GL_TEXTURE_MAG_FILTER,
+            GL_LINEAR);
+
+        glSamplerParameteri(
+            sampler_state,
+            GL_TEXTURE_MIN_FILTER,
+            GL_LINEAR_MIPMAP_LINEAR);
     }
 
     GLRenderer::~GLRenderer()
@@ -111,6 +134,9 @@ namespace OpenGL
 
         glDeleteProgram(
             shader);
+
+        glDeleteSamplers(
+            1, &sampler_state);
     }
 
     void GLRenderer::Render()
