@@ -186,6 +186,23 @@ namespace OpenGL
             GL_TEXTURE_2D,
             texture);
 
+        if (true) // TODO if texture is updated
+        {
+            glTexImage2D(
+                GL_TEXTURE_2D,
+                0,
+                GL_RGBA8,
+                texture_width,
+                texture_height,
+                0,
+                GL_RGBA,
+                GL_UNSIGNED_BYTE,
+                (GLvoid*)&texture_data[0]);
+
+            glGenerateMipmap(
+                GL_TEXTURE_2D);
+        }
+
         glBindSampler(
             0,
             sampler_state);
