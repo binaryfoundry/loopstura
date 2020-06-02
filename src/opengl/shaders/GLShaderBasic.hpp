@@ -16,12 +16,13 @@ namespace OpenGL
     protected:
         std::shared_ptr<Texture<TextureDataByteRGBA>> texture;
 
-        GLuint shader = 0;
+        GLuint& shader_program;
         GLuint texture_uniform_location = 0;
         GLuint sampler_state = 0;
 
     public:
         GLShaderBasic(
+            GLuint& shader_program,
             std::shared_ptr<Texture<TextureDataByteRGBA>> texture);
         virtual ~GLShaderBasic();
 

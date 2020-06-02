@@ -27,6 +27,34 @@ namespace OpenGL
          0, 1, 2, 2, 3, 0
     };
 
+    std::string vertex_shader_string_basic_texture =
+        R"(#version 300 es
+        #ifdef GL_ES
+        precision mediump float;
+        #endif
+        layout(location = 0) in vec3 v_position;
+        layout(location = 1) in vec2 texcoord;
+        out vec2 v_texcoord;
+        void main()
+        {
+            v_texcoord = texcoord;
+            gl_Position = vec4(v_position, 1.0);
+        })";
+    
+    std::string fragment_shader_string_basic_texture =
+        R"(#version 300 es
+        #ifdef GL_ES
+        precision mediump float;
+        #endif
+        in vec2 v_texcoord;
+        layout(location = 0) out vec4 out_color;
+        uniform sampler2D tex;
+        void main()
+        {
+            vec4 c = texture(tex, v_texcoord);
+            out_color = vec4(c.xyz, 1.0);
+        })";
+
     void CheckError()
     {
         GLenum err = GL_NO_ERROR;
@@ -71,7 +99,12 @@ namespace OpenGL
 
         texture = MakeTexture(512, 512);
 
-        shader = std::make_shared<GLShaderBasic>(
+        shader_program_basic = LinkShader(
+            vertex_shader_string_basic_texture,
+            fragment_shader_string_basic_texture);
+
+        shader_basic = std::make_shared<GLShaderBasic>(
+            shader_program_basic,
             texture);
     }
 
@@ -107,7 +140,7 @@ namespace OpenGL
             GL_DEPTH_BUFFER_BIT |
             GL_STENCIL_BUFFER_BIT);
 
-        shader->Bind();
+        shader_basic->Bind();
 
         glBindBuffer(
             GL_ARRAY_BUFFER,
@@ -143,7 +176,7 @@ namespace OpenGL
             GL_UNSIGNED_INT,
             static_cast<char const*>(0));
 
-        shader->Unbind();
+        shader_basic->Unbind();
 
         swap_buffers();
     }

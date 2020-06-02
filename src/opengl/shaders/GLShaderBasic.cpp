@@ -7,45 +7,14 @@ namespace Application
 {
 namespace OpenGL
 {
-    std::string vertex_shader_string =
-        R"(#version 300 es
-        #ifdef GL_ES
-        precision mediump float;
-        #endif
-        layout(location = 0) in vec3 v_position;
-        layout(location = 1) in vec2 texcoord;
-        out vec2 v_texcoord;
-        void main()
-        {
-            v_texcoord = texcoord;
-            gl_Position = vec4(v_position, 1.0);
-        })";
-
-    std::string fragment_shader_string =
-        R"(#version 300 es
-        #ifdef GL_ES
-        precision mediump float;
-        #endif
-        in vec2 v_texcoord;
-        layout(location = 0) out vec4 out_color;
-        uniform sampler2D tex;
-        void main()
-        {
-            vec4 c = texture(tex, v_texcoord);
-            out_color = vec4(c.xyz, 1.0);
-        })";
-
     GLShaderBasic::GLShaderBasic(
+        GLuint& shader_program,
         std::shared_ptr<Texture<TextureDataByteRGBA>> texture) :
+        shader_program(shader_program),
         texture(texture)
     {
-        // TODO single instance of object
-        shader = LinkShader(
-            vertex_shader_string,
-            fragment_shader_string);
-
         texture_uniform_location = glGetUniformLocation(
-            shader,
+            shader_program,
             "tex");
 
         glGenSamplers(
@@ -78,7 +47,7 @@ namespace OpenGL
     GLShaderBasic::~GLShaderBasic()
     {
         glDeleteProgram(
-            shader);
+            shader_program);
 
         glDeleteSamplers(
             1, &sampler_state);
@@ -93,7 +62,7 @@ namespace OpenGL
         gl_texture->Bind();
 
         glUseProgram(
-            shader);
+            shader_program);
 
         glBindSampler(
             0,

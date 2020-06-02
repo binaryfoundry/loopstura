@@ -22,7 +22,9 @@ namespace OpenGL
     private:
         const std::function<void()> swap_buffers;
 
-        std::shared_ptr<GLShaderBasic> shader;
+        GLuint shader_program_basic = 0;
+
+        std::shared_ptr<GLShaderBasic> shader_basic;
 
         GLuint quad_vertex_buffer = 0;
         GLuint quad_index_buffer = 0;
