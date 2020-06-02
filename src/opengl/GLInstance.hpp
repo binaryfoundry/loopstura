@@ -17,8 +17,8 @@ namespace OpenGL
     protected:
         GLuint& shader_program;
 
-        std::vector<GLfloat>& vertices;
-        std::vector<GLuint>& indices;
+        std::vector<float>& vertices;
+        std::vector<uint32_t>& indices;
 
         GLuint gl_vertex_buffer = 0;
         GLuint gl_index_buffer = 0;
@@ -26,8 +26,8 @@ namespace OpenGL
     public:
         GLInstance(
             GLuint& shader_program,
-            std::vector<GLfloat>& vertices,
-            std::vector<GLuint>& indices);
+            std::vector<float>& vertices,
+            std::vector<uint32_t>& indices);
         virtual ~GLInstance();
 
         virtual void Draw() = 0;
