@@ -1,14 +1,14 @@
 #pragma once
 
 #include "../GL.hpp"
-#include "../GLShader.hpp"
+#include "../GLMaterial.hpp"
 #include "../GLTexture.hpp"
 
 namespace Application
 {
 namespace OpenGL
 {
-    class GLShaderBasic : public GLShader
+    class GLMaterialBasic : public GLMaterial
     {
         class GLRenderer;
         friend class GLRenderer;
@@ -21,10 +21,10 @@ namespace OpenGL
         GLuint sampler_state = 0;
 
     public:
-        GLShaderBasic(
+        GLMaterialBasic(
             GLuint& shader_program,
             std::shared_ptr<Texture<TextureDataByteRGBA>> texture);
-        virtual ~GLShaderBasic();
+        virtual ~GLMaterialBasic();
 
         void Bind();
         void Unbind();

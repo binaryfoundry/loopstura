@@ -103,7 +103,7 @@ namespace OpenGL
             vertex_shader_string_basic_texture,
             fragment_shader_string_basic_texture);
 
-        shader_basic = std::make_shared<GLShaderBasic>(
+        shader_basic = std::make_shared<GLMaterialBasic>(
             shader_program_basic,
             texture);
     }

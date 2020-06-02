@@ -1,4 +1,4 @@
-#include "GLShader.hpp"
+#include "GLMaterial.hpp"
 
 #include <string>
 #include <iostream>

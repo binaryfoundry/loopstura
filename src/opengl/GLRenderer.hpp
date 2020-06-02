@@ -4,9 +4,9 @@
 #include "../Texture.hpp"
 
 #include "GL.hpp"
-#include "GLShader.hpp"
+#include "GLMaterial.hpp"
 
-#include "shaders/GLShaderBasic.hpp"
+#include "materials/GLMaterialBasic.hpp"
 
 #include <functional>
 #include <stdint.h>
@@ -24,7 +24,7 @@ namespace OpenGL
 
         GLuint shader_program_basic = 0;
 
-        std::shared_ptr<GLShaderBasic> shader_basic;
+        std::shared_ptr<GLMaterialBasic> shader_basic;
 
         GLuint quad_vertex_buffer = 0;
         GLuint quad_index_buffer = 0;

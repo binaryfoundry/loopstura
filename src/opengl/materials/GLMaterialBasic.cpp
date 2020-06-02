@@ -1,4 +1,4 @@
-#include "GLShaderBasic.hpp"
+#include "GLMaterialBasic.hpp"
 
 #include <string>
 #include <iostream>
@@ -7,7 +7,7 @@ namespace Application
 {
 namespace OpenGL
 {
-    GLShaderBasic::GLShaderBasic(
+    GLMaterialBasic::GLMaterialBasic(
         GLuint& shader_program,
         std::shared_ptr<Texture<TextureDataByteRGBA>> texture) :
         shader_program(shader_program),
@@ -44,7 +44,7 @@ namespace OpenGL
             GL_LINEAR_MIPMAP_LINEAR);
     }
 
-    GLShaderBasic::~GLShaderBasic()
+    GLMaterialBasic::~GLMaterialBasic()
     {
         glDeleteProgram(
             shader_program);
@@ -53,7 +53,7 @@ namespace OpenGL
             1, &sampler_state);
     }
 
-    void GLShaderBasic::Bind()
+    void GLMaterialBasic::Bind()
     {
         glActiveTexture(
             GL_TEXTURE0);
@@ -73,7 +73,7 @@ namespace OpenGL
             texture_uniform_location);
     }
 
-    void GLShaderBasic::Unbind()
+    void GLMaterialBasic::Unbind()
     {
         auto gl_texture = std::dynamic_pointer_cast<GLBindable>(texture);
 

@@ -16,7 +16,7 @@ namespace OpenGL
         GLenum type,
         const char *shader_src);
 
-    class GLShader : public GLBindable
+    class GLMaterial : public GLBindable
     {
         class GLRenderer;
         friend class GLRenderer;
