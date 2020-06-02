@@ -42,11 +42,13 @@ set(HEADERS_MAIN
 set(SOURCES_PROPERTIES
     src/properties/Easing.cpp
     src/properties/Property.cpp
+    src/properties/Animator.cpp
     src/properties/Manager.cpp)
 
 set(HEADERS_PROPERTIES
     src/properties/Easing.hpp
     src/properties/Property.hpp
+    src/properties/Animator.hpp
     src/properties/Manager.hpp)
 
 set(SOURCES_OPENGL

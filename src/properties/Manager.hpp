@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Property.hpp"
+#include "Animator.hpp"
+#include "Easing.hpp"
 
 #include <memory>
 #include <vector>
@@ -14,11 +16,11 @@ namespace Properties
     {
     private:
         std::vector<TimeOut> timeouts;
-        std::shared_ptr<GenericAnimator<float>> float_animator;
-        std::shared_ptr<GenericAnimator<vec2>>  vec2_animator;
-        std::shared_ptr<GenericAnimator<vec3>>  vec3_animator;
-        std::shared_ptr<GenericAnimator<vec4>>  vec4_animator;
-        std::shared_ptr<GenericAnimator<quat>>  quat_animator;
+        std::shared_ptr<Animator<float>> float_animator;
+        std::shared_ptr<Animator<vec2>>  vec2_animator;
+        std::shared_ptr<Animator<vec3>>  vec3_animator;
+        std::shared_ptr<Animator<vec4>>  vec4_animator;
+        std::shared_ptr<Animator<quat>>  quat_animator;
 
     public:
         Manager();

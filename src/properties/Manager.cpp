@@ -6,11 +6,11 @@ namespace Properties
 {
     Manager::Manager()
     {
-        float_animator = std::make_shared<GenericAnimator<float>>();
-        vec2_animator = std::make_shared<GenericAnimator<vec2>>();
-        vec3_animator = std::make_shared<GenericAnimator<vec3>>();
-        vec4_animator = std::make_shared<GenericAnimator<vec4>>();
-        quat_animator = std::make_shared<GenericAnimator<quat>>();
+        float_animator = std::make_shared<Animator<float>>();
+        vec2_animator = std::make_shared<Animator<vec2>>();
+        vec3_animator = std::make_shared<Animator<vec3>>();
+        vec4_animator = std::make_shared<Animator<vec4>>();
+        quat_animator = std::make_shared<Animator<quat>>();
     }
 
     void Manager::AddTimeOut(
