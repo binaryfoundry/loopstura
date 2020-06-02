@@ -54,10 +54,15 @@ namespace OpenGL
     template <typename T>
     void GLTexture<T>::Update()
     {
-        Bind();
-
-        if (true) // TODO if texture data is updated
+        if (invalidated)
         {
+            glActiveTexture(
+                GL_TEXTURE0);
+
+            glBindTexture(
+                GL_TEXTURE_2D,
+                texture);
+
             T* data_ptr = &(*data)[0];
             glTexImage2D(
                 GL_TEXTURE_2D,
@@ -72,14 +77,20 @@ namespace OpenGL
 
             glGenerateMipmap(
                 GL_TEXTURE_2D);
-        }
 
-        Unbind();
+            invalidated = false;
+
+            glBindTexture(
+                GL_TEXTURE_2D,
+                NULL);
+        }
     }
 
     template <typename T>
     void GLTexture<T>::Bind()
     {
+        Update();
+
         glActiveTexture(
             GL_TEXTURE0);
 

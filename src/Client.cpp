@@ -20,6 +20,8 @@ namespace Application
         {
             (*texture_data)[i] = rand() % 255;
         }
+
+        renderer->texture->Invalidate();
     }
 
     void Client::Render()

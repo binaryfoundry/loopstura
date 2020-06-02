@@ -15,6 +15,9 @@ namespace Application
     private:
         void Initialize();
 
+    protected:
+        bool invalidated = true;
+
     public:
         Texture(
             uint32_t width,
@@ -27,6 +30,8 @@ namespace Application
         const uint8_t pitch = 0;
 
         const std::shared_ptr<std::vector<T>> data;
+
+        void Invalidate();
 
         virtual void Update() = 0;
 

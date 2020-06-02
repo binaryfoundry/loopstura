@@ -38,6 +38,12 @@ namespace Application
             width * height * pitch);
     }
 
+    template <typename T>
+    void Texture<T>::Invalidate()
+    {
+        invalidated = true;
+    }
+
     template class Texture<TexureDataByteRGBA>;
     template class Texture<TexureDataFloatRGBA>;
 }

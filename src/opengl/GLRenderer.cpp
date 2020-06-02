@@ -182,7 +182,6 @@ namespace OpenGL
         glActiveTexture(
             GL_TEXTURE0);
 
-        texture->Update();
         texture->Bind();
 
         glBindSampler(
