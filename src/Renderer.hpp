@@ -9,6 +9,23 @@
 
 namespace Application
 {
+    static std::vector<float> quad_vertices =
+    {
+        -1.0f,  1.0f, 0.0f,
+         1.0f,  0.0f,
+        -1.0f, -1.0f, 0.0f,
+         1.0f,  1.0f,
+         1.0f, -1.0f, 0.0f,
+         0.0f,  1.0f,
+         1.0f,  1.0f, 0.0f,
+         0.0f,  0.0f
+    };
+
+    static std::vector<uint32_t> quad_indices =
+    {
+         0, 1, 2, 2, 3, 0
+    };
+
     class Renderer
     {
     protected:

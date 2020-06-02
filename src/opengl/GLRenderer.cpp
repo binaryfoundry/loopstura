@@ -11,23 +11,6 @@ namespace Application
 {
 namespace OpenGL
 {
-    std::vector<float> quad_vertices =
-    {
-        -1.0f,  1.0f, 0.0f,
-         1.0f,  0.0f,
-        -1.0f, -1.0f, 0.0f,
-         1.0f,  1.0f,
-         1.0f, -1.0f, 0.0f,
-         0.0f,  1.0f,
-         1.0f,  1.0f, 0.0f,
-         0.0f,  0.0f
-    };
-
-    std::vector<uint32_t> quad_indices =
-    {
-         0, 1, 2, 2, 3, 0
-    };
-
     GLRenderer::GLRenderer(
         uint32_t width,
         uint32_t height,
