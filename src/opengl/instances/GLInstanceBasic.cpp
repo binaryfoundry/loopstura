@@ -41,7 +41,7 @@ namespace OpenGL
         glSamplerParameteri(
             sampler_state,
             GL_TEXTURE_MAG_FILTER,
-            GL_LINEAR);
+            GL_NEAREST);
 
         glSamplerParameteri(
             sampler_state,
