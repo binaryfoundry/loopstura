@@ -5,6 +5,7 @@
 #include <memory>
 
 #include "Texture.hpp"
+#include "rendering/InstanceBasic.hpp"
 
 namespace Application
 {
@@ -21,7 +22,7 @@ namespace Application
 
         virtual void Draw() = 0;
 
-        std::shared_ptr<Texture<TextureDataByteRGBA>> texture;
+        std::shared_ptr<Rendering::InstanceBasic> quad_instance;
 
         void Resize(uint32_t width, uint32_t height);
     };

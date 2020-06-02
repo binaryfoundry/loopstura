@@ -17,20 +17,21 @@ namespace Application
     {
         context->Update();
 
-        auto texture_data = renderer->texture->data;
+        auto quad_texture = renderer->quad_instance->texture;
+        auto quad_texture_data = quad_texture->data;
 
         uint8_t v = 0;
 
-        for (size_t i = 0; i < texture_data->size(); i+=4)
+        for (size_t i = 0; i < quad_texture_data->size(); i+=4)
         {
             if (i % 16 == 0) v = rand() % 255;
-            (*texture_data)[i + 0] = v;
-            (*texture_data)[i + 1] = v;
-            (*texture_data)[i + 2] = v;
-            (*texture_data)[i + 3] = 255;
+            (*quad_texture_data)[i + 0] = v;
+            (*quad_texture_data)[i + 1] = v;
+            (*quad_texture_data)[i + 2] = v;
+            (*quad_texture_data)[i + 3] = 255;
         }
 
-        renderer->texture->Invalidate();
+        quad_texture->Invalidate();
     }
 
     void Client::Render()

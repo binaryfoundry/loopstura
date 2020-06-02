@@ -28,8 +28,6 @@ namespace OpenGL
             uint32_t width,
             uint32_t height);
 
-        std::shared_ptr<GLInstanceBasic> quad_instance;
-
     public:
         GLRenderer(
             uint32_t width,

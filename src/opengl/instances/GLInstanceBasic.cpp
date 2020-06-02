@@ -12,11 +12,12 @@ namespace OpenGL
         std::vector<GLfloat>& vertices,
         std::vector<GLuint>& indices,
         std::shared_ptr<Texture<TextureDataByteRGBA>> texture) :
+        InstanceBasic(
+            texture),
         GLInstance(
             shader_program,
             vertices,
-            indices),
-        texture(texture)
+            indices)
     {
         texture_uniform_location = glGetUniformLocation(
             shader_program,

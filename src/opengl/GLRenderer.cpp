@@ -44,13 +44,13 @@ namespace OpenGL
             vertex_shader_string_basic_texture,
             fragment_shader_string_basic_texture);
 
-        texture = MakeTexture(512, 512);
+        auto quad_texture = MakeTexture(512, 512);
 
         quad_instance = std::make_shared<GLInstanceBasic>(
             shader_program_basic,
             quad_vertices,
             quad_indices,
-            texture);
+            quad_texture);
     }
 
     GLRenderer::~GLRenderer()

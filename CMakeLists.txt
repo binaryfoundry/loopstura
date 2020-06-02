@@ -21,7 +21,8 @@ set(SOURCES
     src/Client.cpp
     src/Renderer.cpp
     src/Texture.cpp
-    src/Context.cpp)
+    src/Context.cpp
+    src/Instance.cpp)
 
 set(HEADERS
     src/Platform.hpp
@@ -29,7 +30,8 @@ set(HEADERS
     src/Client.hpp
     src/Renderer.hpp
     src/Texture.hpp
-    src/Context.hpp)
+    src/Context.hpp
+    src/Instance.hpp)
 
 set(SOURCES_MAIN
     src/main/SDL.cpp
@@ -52,6 +54,12 @@ set(HEADERS_PROPERTIES
     src/properties/Property.hpp
     src/properties/Animator.hpp
     src/properties/Manager.hpp)
+
+set(SOURCES_RENDERING
+    src/rendering/InstanceBasic.cpp)
+
+set(HEADERS_RENDERING
+    src/rendering/InstanceBasic.hpp)
 
 set(SOURCES_OPENGL
     src/opengl/GL.cpp
@@ -95,6 +103,9 @@ SOURCE_GROUP("src\\main" FILES ${HEADERS_MAIN})
 
 SOURCE_GROUP("src\\properties" FILES ${SOURCES_PROPERTIES})
 SOURCE_GROUP("src\\properties" FILES ${HEADERS_PROPERTIES})
+
+SOURCE_GROUP("src\\rendering" FILES ${SOURCES_RENDERING})
+SOURCE_GROUP("src\\rendering" FILES ${HEADERS_RENDERING})
 
 SOURCE_GROUP("src\\opengl" FILES ${SOURCES_OPENGL})
 SOURCE_GROUP("src\\opengl" FILES ${HEADERS_OPENGL})
@@ -153,6 +164,8 @@ add_executable(
     ${HEADERS_MAIN}
     ${SOURCES_PROPERTIES}
     ${HEADERS_PROPERTIES}
+    ${SOURCES_RENDERING}
+    ${HEADERS_RENDERING}
     ${SOURCES_OPENGL}
     ${HEADERS_OPENGL}
     ${SOURCES_OPENGL_INSTANCES}
