@@ -37,9 +37,6 @@ namespace OpenGL
             height),
         swap_buffers(swap_buffers)
     {
-        glDisable(GL_CULL_FACE);
-        glCullFace(GL_BACK);
-
         shader_program_basic = LinkShader(
             vertex_shader_string_basic_texture,
             fragment_shader_string_basic_texture);
@@ -67,6 +64,9 @@ namespace OpenGL
 
     void GLRenderer::Draw()
     {
+        glDisable(GL_CULL_FACE);
+        glCullFace(GL_BACK);
+
         glViewport(
             0,
             0,
