@@ -43,12 +43,20 @@ set(HEADERS_MAIN
 set(SOURCES_OPENGL
     src/opengl/GL.cpp
     src/opengl/GLRenderer.cpp
-    src/opengl/GLTexture.cpp)
+    src/opengl/GLTexture.cpp
+    src/opengl/GLShader.cpp)
 
 set(HEADERS_OPENGL
     src/opengl/GL.hpp
     src/opengl/GLRenderer.hpp
-    src/opengl/GLTexture.hpp)
+    src/opengl/GLTexture.hpp
+    src/opengl/GLShader.hpp)
+
+set(SOURCES_OPENGL_SHADERS
+    src/opengl/shaders/GLShaderBasic.cpp)
+
+set(HEADERS_OPENGL_SHADERS
+    src/opengl/shaders/GLShaderBasic.hpp)
 
 set(SOURCES_IMGUI
     lib/imgui/imgui.cpp
@@ -72,6 +80,9 @@ SOURCE_GROUP("src\\main" FILES ${HEADERS_MAIN})
 
 SOURCE_GROUP("src\\opengl" FILES ${SOURCES_OPENGL})
 SOURCE_GROUP("src\\opengl" FILES ${HEADERS_OPENGL})
+
+SOURCE_GROUP("src\\opengl\\shaders" FILES ${SOURCES_OPENGL_SHADERS})
+SOURCE_GROUP("src\\opengl\\shaders" FILES ${HEADERS_OPENGL_SHADERS})
 
 SOURCE_GROUP("src\\imgui" FILES ${SOURCES_IMGUI})
 SOURCE_GROUP("src\\imgui" FILES ${HEADERS_IMGUI})
@@ -122,6 +133,8 @@ add_executable(
     ${HEADERS_MAIN}
     ${SOURCES_OPENGL}
     ${HEADERS_OPENGL}
+    ${SOURCES_OPENGL_SHADERS}
+    ${HEADERS_OPENGL_SHADERS}
     ${SOURCES_IMGUI}
     ${HEADERS_IMGUI})
 

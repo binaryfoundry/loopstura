@@ -4,6 +4,9 @@
 #include "../Texture.hpp"
 
 #include "GL.hpp"
+#include "GLShader.hpp"
+
+#include "shaders/GLShaderBasic.hpp"
 
 #include <functional>
 #include <stdint.h>
@@ -19,14 +22,10 @@ namespace OpenGL
     private:
         const std::function<void()> swap_buffers;
 
+        std::shared_ptr<GLShaderBasic> shader;
+
         GLuint quad_vertex_buffer = 0;
         GLuint quad_index_buffer = 0;
-
-        //GLuint vao = 0;
-
-        GLuint shader = 0;
-        GLuint sampler_state = 0;
-        GLuint texture_uniform_location = 0;
 
     public:
         GLRenderer(
