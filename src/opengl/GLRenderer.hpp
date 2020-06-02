@@ -35,7 +35,8 @@ namespace OpenGL
             std::function<void()> swap_buffers);
         virtual ~GLRenderer();
 
-        void Draw();
+        void Begin();
+        void End();
     };
 }
 }

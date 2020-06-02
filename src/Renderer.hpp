@@ -20,10 +20,12 @@ namespace Application
     public:
         virtual ~Renderer();
 
-        virtual void Draw() = 0;
+        virtual void Begin() = 0;
+        virtual void End() = 0;
 
         std::shared_ptr<Rendering::InstanceBasic> quad_instance;
 
         void Resize(uint32_t width, uint32_t height);
+        void Draw();
     };
 }

@@ -62,7 +62,7 @@ namespace OpenGL
             width, height);
     }
 
-    void GLRenderer::Draw()
+    void GLRenderer::Begin()
     {
         glDisable(GL_CULL_FACE);
         glCullFace(GL_BACK);
@@ -80,9 +80,10 @@ namespace OpenGL
             GL_COLOR_BUFFER_BIT |
             GL_DEPTH_BUFFER_BIT |
             GL_STENCIL_BUFFER_BIT);
+    }
 
-        quad_instance->Draw();
-
+    void GLRenderer::End()
+    {
         swap_buffers();
     }
 }

@@ -19,4 +19,13 @@ namespace Application
         width = new_width;
         height = new_height;
     }
+
+    void Renderer::Draw()
+    {
+        Begin();
+
+        quad_instance->Draw();
+
+        End();
+    }
 }
