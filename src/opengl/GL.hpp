@@ -19,9 +19,25 @@
 
 #endif
 
+#include <iostream>
+
 class GLBindable
 {
 public:
     virtual void Bind() = 0;
     virtual void Unbind() = 0;
 };
+
+static void GLCheckError()
+{
+    GLenum err = GL_NO_ERROR;
+    while ((err = glGetError()) != GL_NO_ERROR)
+    {
+        std::cout << "gl error: " << err << std::endl;
+    }
+
+    if (err != GL_NO_ERROR)
+    {
+        throw std::runtime_error("gl error");
+    }
+}

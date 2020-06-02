@@ -85,19 +85,5 @@ namespace OpenGL
 
         swap_buffers();
     }
-
-    void CheckError()
-    {
-        GLenum err = GL_NO_ERROR;
-        while ((err = glGetError()) != GL_NO_ERROR)
-        {
-            std::cout << "gl error: " << err << std::endl;
-        }
-
-        if (err != GL_NO_ERROR)
-        {
-            throw std::runtime_error("gl error");
-        }
-    }
 }
 }
