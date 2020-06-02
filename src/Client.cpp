@@ -19,9 +19,15 @@ namespace Application
 
         auto texture_data = renderer->texture->data;
 
-        for (size_t i = 0; i < texture_data->size(); i++)
+        uint8_t v = 0;
+
+        for (size_t i = 0; i < texture_data->size(); i+=4)
         {
-            (*texture_data)[i] = rand() % 255;
+            if (i % 16 == 0) v = rand() % 255;
+            (*texture_data)[i + 0] = v;
+            (*texture_data)[i + 1] = v;
+            (*texture_data)[i + 2] = v;
+            (*texture_data)[i + 3] = 255;
         }
 
         renderer->texture->Invalidate();
