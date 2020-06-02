@@ -70,21 +70,5 @@ namespace Properties
         void operator*=(const T&& rhs) { (*value_ptr) *= rhs; Invalidate(); }
         void operator/=(const T&& rhs) { (*value_ptr) /= rhs; Invalidate(); }
     };
-
-    template <class T> struct PropertyAnimation
-    {
-        std::shared_ptr<Property<T>> prop;
-        EasingFunction easing_function;
-        PropertyAnimationCallback callback;
-        float step;
-        float current_time;
-    };
-
-    struct TimeOut
-    {
-        float current_time;
-        float step;
-        PropertyTimeoutCallback callback;
-    };
 }
 }

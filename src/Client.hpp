@@ -2,6 +2,7 @@
 
 #include <memory>
 
+#include "Context.hpp"
 #include "Renderer.hpp"
 
 namespace Application
@@ -9,6 +10,7 @@ namespace Application
     class Client
     {
     private:
+        const std::shared_ptr<Context> context;
         const std::shared_ptr<Renderer> renderer;
 
     public:

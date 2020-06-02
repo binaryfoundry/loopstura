@@ -4,7 +4,8 @@ namespace Application
 {
     Client::Client(
         std::shared_ptr<Renderer> renderer) :
-        renderer(renderer)
+        renderer(renderer),
+        context(std::make_shared<Context>())
     {
     }
 
@@ -14,6 +15,8 @@ namespace Application
 
     void Client::Update()
     {
+        context->Update();
+
         auto texture_data = renderer->texture->data;
 
         for (size_t i = 0; i < texture_data->size(); i++)
