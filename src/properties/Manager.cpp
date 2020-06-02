@@ -1,8 +1,10 @@
-#include "Property.hpp"
+#include "Manager.hpp"
 
 namespace Application
 {
-    PropertyManager::PropertyManager()
+namespace Properties
+{
+    Manager::Manager()
     {
         float_animator = std::make_shared<GenericAnimator<float>>();
         vec2_animator = std::make_shared<GenericAnimator<vec2>>();
@@ -11,9 +13,9 @@ namespace Application
         quat_animator = std::make_shared<GenericAnimator<quat>>();
     }
 
-    void PropertyManager::AddTimeOut(
+    void Manager::AddTimeOut(
         float duration,
-        TimeOutCallback callback)
+        PropertyTimeoutCallback callback)
     {
         float step = (1.0f / 60.0f) / duration;
 
@@ -21,120 +23,120 @@ namespace Application
             0,
             step,
             callback
-        });
+            });
     }
 
-    void PropertyManager::AddTween(
+    void Manager::AddTween(
         std::shared_ptr<Property<float>> prop,
         float* target,
         float duration_seconds,
         EasingFunction easing_function,
-        AnimCallback callback = [](std::shared_ptr<void> data) {})
+        PropertyAnimationCallback callback)
     {
         float_animator->AddTween(
             prop, duration_seconds, prop->Value(), target, easing_function, callback);
     }
 
-    void PropertyManager::AddTween(
+    void Manager::AddTween(
         std::shared_ptr<Property<float>> prop,
         float target,
         float duration_seconds,
         EasingFunction easing_function,
-        AnimCallback callback = [](std::shared_ptr<void> data) {})
+        PropertyAnimationCallback callback)
     {
         float_animator->AddTween(
             prop, duration_seconds, prop->Value(), target, easing_function, callback);
     }
 
-    void PropertyManager::AddTween(
+    void Manager::AddTween(
         std::shared_ptr<Property<vec2>> prop,
         vec2* target,
         float duration_seconds,
         EasingFunction easing_function,
-        AnimCallback callback = [](std::shared_ptr<void> data) {})
+        PropertyAnimationCallback callback)
     {
         vec2_animator->AddTween(
             prop, duration_seconds, prop->Value(), target, easing_function, callback);
     }
 
-    void PropertyManager::AddTween(
+    void Manager::AddTween(
         std::shared_ptr<Property<vec2>> prop,
         vec2 target,
         float duration_seconds,
         EasingFunction easing_function,
-        AnimCallback callback = [](std::shared_ptr<void> data) {})
+        PropertyAnimationCallback callback)
     {
         vec2_animator->AddTween(
             prop, duration_seconds, prop->Value(), target, easing_function, callback);
     }
 
-    void PropertyManager::AddTween(
+    void Manager::AddTween(
         std::shared_ptr<Property<vec3>> prop,
         vec3* target,
         float duration_seconds,
         EasingFunction easing_function,
-        AnimCallback callback = [](std::shared_ptr<void> data) {})
+        PropertyAnimationCallback callback)
     {
         vec3_animator->AddTween(
             prop, duration_seconds, prop->Value(), target, easing_function, callback);
     }
 
-    void PropertyManager::AddTween(
+    void Manager::AddTween(
         std::shared_ptr<Property<vec3>> prop,
         vec3 target,
         float duration_seconds,
         EasingFunction easing_function,
-        AnimCallback callback = [](std::shared_ptr<void> data) {})
+        PropertyAnimationCallback callback)
     {
         vec3_animator->AddTween(
             prop, duration_seconds, prop->Value(), target, easing_function, callback);
     }
 
-    void PropertyManager::AddTween(
+    void Manager::AddTween(
         std::shared_ptr<Property<vec4>> prop,
         vec4* target,
         float duration_seconds,
         EasingFunction easing_function,
-        AnimCallback callback = [](std::shared_ptr<void> data) {})
+        PropertyAnimationCallback callback)
     {
         vec4_animator->AddTween(
             prop, duration_seconds, prop->Value(), target, easing_function, callback);
     }
 
-    void PropertyManager::AddTween(
+    void Manager::AddTween(
         std::shared_ptr<Property<vec4>> prop,
         vec4 target,
         float duration_seconds,
         EasingFunction easing_function,
-        AnimCallback callback = [](std::shared_ptr<void> data) {})
+        PropertyAnimationCallback callback)
     {
         vec4_animator->AddTween(
             prop, duration_seconds, prop->Value(), target, easing_function, callback);
     }
 
-    void PropertyManager::AddTween(
+    void Manager::AddTween(
         std::shared_ptr<Property<quat>> prop,
         quat* target,
         float duration_seconds,
         EasingFunction easing_function,
-        AnimCallback callback = [](std::shared_ptr<void> data) {})
+        PropertyAnimationCallback callback)
     {
         quat_animator->AddTween(
             prop, duration_seconds, prop->Value(), target, easing_function, callback);
     }
 
-    void PropertyManager::AddTween(
+    void Manager::AddTween(
         std::shared_ptr<Property<quat>> prop,
         quat target,
         float duration_seconds,
         EasingFunction easing_function,
-        AnimCallback callback = [](std::shared_ptr<void> data) {})
+        PropertyAnimationCallback callback)
     {
         quat_animator->AddTween(
             prop, duration_seconds, prop->Value(), target, easing_function, callback);
     }
 
-    void PropertyManager::Update()
+    void Manager::Update()
     {
         auto i = timeouts.begin();
         while (i != timeouts.end())
@@ -157,4 +159,5 @@ namespace Application
         vec4_animator->Update();
         quat_animator->Update();
     }
+}
 }

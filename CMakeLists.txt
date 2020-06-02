@@ -20,16 +20,14 @@ set(SOURCES
     src/Math.cpp
     src/Client.cpp
     src/Renderer.cpp
-    src/Texture.cpp
-    src/Property.cpp)
+    src/Texture.cpp)
 
 set(HEADERS
     src/Platform.hpp
     src/Math.hpp
     src/Client.hpp
     src/Renderer.hpp
-    src/Texture.hpp
-    src/Property.hpp)
+    src/Texture.hpp)
 
 set(SOURCES_MAIN
     src/main/SDL.cpp
@@ -40,6 +38,16 @@ set(HEADERS_MAIN
     src/main/SDL.hpp
     src/main/MainSDL.hpp
     src/main/MainWeb.hpp)
+
+set(SOURCES_PROPERTIES
+    src/properties/Easing.cpp
+    src/properties/Property.cpp
+    src/properties/Manager.cpp)
+
+set(HEADERS_PROPERTIES
+    src/properties/Easing.hpp
+    src/properties/Property.hpp
+    src/properties/Manager.hpp)
 
 set(SOURCES_OPENGL
     src/opengl/GL.cpp
@@ -78,6 +86,9 @@ SOURCE_GROUP("src" FILES ${HEADERS})
 
 SOURCE_GROUP("src\\main" FILES ${SOURCES_MAIN})
 SOURCE_GROUP("src\\main" FILES ${HEADERS_MAIN})
+
+SOURCE_GROUP("src\\properties" FILES ${SOURCES_PROPERTIES})
+SOURCE_GROUP("src\\properties" FILES ${HEADERS_PROPERTIES})
 
 SOURCE_GROUP("src\\opengl" FILES ${SOURCES_OPENGL})
 SOURCE_GROUP("src\\opengl" FILES ${HEADERS_OPENGL})
@@ -134,6 +145,8 @@ add_executable(
     ${HEADERS}
     ${SOURCES_MAIN}
     ${HEADERS_MAIN}
+    ${SOURCES_PROPERTIES}
+    ${HEADERS_PROPERTIES}
     ${SOURCES_OPENGL}
     ${HEADERS_OPENGL}
     ${SOURCES_OPENGL_INSTANCES}
