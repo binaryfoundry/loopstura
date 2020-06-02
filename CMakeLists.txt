@@ -57,13 +57,15 @@ set(SOURCES_OPENGL
     src/opengl/GL.cpp
     src/opengl/GLRenderer.cpp
     src/opengl/GLTexture.cpp
-    src/opengl/GLInstance.cpp)
+    src/opengl/GLInstance.cpp
+    src/opengl/GLShader.cpp)
 
 set(HEADERS_OPENGL
     src/opengl/GL.hpp
     src/opengl/GLRenderer.hpp
     src/opengl/GLTexture.hpp
-    src/opengl/GLInstance.hpp)
+    src/opengl/GLInstance.hpp
+    src/opengl/GLShader.hpp)
 
 set(SOURCES_OPENGL_INSTANCES
     src/opengl/instances/GLInstanceBasic.cpp)
