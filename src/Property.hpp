@@ -9,8 +9,8 @@
 
 namespace Application
 {
-    using AnimCallback = std::function<void(std::shared_ptr<void>)>;
-    using TimeOutCallback = std::function<void()>;
+    using PropertyAnimationCallback = std::function<void(std::shared_ptr<void>)>;
+    using PropertyTimeoutCallback = std::function<void()>;
 
     enum class EasingFunction
     {
@@ -41,25 +41,25 @@ namespace Application
         case EasingFunction::EaseOutQuad:
             return t * (2 - t);
         case EasingFunction::EaseInOutQuad:
-            return t < .5 ? 2 * t*t : -1 + (4 - 2 * t)*t;
+            return t < .5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
         case EasingFunction::EaseInCubic:
-            return t * t*t;
+            return t * t * t;
         case EasingFunction::EaseOutCubic:
-            return k * k*k + 1;
+            return k * k * k + 1;
         case EasingFunction::EaseInOutCubic:
-            return t < .5 ? 4 * t*t*t : (t - 1)*(2 * t - 2)*(2 * t - 2) + 1;
+            return t < .5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1;
         case EasingFunction::EaseInQuart:
-            return t * t*t*t;
+            return t * t * t * t;
         case EasingFunction::EaseOutQuart:
-            return 1 - k * k*k*k;
+            return 1 - k * k * k * k;
         case EasingFunction::EaseInOutQuart:
-            return t < .5 ? 8 * t*t*t*t : 1 - 8 * k*k*k*k;
+            return t < .5 ? 8 * t * t * t * t : 1 - 8 * k * k * k * k;
         case EasingFunction::EaseInQuint:
-            return t * t*t*t*t;
+            return t * t * t * t * t;
         case EasingFunction::EaseOutQuint:
-            return 1 + k * k*k*t*t;
+            return 1 + k * k * k * t * t;
         case EasingFunction::EaseInOutQuint:
-            return t < .5 ? 16 * t*t*t*t*t : 1 + 16 * k*k*k*k*k;
+            return t < .5 ? 16 * t * t * t *  t * t : 1 + 16 * k * k * k * k * k;
         }
         return 0;
     }
@@ -124,7 +124,7 @@ namespace Application
     {
         shared_ptr<Property<T>> prop;
         EasingFunction easing_function;
-        AnimCallback callback;
+        PropertyAnimationCallback callback;
         float step;
         float current_time;
     };
@@ -133,7 +133,7 @@ namespace Application
     {
         float current_time;
         float step;
-        TimeOutCallback callback;
+        PropertyTimeoutCallback callback;
     };
 
     template <class T> class GenericAnimator
@@ -161,7 +161,7 @@ namespace Application
             T origin,
             T* target,
             EasingFunction easing_function,
-            AnimCallback callback)
+            PropertyAnimationCallback callback)
         {
             float step = (1.0f / 60.0f) / duration;
 
@@ -181,7 +181,7 @@ namespace Application
             T origin,
             T target,
             EasingFunction easing_function,
-            AnimCallback callback)
+            PropertyAnimationCallback callback)
         {
             fixed_target = target;
             AddTween(
@@ -225,7 +225,7 @@ namespace Application
         }
     };
 
-    class PropertyAnimator
+    class PropertyManager
     {
     private:
         std::vector<TimeOut> timeouts;
@@ -236,161 +236,82 @@ namespace Application
         std::shared_ptr<GenericAnimator<quat>>  quat_animator;
 
     public:
-        PropertyAnimator()
-        {
-            float_animator = std::make_shared<GenericAnimator<float>>();
-            vec2_animator = std::make_shared<GenericAnimator<vec2>>();
-            vec3_animator = std::make_shared<GenericAnimator<vec3>>();
-            vec4_animator = std::make_shared<GenericAnimator<vec4>>();
-            quat_animator = std::make_shared<GenericAnimator<quat>>();
-        }
+        PropertyManager();
+
+        void Update();
 
         void AddTimeOut(
             float duration,
-            TimeOutCallback callback)
-        {
-            float step = (1.0f / 60.0f) / duration;
-
-            timeouts.push_back({
-                0,
-                step,
-                callback
-            });
-        }
+            PropertyTimeoutCallback callback);
 
         void AddTween(
             std::shared_ptr<Property<float>> prop,
             float* target,
             float duration_seconds,
             EasingFunction easing_function,
-            AnimCallback callback = [](std::shared_ptr<void> data) {})
-        {
-            float_animator->AddTween(
-                prop, duration_seconds, prop->Value(), target, easing_function, callback);
-        }
+            PropertyAnimationCallback callback = [](std::shared_ptr<void> data) {});
 
         void AddTween(
             std::shared_ptr<Property<float>> prop,
             float target,
             float duration_seconds,
             EasingFunction easing_function,
-            AnimCallback callback = [](std::shared_ptr<void> data) {})
-        {
-            float_animator->AddTween(
-                prop, duration_seconds, prop->Value(), target, easing_function, callback);
-        }
+            PropertyAnimationCallback callback = [](std::shared_ptr<void> data) {});
 
         void AddTween(
             std::shared_ptr<Property<vec2>> prop,
             vec2* target,
             float duration_seconds,
             EasingFunction easing_function,
-            AnimCallback callback = [](std::shared_ptr<void> data) {})
-        {
-            vec2_animator->AddTween(
-                prop, duration_seconds, prop->Value(), target, easing_function, callback);
-        }
+            PropertyAnimationCallback callback = [](std::shared_ptr<void> data) {});
 
         void AddTween(
             std::shared_ptr<Property<vec2>> prop,
             vec2 target,
             float duration_seconds,
             EasingFunction easing_function,
-            AnimCallback callback = [](std::shared_ptr<void> data) {})
-        {
-            vec2_animator->AddTween(
-                prop, duration_seconds, prop->Value(), target, easing_function, callback);
-        }
+            PropertyAnimationCallback callback = [](std::shared_ptr<void> data) {});
 
         void AddTween(
             std::shared_ptr<Property<vec3>> prop,
             vec3* target,
             float duration_seconds,
             EasingFunction easing_function,
-            AnimCallback callback = [](std::shared_ptr<void> data) {})
-        {
-            vec3_animator->AddTween(
-                prop, duration_seconds, prop->Value(), target, easing_function, callback);
-        }
+            PropertyAnimationCallback callback = [](std::shared_ptr<void> data) {});
 
         void AddTween(
             std::shared_ptr<Property<vec3>> prop,
             vec3 target,
             float duration_seconds,
             EasingFunction easing_function,
-            AnimCallback callback = [](std::shared_ptr<void> data) {})
-        {
-            vec3_animator->AddTween(
-                prop, duration_seconds, prop->Value(), target, easing_function, callback);
-        }
+            PropertyAnimationCallback callback = [](std::shared_ptr<void> data) {});
 
         void AddTween(
             std::shared_ptr<Property<vec4>> prop,
             vec4* target,
             float duration_seconds,
             EasingFunction easing_function,
-            AnimCallback callback = [](std::shared_ptr<void> data) {})
-        {
-            vec4_animator->AddTween(
-                prop, duration_seconds, prop->Value(), target, easing_function, callback);
-        }
+            PropertyAnimationCallback callback = [](std::shared_ptr<void> data) {});
 
         void AddTween(
             std::shared_ptr<Property<vec4>> prop,
             vec4 target,
             float duration_seconds,
             EasingFunction easing_function,
-            AnimCallback callback = [](std::shared_ptr<void> data) {})
-        {
-            vec4_animator->AddTween(
-                prop, duration_seconds, prop->Value(), target, easing_function, callback);
-        }
+            PropertyAnimationCallback callback = [](std::shared_ptr<void> data) {});
 
         void AddTween(
             std::shared_ptr<Property<quat>> prop,
             quat* target,
             float duration_seconds,
             EasingFunction easing_function,
-            AnimCallback callback = [](std::shared_ptr<void> data) {})
-        {
-            quat_animator->AddTween(
-                prop, duration_seconds, prop->Value(), target, easing_function, callback);
-        }
+            PropertyAnimationCallback callback = [](std::shared_ptr<void> data) {});
 
         void AddTween(
             std::shared_ptr<Property<quat>> prop,
             quat target,
             float duration_seconds,
             EasingFunction easing_function,
-            AnimCallback callback = [](std::shared_ptr<void> data) {})
-        {
-            quat_animator->AddTween(
-                prop, duration_seconds, prop->Value(), target, easing_function, callback);
-        }
-
-    public:
-        void Update()
-        {
-            auto i = timeouts.begin();
-            while (i != timeouts.end())
-            {
-                if (i->current_time >= 1.0f)
-                {
-                    i->callback();
-                    i = timeouts.erase(i);
-                }
-                else
-                {
-                    i->current_time += i->step;
-                    ++i;
-                }
-            }
-
-            float_animator->Update();
-            vec2_animator->Update();
-            vec3_animator->Update();
-            vec4_animator->Update();
-            quat_animator->Update();
-        }
+            PropertyAnimationCallback callback = [](std::shared_ptr<void> data) {});
     };
 }
