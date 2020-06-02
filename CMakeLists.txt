@@ -44,13 +44,15 @@ set(SOURCES_OPENGL
     src/opengl/GL.cpp
     src/opengl/GLRenderer.cpp
     src/opengl/GLTexture.cpp
-    src/opengl/GLMaterial.cpp)
+    src/opengl/GLMaterial.cpp
+    src/opengl/GLMesh.cpp)
 
 set(HEADERS_OPENGL
     src/opengl/GL.hpp
     src/opengl/GLRenderer.hpp
     src/opengl/GLTexture.hpp
-    src/opengl/GLMaterial.hpp)
+    src/opengl/GLMaterial.hpp
+    src/opengl/GLMesh.hpp)
 
 set(SOURCES_OPENGL_MATERIALS
     src/opengl/materials/GLMaterialBasic.cpp)

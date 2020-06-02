@@ -5,6 +5,7 @@
 
 #include "GL.hpp"
 #include "GLMaterial.hpp"
+#include "GLMesh.hpp"
 
 #include "materials/GLMaterialBasic.hpp"
 
@@ -25,9 +26,7 @@ namespace OpenGL
         GLuint shader_program_basic = 0;
 
         std::shared_ptr<GLMaterialBasic> shader_basic;
-
-        GLuint quad_vertex_buffer = 0;
-        GLuint quad_index_buffer = 0;
+        std::shared_ptr<GLMesh> mesh_basic;
 
     public:
         GLRenderer(
