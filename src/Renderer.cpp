@@ -8,8 +8,6 @@ namespace Application
         width(width),
         height(height)
     {
-        texture_data.resize(
-            texture_width * texture_height * 4);
     }
 
     Renderer::~Renderer()

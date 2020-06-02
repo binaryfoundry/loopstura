@@ -27,5 +27,11 @@ namespace Application
         const uint8_t pitch = 0;
 
         const std::shared_ptr<std::vector<T>> data;
+
+        virtual void Update() = 0;
+
+        // TODO GL only
+        virtual void Bind() = 0;
+        virtual void Unbind() = 0;
     };
 }

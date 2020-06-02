@@ -10,6 +10,8 @@
 
 namespace Application
 {
+namespace OpenGL
+{
     template <typename T>
     class GLTexture : public Texture<T>
     {
@@ -17,15 +19,24 @@ namespace Application
         friend class GLRenderer;
 
     protected:
-        GLTexture(
-            uint32_t width,
-            uint32_t height);
+        GLuint texture = 0;
 
         const GLint gl_internal_format = 0;
         const GLenum gl_format = 0;
         const GLenum gl_type = 0;
 
+        void Create();
+
+        void Bind();
+        void Unbind();
+
     public:
+        GLTexture(
+            uint32_t width,
+            uint32_t height);
         virtual ~GLTexture();
+
+        void Update();
     };
+}
 }

@@ -7,6 +7,8 @@
 
 #include <functional>
 #include <stdint.h>
+#include <vector>
+#include <memory>
 
 namespace Application
 {
@@ -24,7 +26,6 @@ namespace OpenGL
 
         GLuint shader = 0;
         GLuint sampler_state = 0;
-        GLuint texture = 0;
         GLuint texture_uniform_location = 0;
 
     public:
