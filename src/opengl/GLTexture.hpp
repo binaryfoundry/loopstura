@@ -27,9 +27,6 @@ namespace OpenGL
 
         void Create();
 
-        void Bind();
-        void Unbind();
-
     public:
         GLTexture(
             uint32_t width,
@@ -37,6 +34,8 @@ namespace OpenGL
         virtual ~GLTexture();
 
         void Update();
+        void Bind();
+        void Unbind();
     };
 }
 }

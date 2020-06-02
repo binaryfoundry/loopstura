@@ -182,7 +182,9 @@ namespace OpenGL
         glActiveTexture(
             GL_TEXTURE0);
 
-        texture->Bind();
+        // TODO needs to be generic
+        auto gl_texture = std::reinterpret_pointer_cast<GLTexture<TexureDataByteRGBA>>(texture);
+        gl_texture->Bind();
 
         glBindSampler(
             0,
@@ -226,7 +228,7 @@ namespace OpenGL
             GL_UNSIGNED_INT,
             static_cast<char const*>(0));
 
-        texture->Unbind();
+        gl_texture->Unbind();
 
         swap_buffers();
     }

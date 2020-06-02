@@ -34,9 +34,5 @@ namespace Application
         void Invalidate();
 
         virtual void Update() = 0;
-
-        // TODO GL only
-        virtual void Bind() = 0;
-        virtual void Unbind() = 0;
     };
 }
