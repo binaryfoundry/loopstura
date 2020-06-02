@@ -33,7 +33,7 @@ namespace OpenGL
             std::function<void()> swap_buffers);
         virtual ~GLRenderer();
 
-        void Render();
+        void Draw();
 
         std::shared_ptr<Texture<TextureDataByteRGBA>> MakeTexture(
             uint32_t width,

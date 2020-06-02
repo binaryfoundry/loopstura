@@ -19,7 +19,7 @@ namespace Application
     public:
         virtual ~Renderer();
 
-        virtual void Render() = 0;
+        virtual void Draw() = 0;
 
         std::shared_ptr<Texture<TextureDataByteRGBA>> texture;
 

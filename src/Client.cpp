@@ -35,6 +35,6 @@ namespace Application
 
     void Client::Render()
     {
-        renderer->Render();
+        renderer->Draw();
     }
 }

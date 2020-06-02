@@ -65,7 +65,7 @@ namespace OpenGL
             width, height);
     }
 
-    void GLRenderer::Render()
+    void GLRenderer::Draw()
     {
         glViewport(
             0,
