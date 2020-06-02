@@ -14,6 +14,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtc/constants.hpp>
+#include <glm/gtx/quaternion.hpp>
+#include "../../lib/glm/glm/gtc/quaternion.hpp"
 
 using glm::vec2;
 using glm::vec3;
@@ -21,3 +23,4 @@ using glm::vec4;
 using glm::mat2;
 using glm::mat3;
 using glm::mat4;
+using glm::quat;

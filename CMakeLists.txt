@@ -20,14 +20,16 @@ set(SOURCES
     src/Math.cpp
     src/Client.cpp
     src/Renderer.cpp
-    src/Texture.cpp)
+    src/Texture.cpp
+    src/Property.cpp)
 
 set(HEADERS
     src/Platform.hpp
     src/Math.hpp
     src/Client.hpp
     src/Renderer.hpp
-    src/Texture.hpp)
+    src/Texture.hpp
+    src/Property.hpp)
 
 set(SOURCES_MAIN
     src/main/SDL.cpp
