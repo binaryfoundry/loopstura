@@ -1,10 +1,12 @@
 #pragma once
 
 #include "../Renderer.hpp"
+#include "../Texture.hpp"
 
 #include "GL.hpp"
 
 #include <functional>
+#include <stdint.h>
 
 namespace Application
 {
@@ -33,6 +35,10 @@ namespace OpenGL
         virtual ~GLRenderer();
 
         void Render();
+
+        std::shared_ptr<Texture<TexureDataByteRGBA>> MakeTexture(
+            uint32_t width,
+            uint32_t height);
     };
 }
 }

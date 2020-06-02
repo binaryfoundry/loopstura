@@ -3,6 +3,8 @@
 #include <stdint.h>
 #include <vector>
 
+#include "Texture.hpp"
+
 namespace Application
 {
     class Renderer
@@ -16,9 +18,13 @@ namespace Application
     public:
         virtual ~Renderer();
 
+        void SetSize(uint32_t width, uint32_t height);
+
         virtual void Render() = 0;
 
-        void SetSize(uint32_t width, uint32_t height);
+        virtual std::shared_ptr<Texture<TexureDataByteRGBA>> MakeTexture(
+            uint32_t width,
+            uint32_t height) = 0;
 
         const uint32_t texture_width = 512;
         const uint32_t texture_height = 512;

@@ -20,13 +20,15 @@ set(SOURCES
     src/Platform.cpp
     src/Math.cpp
     src/Client.cpp
-    src/Renderer.cpp)
+    src/Renderer.cpp
+    src/Texture.cpp)
 
 set(HEADERS
     src/Platform.hpp
     src/Math.hpp
     src/Client.hpp
-    src/Renderer.hpp)
+    src/Renderer.hpp
+    src/Texture.hpp)
 
 set(SOURCES_MAIN
     src/main/SDL.cpp
@@ -40,11 +42,13 @@ set(HEADERS_MAIN
 
 set(SOURCES_OPENGL
     src/opengl/GL.cpp
-    src/opengl/GLRenderer.cpp)
+    src/opengl/GLRenderer.cpp
+    src/opengl/GLTexture.cpp)
 
 set(HEADERS_OPENGL
     src/opengl/GL.hpp
-    src/opengl/GLRenderer.hpp)
+    src/opengl/GLRenderer.hpp
+    src/opengl/GLTexture.hpp)
 
 set(SOURCES_IMGUI
     lib/imgui/imgui.cpp

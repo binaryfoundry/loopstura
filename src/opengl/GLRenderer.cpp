@@ -160,6 +160,14 @@ namespace OpenGL
             1, &sampler_state);
     }
 
+    std::shared_ptr<Texture<TexureDataByteRGBA>> GLRenderer::MakeTexture(
+        uint32_t width,
+        uint32_t height)
+    {
+        return std::make_shared<Texture<TexureDataByteRGBA>>(
+            width, height);
+    }
+
     void GLRenderer::Render()
     {
         glViewport(
