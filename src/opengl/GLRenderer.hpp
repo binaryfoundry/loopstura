@@ -24,6 +24,10 @@ namespace OpenGL
 
         GLuint shader_program_basic = 0;
 
+        std::shared_ptr<Texture<TextureDataByteRGBA>> MakeTexture(
+            uint32_t width,
+            uint32_t height);
+
         std::shared_ptr<GLInstanceBasic> quad_instance;
 
     public:
@@ -34,10 +38,6 @@ namespace OpenGL
         virtual ~GLRenderer();
 
         void Draw();
-
-        std::shared_ptr<Texture<TextureDataByteRGBA>> MakeTexture(
-            uint32_t width,
-            uint32_t height);
     };
 }
 }
