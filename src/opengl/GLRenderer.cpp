@@ -183,7 +183,7 @@ namespace OpenGL
             GL_TEXTURE0);
 
         // TODO needs to be generic
-        auto gl_texture = std::reinterpret_pointer_cast<GLTexture<TextureDataByteRGBA>>(texture);
+        auto gl_texture = std::dynamic_pointer_cast<GLTexture<TextureDataByteRGBA>>(texture);
         gl_texture->Bind();
 
         glBindSampler(

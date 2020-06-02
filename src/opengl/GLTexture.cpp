@@ -54,7 +54,7 @@ namespace OpenGL
     template <typename T>
     void GLTexture<T>::Update()
     {
-        if (invalidated)
+        if (Texture<T>::invalidated)
         {
             glActiveTexture(
                 GL_TEXTURE0);
@@ -63,13 +63,13 @@ namespace OpenGL
                 GL_TEXTURE_2D,
                 texture);
 
-            T* data_ptr = &(*data)[0];
+            T* data_ptr = &(*Texture<T>::data)[0];
             glTexImage2D(
                 GL_TEXTURE_2D,
                 0,
                 gl_internal_format,
-                width,
-                height,
+                Texture<T>::width,
+                Texture<T>::height,
                 0,
                 gl_format,
                 gl_type,
@@ -78,7 +78,7 @@ namespace OpenGL
             glGenerateMipmap(
                 GL_TEXTURE_2D);
 
-            invalidated = false;
+            Texture<T>::invalidated = false;
 
             glBindTexture(
                 GL_TEXTURE_2D,
