@@ -14,7 +14,7 @@ namespace Application
     {
     }
 
-    void Renderer::SetSize(uint32_t new_width, uint32_t new_height)
+    void Renderer::Resize(uint32_t new_width, uint32_t new_height)
     {
         width = new_width;
         height = new_height;

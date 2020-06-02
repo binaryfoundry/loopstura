@@ -23,6 +23,6 @@ namespace Application
 
         std::shared_ptr<Texture<TextureDataByteRGBA>> texture;
 
-        void SetSize(uint32_t width, uint32_t height);
+        void Resize(uint32_t width, uint32_t height);
     };
 }

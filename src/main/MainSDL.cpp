@@ -153,7 +153,7 @@ static bool poll_events()
             {
                 case SDL_WINDOWEVENT_RESIZED:
                 {
-                    gl_renderer->SetSize(
+                    gl_renderer->Resize(
                         event.window.data1,
                         event.window.data2);
                     break;

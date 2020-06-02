@@ -119,7 +119,7 @@ EM_BOOL em_fullscreen_callback(
 
         element_width = static_cast<uint32_t>(fullscreenWidth);
         element_height = static_cast<uint32_t>(fullscreenHeight);
-        gl_renderer->SetSize(
+        gl_renderer->Resize(
             element_width,
             element_height);
     }
@@ -158,7 +158,7 @@ EM_BOOL on_canvassize_changed(int eventType, const void *reserved, void *userDat
     element_width = static_cast<uint32_t>(cssW);
     element_height = static_cast<uint32_t>(cssH);
 
-    gl_renderer->SetSize(
+    gl_renderer->Resize(
         element_width,
         element_height);
 
@@ -217,7 +217,7 @@ EM_BOOL em_resize_callback(
     emscripten_get_element_css_size(0, &cssW, &cssH);
     element_width = static_cast<uint32_t>(cssW);
     element_height = static_cast<uint32_t>(cssH);
-    gl_renderer->SetSize(
+    gl_renderer->Resize(
         element_width,
         element_height);
     return 0;
