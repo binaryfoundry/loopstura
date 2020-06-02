@@ -5,7 +5,6 @@ set(PROJECT imgui-shell)
 project(${PROJECT})
 
 set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -stdlib=libc++")
 
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
@@ -118,6 +117,8 @@ if (MSVC)
 elseif (EMSCRIPTEN)
     message(STATUS "Platform: EMSCRIPTEN")
     add_definitions(-DIS_PLATFORM_EMSCRIPTEN)
+
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -stdlib=libc++")
 
 endif()
 
