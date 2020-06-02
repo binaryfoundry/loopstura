@@ -1,14 +1,14 @@
 #pragma once
 
 #include "../GL.hpp"
-#include "../GLMaterial.hpp"
+#include "../GLInstance.hpp"
 #include "../GLTexture.hpp"
 
 namespace Application
 {
 namespace OpenGL
 {
-    class GLMaterialBasic : public GLMaterial
+    class GLInstanceBasic : public GLInstance
     {
         class GLRenderer;
         friend class GLRenderer;
@@ -16,18 +16,18 @@ namespace OpenGL
     protected:
         std::shared_ptr<Texture<TextureDataByteRGBA>> texture;
 
-        GLuint& shader_program;
         GLuint texture_uniform_location = 0;
         GLuint sampler_state = 0;
 
     public:
-        GLMaterialBasic(
+        GLInstanceBasic(
             GLuint& shader_program,
+            std::vector<GLfloat>& vertices,
+            std::vector<GLuint>& indices,
             std::shared_ptr<Texture<TextureDataByteRGBA>> texture);
-        virtual ~GLMaterialBasic();
+        virtual ~GLInstanceBasic();
 
-        void Bind();
-        void Unbind();
+        void Draw();
     };
 }
 }

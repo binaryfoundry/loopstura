@@ -10,6 +10,23 @@ namespace Application
 {
 namespace OpenGL
 {
+    std::vector<GLfloat> quad_vertices =
+    {
+        -1.0f,  1.0f, 0.0f,
+         1.0f,  0.0f,
+        -1.0f, -1.0f, 0.0f,
+         1.0f,  1.0f,
+         1.0f, -1.0f, 0.0f,
+         0.0f,  1.0f,
+         1.0f,  1.0f, 0.0f,
+         0.0f,  0.0f
+    };
+
+    std::vector<GLuint> quad_indices =
+    {
+         0, 1, 2, 2, 3, 0
+    };
+
     std::string vertex_shader_string_basic_texture =
         R"(#version 300 es
         #ifdef GL_ES
@@ -50,16 +67,16 @@ namespace OpenGL
         glDisable(GL_CULL_FACE);
         glCullFace(GL_BACK);
 
-        mesh_basic = std::make_shared<GLMesh>();
-
-        texture = MakeTexture(512, 512);
-
         shader_program_basic = LinkShader(
             vertex_shader_string_basic_texture,
             fragment_shader_string_basic_texture);
 
-        shader_basic = std::make_shared<GLMaterialBasic>(
+        texture = MakeTexture(512, 512);
+
+        quad_instance = std::make_shared<GLInstanceBasic>(
             shader_program_basic,
+            quad_vertices,
+            quad_indices,
             texture);
     }
 
@@ -91,9 +108,7 @@ namespace OpenGL
             GL_DEPTH_BUFFER_BIT |
             GL_STENCIL_BUFFER_BIT);
 
-        shader_basic->Bind();
-        mesh_basic->Draw();
-        shader_basic->Unbind();
+        quad_instance->Draw();
 
         swap_buffers();
     }

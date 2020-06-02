@@ -4,10 +4,9 @@
 #include "../Texture.hpp"
 
 #include "GL.hpp"
-#include "GLMaterial.hpp"
-#include "GLMesh.hpp"
+#include "GLInstance.hpp"
 
-#include "materials/GLMaterialBasic.hpp"
+#include "instances/GLInstanceBasic.hpp"
 
 #include <functional>
 #include <stdint.h>
@@ -25,8 +24,7 @@ namespace OpenGL
 
         GLuint shader_program_basic = 0;
 
-        std::shared_ptr<GLMaterialBasic> shader_basic;
-        std::shared_ptr<GLMesh> mesh_basic;
+        std::shared_ptr<GLInstanceBasic> quad_instance;
 
     public:
         GLRenderer(

@@ -43,21 +43,19 @@ set(SOURCES_OPENGL
     src/opengl/GL.cpp
     src/opengl/GLRenderer.cpp
     src/opengl/GLTexture.cpp
-    src/opengl/GLMaterial.cpp
-    src/opengl/GLMesh.cpp)
+    src/opengl/GLInstance.cpp)
 
 set(HEADERS_OPENGL
     src/opengl/GL.hpp
     src/opengl/GLRenderer.hpp
     src/opengl/GLTexture.hpp
-    src/opengl/GLMaterial.hpp
-    src/opengl/GLMesh.hpp)
+    src/opengl/GLInstance.hpp)
 
-set(SOURCES_OPENGL_MATERIALS
-    src/opengl/materials/GLMaterialBasic.cpp)
+set(SOURCES_OPENGL_INSTANCES
+    src/opengl/instances/GLInstanceBasic.cpp)
 
-set(HEADERS_OPENGL_MATERIALS
-    src/opengl/materials/GLMaterialBasic.hpp)
+set(HEADERS_OPENGL_INSTANCES
+    src/opengl/instances/GLInstanceBasic.hpp)
 
 set(SOURCES_IMGUI
     lib/imgui/imgui.cpp
@@ -82,8 +80,8 @@ SOURCE_GROUP("src\\main" FILES ${HEADERS_MAIN})
 SOURCE_GROUP("src\\opengl" FILES ${SOURCES_OPENGL})
 SOURCE_GROUP("src\\opengl" FILES ${HEADERS_OPENGL})
 
-SOURCE_GROUP("src\\opengl\\materials" FILES ${SOURCES_OPENGL_MATERIALS})
-SOURCE_GROUP("src\\opengl\\materials" FILES ${HEADERS_OPENGL_MATERIALS})
+SOURCE_GROUP("src\\opengl\\instances" FILES ${SOURCES_OPENGL_INSTANCES})
+SOURCE_GROUP("src\\opengl\\instances" FILES ${HEADERS_OPENGL_INSTANCES})
 
 SOURCE_GROUP("src\\imgui" FILES ${SOURCES_IMGUI})
 SOURCE_GROUP("src\\imgui" FILES ${HEADERS_IMGUI})
@@ -136,8 +134,8 @@ add_executable(
     ${HEADERS_MAIN}
     ${SOURCES_OPENGL}
     ${HEADERS_OPENGL}
-    ${SOURCES_OPENGL_MATERIALS}
-    ${HEADERS_OPENGL_MATERIALS}
+    ${SOURCES_OPENGL_INSTANCES}
+    ${HEADERS_OPENGL_INSTANCES}
     ${SOURCES_IMGUI}
     ${HEADERS_IMGUI})
 
