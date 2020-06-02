@@ -13,7 +13,7 @@ namespace Application
 namespace OpenGL
 {
     template <typename T>
-    class GLTexture : public Texture<T>
+    class GLTexture : public Texture<T>, public GLBindable
     {
         class GLRenderer;
         friend class GLRenderer;

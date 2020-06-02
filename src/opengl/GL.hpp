@@ -18,3 +18,10 @@
 #include <GLES2/gl2ext.h>
 
 #endif
+
+class GLBindable
+{
+public:
+    virtual void Bind() = 0;
+    virtual void Unbind() = 0;
+};
