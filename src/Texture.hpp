@@ -6,8 +6,8 @@
 
 namespace Application
 {
-    using TexureDataByteRGBA = uint8_t;
-    using TexureDataFloatRGBA = float;
+    using TextureDataByteRGBA = uint8_t;
+    using TextureDataFloatRGBA = float;
 
     template <typename T>
     class Texture

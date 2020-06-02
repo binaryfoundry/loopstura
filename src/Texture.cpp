@@ -3,25 +3,25 @@
 namespace Application
 {
     template <>
-    Texture<TexureDataByteRGBA>::Texture(
+    Texture<TextureDataByteRGBA>::Texture(
         uint32_t width,
         uint32_t height) :
         width(width),
         height(height),
         pitch(4),
-        data(std::make_shared<std::vector<TexureDataByteRGBA>>())
+        data(std::make_shared<std::vector<TextureDataByteRGBA>>())
     {
         Initialize();
     }
 
     template <>
-    Texture<TexureDataFloatRGBA>::Texture(
+    Texture<TextureDataFloatRGBA>::Texture(
         uint32_t width,
         uint32_t height) :
         width(width),
         height(height),
         pitch(4),
-        data(std::make_shared<std::vector<TexureDataFloatRGBA>>())
+        data(std::make_shared<std::vector<TextureDataFloatRGBA>>())
     {
         Initialize();
     }
@@ -44,7 +44,7 @@ namespace Application
         invalidated = true;
     }
 
-    template class Texture<TexureDataByteRGBA>;
-    template class Texture<TexureDataFloatRGBA>;
+    template class Texture<TextureDataByteRGBA>;
+    template class Texture<TextureDataFloatRGBA>;
 }
 

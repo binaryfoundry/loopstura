@@ -37,7 +37,7 @@ namespace OpenGL
 
         void Render();
 
-        std::shared_ptr<Texture<TexureDataByteRGBA>> MakeTexture(
+        std::shared_ptr<Texture<TextureDataByteRGBA>> MakeTexture(
             uint32_t width,
             uint32_t height);
     };

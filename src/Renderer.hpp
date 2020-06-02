@@ -21,11 +21,11 @@ namespace Application
 
         virtual void Render() = 0;
 
-        virtual std::shared_ptr<Texture<TexureDataByteRGBA>> MakeTexture(
+        virtual std::shared_ptr<Texture<TextureDataByteRGBA>> MakeTexture(
             uint32_t width,
             uint32_t height) = 0;
 
-        std::shared_ptr<Texture<TexureDataByteRGBA>> texture;
+        std::shared_ptr<Texture<TextureDataByteRGBA>> texture;
 
         void SetSize(uint32_t width, uint32_t height);
     };

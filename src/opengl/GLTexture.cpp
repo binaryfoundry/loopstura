@@ -5,13 +5,13 @@ namespace Application
 namespace OpenGL
 {
     template <>
-    GLTexture<TexureDataByteRGBA>::GLTexture(
+    GLTexture<TextureDataByteRGBA>::GLTexture(
         uint32_t width,
         uint32_t height) :
         gl_internal_format(GL_RGBA8),
         gl_format(GL_RGBA),
         gl_type(GL_UNSIGNED_BYTE),
-        Texture<TexureDataByteRGBA>(
+        Texture<TextureDataByteRGBA>(
             width,
             height)
     {
@@ -19,13 +19,13 @@ namespace OpenGL
     }
 
     template <>
-    GLTexture<TexureDataFloatRGBA>::GLTexture(
+    GLTexture<TextureDataFloatRGBA>::GLTexture(
         uint32_t width,
         uint32_t height) :
         gl_internal_format(GL_RGBA32F),
         gl_format(GL_RGBA),
         gl_type(GL_FLOAT),
-        Texture<TexureDataFloatRGBA>(
+        Texture<TextureDataFloatRGBA>(
             width,
             height)
     {
@@ -107,7 +107,7 @@ namespace OpenGL
             NULL);
     }
 
-    template class GLTexture<TexureDataByteRGBA>;
-    template class GLTexture<TexureDataFloatRGBA>;
+    template class GLTexture<TextureDataByteRGBA>;
+    template class GLTexture<TextureDataFloatRGBA>;
 }
 }

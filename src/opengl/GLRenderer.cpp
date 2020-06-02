@@ -152,11 +152,11 @@ namespace OpenGL
             1, &sampler_state);
     }
 
-    std::shared_ptr<Texture<TexureDataByteRGBA>> GLRenderer::MakeTexture(
+    std::shared_ptr<Texture<TextureDataByteRGBA>> GLRenderer::MakeTexture(
         uint32_t width,
         uint32_t height)
     {
-        return std::make_shared<GLTexture<TexureDataByteRGBA>>(
+        return std::make_shared<GLTexture<TextureDataByteRGBA>>(
             width, height);
     }
 
@@ -183,7 +183,7 @@ namespace OpenGL
             GL_TEXTURE0);
 
         // TODO needs to be generic
-        auto gl_texture = std::reinterpret_pointer_cast<GLTexture<TexureDataByteRGBA>>(texture);
+        auto gl_texture = std::reinterpret_pointer_cast<GLTexture<TextureDataByteRGBA>>(texture);
         gl_texture->Bind();
 
         glBindSampler(
