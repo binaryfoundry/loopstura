@@ -38,20 +38,6 @@ namespace OpenGL
             out_color = vec4(c.xyz, 1.0);
         })";
 
-    void CheckError()
-    {
-        GLenum err = GL_NO_ERROR;
-        while ((err = glGetError()) != GL_NO_ERROR)
-        {
-            std::cout << "gl error: " << err << std::endl;
-        }
-
-        if (err != GL_NO_ERROR)
-        {
-            throw std::runtime_error("gl error");
-        }
-    }
-
     GLRenderer::GLRenderer(
         uint32_t width,
         uint32_t height,
@@ -110,6 +96,20 @@ namespace OpenGL
         shader_basic->Unbind();
 
         swap_buffers();
+    }
+
+    void CheckError()
+    {
+        GLenum err = GL_NO_ERROR;
+        while ((err = glGetError()) != GL_NO_ERROR)
+        {
+            std::cout << "gl error: " << err << std::endl;
+        }
+
+        if (err != GL_NO_ERROR)
+        {
+            throw std::runtime_error("gl error");
+        }
     }
 }
 }
