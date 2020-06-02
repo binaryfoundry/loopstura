@@ -41,7 +41,9 @@ namespace OpenGL
             vertex_shader_string_basic_texture,
             fragment_shader_string_basic_texture);
 
-        auto quad_texture = MakeTexture(512, 512);
+        auto quad_texture = MakeTexture(
+            512,
+            512);
 
         quad_instance = std::make_shared<GLInstanceBasic>(
             shader_program_basic,
