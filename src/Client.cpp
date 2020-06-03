@@ -26,8 +26,7 @@ namespace Application
         context(context)
     {
         quad_texture = renderer->MakeTexture(
-            512,
-            512);
+            "test.png");
 
         quad_instance = renderer->MakeInstanceBasic(
             context,
@@ -52,8 +51,6 @@ namespace Application
         {
             if (i % 16 == 0) v = rand() % 255;
             (*quad_texture_data)[i + 0] = v;
-            (*quad_texture_data)[i + 1] = v;
-            (*quad_texture_data)[i + 2] = v;
             (*quad_texture_data)[i + 3] = 255;
         }
 

@@ -49,13 +49,22 @@ namespace OpenGL
         std::shared_ptr<std::vector<uint8_t>> data =
             std::make_shared<std::vector<uint8_t>>();
 
-        context->load_texture_2d(file, bpp, tex_width, tex_height, data);
+        context->load_texture_2d(
+            file, bpp, tex_width, tex_height, data);
+
+        size_t total_size = bpp * tex_width * tex_height;
 
         // TODO check matching BPP
 
-        return std::make_shared<GLTexture<TextureDataByteRGBA>>(
-            width,
-            height);
+        auto new_texture = std::make_shared<GLTexture<TextureDataByteRGBA>>(
+            tex_width,
+            tex_height);
+
+        memcpy(&(*new_texture->data)[0], &(*data)[0], total_size);
+
+        new_texture->Invalidate();
+
+        return new_texture;
     }
 
     std::shared_ptr<Rendering::InstanceBasic> GLRenderer::MakeInstanceBasic(
