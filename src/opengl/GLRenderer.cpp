@@ -34,6 +34,7 @@ namespace OpenGL
 
     GLRenderer::~GLRenderer()
     {
+        GLInstanceBasic::Destroy();
     }
 
     std::shared_ptr<Texture<TextureDataByteRGBA>> GLRenderer::MakeTexture(

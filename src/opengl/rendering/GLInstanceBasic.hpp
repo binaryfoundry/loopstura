@@ -30,6 +30,7 @@ namespace OpenGL
         virtual ~GLInstanceBasic();
 
         static void Initialise();
+        static void Destroy();
 
         void Draw();
     };

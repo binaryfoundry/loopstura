@@ -46,6 +46,12 @@ namespace OpenGL
             fragment_shader_string);
     }
 
+    void GLInstanceBasic::Destroy()
+    {
+        glDeleteProgram(
+            shader_program);
+    }
+
     GLInstanceBasic::GLInstanceBasic(
         std::vector<float>& vertices,
         std::vector<uint32_t>& indices,
@@ -89,8 +95,6 @@ namespace OpenGL
 
     GLInstanceBasic::~GLInstanceBasic()
     {
-        glDeleteProgram(
-            shader_program);
 
         glDeleteSamplers(
             1, &sampler_state);
