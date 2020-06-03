@@ -2,7 +2,9 @@
 
 namespace Application
 {
-    Context::Context() :
+    Context::Context(
+        Texure2DLoadCallback load_texture_2d) :
+        load_texture_2d(load_texture_2d),
         property_manager(std::make_unique<Properties::Manager>())
     {
     }

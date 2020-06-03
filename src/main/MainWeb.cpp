@@ -2,6 +2,8 @@
 
 #if defined(IS_PLATFORM_EMSCRIPTEN)
 
+#include "FileSDL.hpp"
+
 #include "../Platform.hpp"
 #include "../Context.hpp"
 #include "../main/SDL.hpp"
@@ -45,7 +47,18 @@ int main(int argc, char *argv[])
 
     init_graphics();
 
-    Application::ContextPtr context = std::make_shared<Application::Context>();
+    auto load_texture_2d = [](
+        std::string id,
+        uint8_t& p,
+        uint32_t& w,
+        uint32_t& h,
+        std::vector<uint8_t>& d)
+    {
+        FileLoadTexture2D(id, p, w, h, d);
+    };
+
+    Application::ContextPtr context = std::make_shared<Application::Context>(
+        load_texture_2d);
 
     std::function<void()> swap = [&]() {};
 

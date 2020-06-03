@@ -2,6 +2,8 @@
 
 #if defined(IS_PLATFORM_WIN) || defined(IS_PLATFORM_DARWIN)
 
+#include "FileSDL.hpp"
+
 #include "../Platform.hpp"
 #include "../Context.hpp"
 #include "../main/SDL.hpp"
@@ -75,12 +77,23 @@ int main(int argc, char *argv[])
         return ret;
     }
 
+    auto load_texture_2d = [](
+        std::string id,
+        uint8_t& p,
+        uint32_t& w,
+        uint32_t& h,
+        std::vector<uint8_t>& d)
+    {
+        FileLoadTexture2D(id, p, w, h, d);
+    };
+
+    Application::ContextPtr context = std::make_shared<Application::Context>(
+        load_texture_2d);
+
     std::function<void()> swap = [&]()
     {
         swap_buffers();
     };
-
-    Application::ContextPtr context = std::make_shared<Application::Context>();
 
     gl_renderer = std::make_shared<Application::OpenGL::GLRenderer>(
         context,
