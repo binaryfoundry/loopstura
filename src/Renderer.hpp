@@ -3,6 +3,7 @@
 #include <stdint.h>
 #include <vector>
 #include <memory>
+#include <functional>
 
 #include "Texture.hpp"
 #include "rendering/InstanceBasic.hpp"
@@ -29,7 +30,12 @@ namespace Application
     class Renderer
     {
     protected:
-        Renderer(uint32_t width, uint32_t height);
+        Renderer(
+            uint32_t width,
+            uint32_t height,
+            std::function<void()> swap_buffers);
+
+        const std::function<void()> swap_buffers;
 
         uint32_t width = 0;
         uint32_t height = 0;

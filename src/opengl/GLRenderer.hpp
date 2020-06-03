@@ -20,8 +20,6 @@ namespace OpenGL
     class GLRenderer : public Application::Renderer
     {
     private:
-        const std::function<void()> swap_buffers;
-
         std::shared_ptr<Texture<TextureDataByteRGBA>> MakeTexture(
             uint32_t width,
             uint32_t height);

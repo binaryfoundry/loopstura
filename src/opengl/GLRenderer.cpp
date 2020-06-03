@@ -17,8 +17,8 @@ namespace OpenGL
         std::function<void()> swap_buffers) :
         Application::Renderer(
             width,
-            height),
-        swap_buffers(swap_buffers)
+            height,
+            swap_buffers)
     {
         GLInstanceBasic::Initialise();
 

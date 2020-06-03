@@ -4,9 +4,11 @@ namespace Application
 {
     Renderer::Renderer(
         uint32_t width,
-        uint32_t height) :
+        uint32_t height,
+        std::function<void()> swap_buffers) :
         width(width),
-        height(height)
+        height(height),
+        swap_buffers(swap_buffers)
     {
     }
 
