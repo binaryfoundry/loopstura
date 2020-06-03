@@ -6,6 +6,10 @@
 #include "../Texture.hpp"
 #include "../Context.hpp"
 
+#include "../properties/Property.hpp"
+
+using namespace Application::Properties;
+
 namespace Application
 {
 namespace Rendering
@@ -24,6 +28,8 @@ namespace Rendering
         const std::vector<uint32_t>& indices;
 
         const std::shared_ptr<Texture<TextureDataByteRGBA>> texture;
+
+        std::shared_ptr<Property<float>> fade;
 
         virtual ~InstanceBasic();
     };

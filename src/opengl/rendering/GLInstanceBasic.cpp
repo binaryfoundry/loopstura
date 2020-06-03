@@ -31,9 +31,10 @@ namespace OpenGL
         in vec2 v_texcoord;
         layout(location = 0) out vec4 out_color;
         uniform sampler2D tex;
+        uniform float fade;
         void main()
         {
-            vec4 c = texture(tex, v_texcoord);
+            vec4 c = texture(tex, v_texcoord) * fade;
             out_color = vec4(c.xyz, 1.0);
         })";
 
@@ -76,6 +77,10 @@ namespace OpenGL
         texture_uniform_location = glGetUniformLocation(
             shader_program,
             "tex");
+
+        fade_uniform_location = glGetUniformLocation(
+            shader_program,
+            "fade");
 
         glGenSamplers(
             1, &sampler_state);
@@ -127,8 +132,12 @@ namespace OpenGL
             sampler_state);
 
         glUniform1i(
-            0,
-            texture_uniform_location);
+            texture_uniform_location,
+            0);
+
+        glUniform1f(
+            fade_uniform_location,
+            fade->Value());
 
         glBindBuffer(
             GL_ARRAY_BUFFER,

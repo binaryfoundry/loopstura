@@ -37,6 +37,13 @@ namespace Properties
         }
 
     public:
+        Property(T value_)
+        {
+            dirty_flag = &local_dirty_flag;
+            local_value = value_;
+            value_ptr = &local_value;
+        }
+
         Property(T* value_)
         {
             dirty_flag = &local_dirty_flag;
