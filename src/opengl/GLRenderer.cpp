@@ -23,16 +23,6 @@ namespace OpenGL
             height)
     {
         GLInstanceBasic::Initialise();
-
-        auto quad_texture = MakeTexture(
-            512,
-            512);
-
-        quad_instance = std::make_shared<GLInstanceBasic>(
-            context,
-            quad_vertices,
-            quad_indices,
-            quad_texture);
     }
 
     GLRenderer::~GLRenderer()
@@ -46,6 +36,19 @@ namespace OpenGL
     {
         return std::make_shared<GLTexture<TextureDataByteRGBA>>(
             width, height);
+    }
+
+    std::shared_ptr<Rendering::InstanceBasic> GLRenderer::MakeInstanceBasic(
+        ContextPtr context,
+        std::vector<float>& vertices,
+        std::vector<uint32_t>& indices,
+        std::shared_ptr<Texture<TextureDataByteRGBA>> texture)
+    {
+        return std::make_shared<GLInstanceBasic>(
+            context,
+            vertices,
+            indices,
+            texture);
     }
 
     void GLRenderer::Begin()

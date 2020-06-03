@@ -11,23 +11,6 @@
 
 namespace Application
 {
-    static std::vector<float> quad_vertices =
-    {
-        -1.0f,  1.0f, 0.0f,
-         1.0f,  0.0f,
-        -1.0f, -1.0f, 0.0f,
-         1.0f,  1.0f,
-         1.0f, -1.0f, 0.0f,
-         0.0f,  1.0f,
-         1.0f,  1.0f, 0.0f,
-         0.0f,  0.0f
-    };
-
-    static std::vector<uint32_t> quad_indices =
-    {
-         0, 1, 2, 2, 3, 0
-    };
-
     class Renderer
     {
     protected:
@@ -47,12 +30,19 @@ namespace Application
     public:
         virtual ~Renderer();
 
+        void Resize(uint32_t width, uint32_t height);
+
         virtual void Begin() = 0;
         virtual void End() = 0;
 
-        std::shared_ptr<Rendering::InstanceBasic> quad_instance;
+        virtual std::shared_ptr<Texture<TextureDataByteRGBA>> MakeTexture(
+            uint32_t width,
+            uint32_t height) = 0;
 
-        void Resize(uint32_t width, uint32_t height);
-        void Draw();
+        virtual std::shared_ptr<Rendering::InstanceBasic> MakeInstanceBasic(
+            ContextPtr context,
+            std::vector<float>& vertices,
+            std::vector<uint32_t>& indices,
+            std::shared_ptr<Texture<TextureDataByteRGBA>> texture) = 0;
     };
 }

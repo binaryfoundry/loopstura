@@ -2,12 +2,38 @@
 
 namespace Application
 {
+    static std::vector<float> quad_vertices =
+    {
+        -1.0f,  1.0f, 0.0f,
+         1.0f,  0.0f,
+        -1.0f, -1.0f, 0.0f,
+         1.0f,  1.0f,
+         1.0f, -1.0f, 0.0f,
+         0.0f,  1.0f,
+         1.0f,  1.0f, 0.0f,
+         0.0f,  0.0f
+    };
+
+    static std::vector<uint32_t> quad_indices =
+    {
+         0, 1, 2, 2, 3, 0
+    };
+
     Client::Client(
         ContextPtr context,
         std::shared_ptr<Renderer> renderer) :
         renderer(renderer),
         context(context)
     {
+        quad_texture = renderer->MakeTexture(
+            512,
+            512);
+
+        quad_instance = renderer->MakeInstanceBasic(
+            context,
+            quad_vertices,
+            quad_indices,
+            quad_texture);
     }
 
     Client::~Client()
@@ -18,7 +44,6 @@ namespace Application
     {
         context->Update();
 
-        auto quad_texture = renderer->quad_instance->texture;
         auto quad_texture_data = quad_texture->data;
 
         uint8_t v = 0;
@@ -37,6 +62,8 @@ namespace Application
 
     void Client::Render()
     {
-        renderer->Draw();
+        renderer->Begin();
+        quad_instance->Draw();
+        renderer->End();
     }
 }
