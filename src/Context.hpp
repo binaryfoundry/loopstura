@@ -6,19 +6,19 @@
 
 namespace Application
 {
-class Context
-{
-    class Client;
-    friend class Client;
+    class Context
+    {
+        class Client;
+        friend class Client;
 
-public:
-    Context();
+    public:
+        Context();
 
-public:
-    ~Context();
+    public:
+        ~Context();
 
-    const std::shared_ptr<Properties::Manager> property_manager;
+        const std::shared_ptr<Properties::Manager> property_manager;
 
-    void Update();
-};
+        void Update();
+    };
 }
