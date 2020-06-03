@@ -2,6 +2,8 @@
 
 #include "GL.hpp"
 
+#include "../Context.hpp"
+
 #include <string>
 #include <vector>
 
@@ -23,6 +25,7 @@ namespace OpenGL
 
     public:
         GLInstance(
+            ContextPtr context,
             std::vector<float>& vertices,
             std::vector<uint32_t>& indices);
         virtual ~GLInstance();

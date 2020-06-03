@@ -53,12 +53,15 @@ namespace OpenGL
     }
 
     GLInstanceBasic::GLInstanceBasic(
+        ContextPtr context,
         std::vector<float>& vertices,
         std::vector<uint32_t>& indices,
         std::shared_ptr<Texture<TextureDataByteRGBA>> texture) :
         InstanceBasic(
+            context,
             texture),
         GLInstance(
+            context,
             vertices,
             indices)
     {

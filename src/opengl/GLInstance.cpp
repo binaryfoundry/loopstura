@@ -14,6 +14,7 @@ namespace OpenGL
         GLenum usage);
 
     GLInstance::GLInstance(
+        ContextPtr context,
         std::vector<GLfloat>& vertices,
         std::vector<GLuint>& indices) :
         vertices(vertices),

@@ -4,6 +4,7 @@
 
 #include "../Instance.hpp"
 #include "../Texture.hpp"
+#include "../Context.hpp"
 
 namespace Application
 {
@@ -13,6 +14,7 @@ namespace Rendering
     {
     protected:
         InstanceBasic(
+            ContextPtr context,
             std::shared_ptr<Texture<TextureDataByteRGBA>> texture);
 
     public:

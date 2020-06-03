@@ -29,6 +29,7 @@ namespace OpenGL
             512);
 
         quad_instance = std::make_shared<GLInstanceBasic>(
+            context,
             quad_vertices,
             quad_indices,
             quad_texture);
