@@ -3,8 +3,14 @@
 #include "../Platform.hpp"
 
 #include <string>
+#include <vector>
 
-void FileLoadTexture2D(std::string resource_id);
+void FileLoadTexture2D(
+    std::string resource_id,
+    uint8_t& bpp,
+    uint32_t& width,
+    uint32_t& height,
+    std::vector<uint8_t>& data);
 
 class File
 {

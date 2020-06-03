@@ -3,7 +3,11 @@
 #include <iostream>
 
 void FileLoadTexture2D(
-    std::string resource_id)
+    std::string resource_id,
+    uint8_t& bpp,
+    uint32_t& width,
+    uint32_t& height,
+    std::vector<uint8_t>& data)
 {
     std::string file_path = resource_id;
 
@@ -42,10 +46,15 @@ void FileLoadTexture2D(
     SDL_FreeSurface(
         surface_raw);
 
-    uint8_t bpp = surface_converted->format->BytesPerPixel;
-    uint16_t width = surface_converted->w;
-    uint16_t height = surface_converted->h;
-    uint8_t* pixels = (uint8_t*)surface_converted->pixels;
+    bpp = surface_converted->format->BytesPerPixel;
+    width = surface_converted->w;
+    height = surface_converted->h;
+    uint8_t* pixels = static_cast<uint8_t*>(surface_converted->pixels);
+
+    size_t total_size = width * height * bpp;
+    data.resize(total_size);
+
+    memcpy(&data[0], pixels, total_size);
 
     SDL_FreeSurface(
         surface_converted);
