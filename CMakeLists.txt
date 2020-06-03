@@ -75,11 +75,11 @@ set(HEADERS_OPENGL
     src/opengl/GLInstance.hpp
     src/opengl/GLShader.hpp)
 
-set(SOURCES_OPENGL_INSTANCES
-    src/opengl/instances/GLInstanceBasic.cpp)
+set(SOURCES_OPENGL_RENDERING
+    src/opengl/rendering/GLInstanceBasic.cpp)
 
-set(HEADERS_OPENGL_INSTANCES
-    src/opengl/instances/GLInstanceBasic.hpp)
+set(HEADERS_OPENGL_RENDERING
+    src/opengl/rendering/GLInstanceBasic.hpp)
 
 set(SOURCES_IMGUI
     lib/imgui/imgui.cpp
@@ -110,8 +110,8 @@ SOURCE_GROUP("src\\rendering" FILES ${HEADERS_RENDERING})
 SOURCE_GROUP("src\\opengl" FILES ${SOURCES_OPENGL})
 SOURCE_GROUP("src\\opengl" FILES ${HEADERS_OPENGL})
 
-SOURCE_GROUP("src\\opengl\\instances" FILES ${SOURCES_OPENGL_INSTANCES})
-SOURCE_GROUP("src\\opengl\\instances" FILES ${HEADERS_OPENGL_INSTANCES})
+SOURCE_GROUP("src\\opengl\\rendering" FILES ${SOURCES_OPENGL_RENDERING})
+SOURCE_GROUP("src\\opengl\\rendering" FILES ${HEADERS_OPENGL_RENDERING})
 
 SOURCE_GROUP("src\\imgui" FILES ${SOURCES_IMGUI})
 SOURCE_GROUP("src\\imgui" FILES ${HEADERS_IMGUI})
@@ -168,8 +168,8 @@ add_executable(
     ${HEADERS_RENDERING}
     ${SOURCES_OPENGL}
     ${HEADERS_OPENGL}
-    ${SOURCES_OPENGL_INSTANCES}
-    ${HEADERS_OPENGL_INSTANCES}
+    ${SOURCES_OPENGL_RENDERING}
+    ${HEADERS_OPENGL_RENDERING}
     ${SOURCES_IMGUI}
     ${HEADERS_IMGUI})
 

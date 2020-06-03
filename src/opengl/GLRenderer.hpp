@@ -6,7 +6,7 @@
 #include "GL.hpp"
 #include "GLInstance.hpp"
 
-#include "instances/GLInstanceBasic.hpp"
+#include "rendering/GLInstanceBasic.hpp"
 
 #include <functional>
 #include <stdint.h>
