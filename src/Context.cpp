@@ -3,7 +3,7 @@
 namespace Application
 {
     Context::Context() :
-        property_manager(std::make_shared<Properties::Manager>())
+        property_manager(std::make_unique<Properties::Manager>())
     {
     }
 

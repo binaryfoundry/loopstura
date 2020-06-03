@@ -17,7 +17,7 @@ namespace Application
     public:
         ~Context();
 
-        const std::shared_ptr<Properties::Manager> property_manager;
+        const std::unique_ptr<Properties::Manager> property_manager;
 
         void Update();
     };
