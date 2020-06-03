@@ -3,6 +3,7 @@
 #if defined(IS_PLATFORM_WIN) || defined(IS_PLATFORM_DARWIN)
 
 #include "../Platform.hpp"
+#include "../Context.hpp"
 #include "../main/SDL.hpp"
 #include "../opengl/GL.hpp"
 #include "../opengl/GLRenderer.hpp"
@@ -79,12 +80,15 @@ int main(int argc, char *argv[])
         swap_buffers();
     };
 
+    Application::ContextPtr context = std::make_shared<Application::Context>();
+
     gl_renderer = std::make_shared<Application::OpenGL::GLRenderer>(
         window_width,
         window_height,
         swap);
 
     client = std::make_shared<Application::Client>(
+        context,
         gl_renderer);
 
     bool done = false;

@@ -14,7 +14,9 @@ namespace Application
         const std::shared_ptr<Renderer> renderer;
 
     public:
-        Client(std::shared_ptr<Renderer> renderer);
+        Client(
+            ContextPtr context,
+            std::shared_ptr<Renderer> renderer);
         virtual ~Client();
 
         void Update();

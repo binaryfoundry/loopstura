@@ -3,9 +3,10 @@
 namespace Application
 {
     Client::Client(
+        ContextPtr context,
         std::shared_ptr<Renderer> renderer) :
         renderer(renderer),
-        context(std::make_shared<Context>())
+        context(context)
     {
     }
 

@@ -3,6 +3,7 @@
 #if defined(IS_PLATFORM_EMSCRIPTEN)
 
 #include "../Platform.hpp"
+#include "../Context.hpp"
 #include "../main/SDL.hpp"
 #include "../opengl/GL.hpp"
 #include "../opengl/GLRenderer.hpp"
@@ -44,6 +45,8 @@ int main(int argc, char *argv[])
 
     init_graphics();
 
+    Application::ContextPtr context = std::make_shared<Application::Context>();
+
     std::function<void()> swap = [&]() {};
 
     gl_renderer = std::make_shared<Application::OpenGL::GLRenderer>(
@@ -52,6 +55,7 @@ int main(int argc, char *argv[])
         swap);
 
     client = std::make_shared<Application::Client>(
+        context,
         gl_renderer);
 
     run();
