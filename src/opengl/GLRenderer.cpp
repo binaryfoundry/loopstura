@@ -35,16 +35,23 @@ namespace OpenGL
         uint32_t width,
         uint32_t height)
     {
+        std::shared_ptr<std::vector<uint8_t>> data =
+            std::make_shared<std::vector<uint8_t>>();
+
+        data->resize(
+            width * height * 4);
+
         return std::make_shared<GLTexture<TextureDataByteRGBA>>(
             width,
-            height);
+            height,
+            data);
     }
 
     std::shared_ptr<Texture<TextureDataByteRGBA>> GLRenderer::MakeTexture(
         std::string file)
     {
-        uint8_t bpp;
-        uint32_t tex_width, tex_height;
+        uint8_t bpp = 0;
+        uint32_t tex_width = 0, tex_height = 0;
 
         std::shared_ptr<std::vector<uint8_t>> data =
             std::make_shared<std::vector<uint8_t>>();
@@ -52,17 +59,12 @@ namespace OpenGL
         context->load_texture_2d(
             file, bpp, tex_width, tex_height, data);
 
-        size_t total_size = bpp * tex_width * tex_height;
-
         // TODO check matching BPP
 
         auto new_texture = std::make_shared<GLTexture<TextureDataByteRGBA>>(
             tex_width,
-            tex_height);
-
-        memcpy(&(*new_texture->data)[0], &(*data)[0], total_size);
-
-        new_texture->Invalidate();
+            tex_height,
+            data);
 
         return new_texture;
     }

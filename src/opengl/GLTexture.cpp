@@ -7,13 +7,15 @@ namespace OpenGL
     template <>
     GLTexture<TextureDataByteRGBA>::GLTexture(
         uint32_t width,
-        uint32_t height) :
+        uint32_t height,
+        std::shared_ptr<std::vector<TextureDataByteRGBA>> data) :
         gl_internal_format(GL_RGBA8),
         gl_format(GL_RGBA),
         gl_type(GL_UNSIGNED_BYTE),
         Texture<TextureDataByteRGBA>(
             width,
-            height)
+            height,
+            data)
     {
         Create();
     }
@@ -21,13 +23,15 @@ namespace OpenGL
     template <>
     GLTexture<TextureDataFloatRGBA>::GLTexture(
         uint32_t width,
-        uint32_t height) :
+        uint32_t height,
+        std::shared_ptr<std::vector<TextureDataFloatRGBA>> data) :
         gl_internal_format(GL_RGBA32F),
         gl_format(GL_RGBA),
         gl_type(GL_FLOAT),
         Texture<TextureDataFloatRGBA>(
             width,
-            height)
+            height,
+            data)
     {
         Create();
     }

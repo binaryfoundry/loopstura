@@ -12,16 +12,14 @@ namespace Application
     template <typename T>
     class Texture
     {
-    private:
-        void Initialize();
-
     protected:
         bool invalidated = true;
 
     public:
         Texture(
             uint32_t width,
-            uint32_t height);
+            uint32_t height,
+            std::shared_ptr<std::vector<T>> data);
 
         virtual ~Texture();
 

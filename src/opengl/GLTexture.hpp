@@ -34,7 +34,8 @@ namespace OpenGL
     public:
         GLTexture(
             uint32_t width,
-            uint32_t height);
+            uint32_t height,
+            std::shared_ptr<std::vector<T>> data);
         virtual ~GLTexture();
 
         void Update();
