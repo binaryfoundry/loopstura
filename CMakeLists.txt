@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.8)
 
 set(PROJECT imgui-shell)
+set(RESOURCES_NAME imgui-shell-resources)
 
 project(${PROJECT})
 
@@ -93,6 +94,8 @@ set(HEADERS_IMGUI
     lib/imgui/imstb_textedit.h
     lib/imgui/imstb_truetype.h)
 
+file(GLOB RESOURCES "${PROJECT_SOURCE_DIR}/resources/*.*")
+
 SOURCE_GROUP("src" FILES ${SOURCES})
 SOURCE_GROUP("src" FILES ${HEADERS})
 
@@ -156,6 +159,7 @@ link_directories(
 
 add_executable(
     ${PROJECT}
+    ${RESOURCES}
     ${SOURCES}
     ${HEADERS}
     ${SOURCES_MAIN}
@@ -175,6 +179,17 @@ target_include_directories(
     ${PROJECT}
     PRIVATE
     ${PROJECT_SOURCE_DIR}/include)
+
+add_custom_target(
+    ${RESOURCES_NAME} ALL
+    COMMENT "Copying Default Resources..."
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+    ${CMAKE_CURRENT_SOURCE_DIR}/resources
+    ${CMAKE_CURRENT_BINARY_DIR}/resources)
+
+add_dependencies(
+    ${PROJECT_NAME}
+    ${RESOURCES_NAME})
 
 if (MSVC)
     target_include_directories(
@@ -232,7 +247,6 @@ elseif (EMSCRIPTEN)
     set_target_properties(
         ${PROJECT_NAME}
         PROPERTIES SUFFIX ".html"
-        LINK_FLAGS "--bind -s USE_SDL_IMAGE=2 -s USE_WEBGL2=1 -s USE_SDL_TTF=2 -s DEMANGLE_SUPPORT=1 -s USE_SDL=2 -s WASM=1 -s NO_EXIT_RUNTIME=1 -s ALLOW_MEMORY_GROWTH=1 -s ASSERTIONS=2 -s --emrun -std=c++11 -O3 --shell-file \"${PROJECT_SOURCE_DIR}/shell.html\" --use-preload-plugins")
-    #--preload-file resources | -s USE_PTHREADS=1 -s PTHREAD_POOL_SIZE=4 | -s \"BINARYEN_METHOD='native-wasm'\"
+        LINK_FLAGS "--bind -s USE_SDL_IMAGE=2 -s USE_WEBGL2=1 -s USE_SDL_TTF=2 -s DEMANGLE_SUPPORT=1 -s USE_SDL=2 -s WASM=1 -s NO_EXIT_RUNTIME=1 -s ALLOW_MEMORY_GROWTH=1 -s ASSERTIONS=2 -s --emrun -std=c++11 -O3 --shell-file \"${PROJECT_SOURCE_DIR}/shell.html\" --use-preload-plugins --preload-file resources --no-heap-copy ")
 
 endif ()
