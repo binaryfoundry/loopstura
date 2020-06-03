@@ -12,15 +12,19 @@ namespace Application
 {
 namespace OpenGL
 {
+    class GLTextureHandle
+    {
+    public:
+        GLuint gl_texture_handle = 0; // TODO make private
+    };
+
     template <typename T>
-    class GLTexture : public Texture<T>, public GLBindable
+    class GLTexture : public Texture<T>, public GLTextureHandle
     {
         class GLRenderer;
         friend class GLRenderer;
 
     protected:
-        GLuint texture = 0;
-
         const GLint gl_internal_format = 0;
         const GLenum gl_format = 0;
         const GLenum gl_type = 0;
@@ -34,8 +38,6 @@ namespace OpenGL
         virtual ~GLTexture();
 
         void Update();
-        void Bind();
-        void Unbind();
     };
 }
 }

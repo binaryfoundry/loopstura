@@ -36,7 +36,7 @@ namespace OpenGL
     GLTexture<T>::~GLTexture()
     {
         glDeleteTextures(
-            1, &texture);
+            1, &gl_texture_handle);
     }
 
     template <typename T>
@@ -46,7 +46,7 @@ namespace OpenGL
             GL_TEXTURE0);
 
         glGenTextures(
-            1, &texture);
+            1, &gl_texture_handle);
 
         Update();
     }
@@ -61,7 +61,7 @@ namespace OpenGL
 
             glBindTexture(
                 GL_TEXTURE_2D,
-                texture);
+                gl_texture_handle);
 
             T* data_ptr = &(*Texture<T>::data)[0];
             glTexImage2D(
@@ -84,27 +84,6 @@ namespace OpenGL
                 GL_TEXTURE_2D,
                 NULL);
         }
-    }
-
-    template <typename T>
-    void GLTexture<T>::Bind()
-    {
-        Update();
-
-        glActiveTexture(
-            GL_TEXTURE0);
-
-        glBindTexture(
-            GL_TEXTURE_2D,
-            texture);
-    }
-
-    template <typename T>
-    void GLTexture<T>::Unbind()
-    {
-        glBindTexture(
-            GL_TEXTURE_2D,
-            NULL);
     }
 
     template class GLTexture<TextureDataByteRGBA>;

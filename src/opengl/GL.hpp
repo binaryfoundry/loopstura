@@ -27,13 +27,6 @@ namespace Application
 {
 namespace OpenGL
 {
-    class GLBindable
-    {
-    public:
-        virtual void Bind() = 0;
-        virtual void Unbind() = 0;
-    };
-
     static void GLCheckError()
     {
         GLenum err = GL_NO_ERROR;

@@ -121,15 +121,23 @@ namespace OpenGL
         glActiveTexture(
             GL_TEXTURE0);
 
-        auto gl_texture = std::dynamic_pointer_cast<GLBindable>(texture);
-        gl_texture->Bind();
-
         glUseProgram(
             shader_program);
 
         glBindSampler(
             0,
             sampler_state);
+
+        texture->Update();
+        auto gl_texture = std::dynamic_pointer_cast<GLTextureHandle>(texture);
+        auto gl_texture_handle = gl_texture->gl_texture_handle;
+
+        glActiveTexture(
+            GL_TEXTURE0);
+
+        glBindTexture(
+            GL_TEXTURE_2D,
+            gl_texture_handle);
 
         glUniform1i(
             texture_uniform_location,
@@ -173,7 +181,9 @@ namespace OpenGL
             GL_UNSIGNED_INT,
             static_cast<char const*>(0));
 
-        gl_texture->Unbind();
+        glBindTexture(
+            GL_TEXTURE_2D,
+            NULL);
     }
 }
 }
