@@ -37,7 +37,7 @@ namespace Application
             uint32_t width,
             uint32_t height);
 
-        ContextPtr context;
+        const ContextPtr context;
 
         const std::function<void()> swap_buffers;
 
