@@ -25,11 +25,6 @@ namespace Application
         renderer(renderer),
         context(context)
     {
-        uint8_t bpp;
-        uint32_t twidth, theight;
-        std::vector<uint8_t> data;
-        context->load_texture_2d("test.png", bpp, twidth, theight, data);
-
         quad_texture = renderer->MakeTexture(
             512,
             512);

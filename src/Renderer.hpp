@@ -4,6 +4,7 @@
 #include <vector>
 #include <memory>
 #include <functional>
+#include <string>
 
 #include "Context.hpp"
 #include "Texture.hpp"
@@ -38,6 +39,9 @@ namespace Application
         virtual std::shared_ptr<Texture<TextureDataByteRGBA>> MakeTexture(
             uint32_t width,
             uint32_t height) = 0;
+
+        virtual std::shared_ptr<Texture<TextureDataByteRGBA>> MakeTexture(
+            std::string file) = 0;
 
         virtual std::shared_ptr<Rendering::InstanceBasic> MakeInstanceBasic(
             ContextPtr context,

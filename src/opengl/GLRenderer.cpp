@@ -20,7 +20,8 @@ namespace OpenGL
             context,
             swap_buffers,
             width,
-            height)
+            height),
+        context(context)
     {
         GLInstanceBasic::Initialise();
     }
@@ -35,7 +36,23 @@ namespace OpenGL
         uint32_t height)
     {
         return std::make_shared<GLTexture<TextureDataByteRGBA>>(
-            width, height);
+            width,
+            height);
+    }
+
+    std::shared_ptr<Texture<TextureDataByteRGBA>> GLRenderer::MakeTexture(
+        std::string file)
+    {
+        uint8_t bpp;
+        uint32_t tex_width, tex_height;
+        std::vector<uint8_t> data;
+        context->load_texture_2d(file, bpp, tex_width, tex_height, data);
+
+        // TODO check matching BPP
+
+        return std::make_shared<GLTexture<TextureDataByteRGBA>>(
+            width,
+            height);
     }
 
     std::shared_ptr<Rendering::InstanceBasic> GLRenderer::MakeInstanceBasic(

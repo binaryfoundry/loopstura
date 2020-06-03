@@ -12,6 +12,7 @@
 #include <stdint.h>
 #include <vector>
 #include <memory>
+#include <string>
 
 namespace Application
 {
@@ -20,9 +21,14 @@ namespace OpenGL
     class GLRenderer : public Application::Renderer
     {
     protected:
+        ContextPtr context;
+
         std::shared_ptr<Texture<TextureDataByteRGBA>> MakeTexture(
             uint32_t width,
             uint32_t height);
+
+        std::shared_ptr<Texture<TextureDataByteRGBA>> MakeTexture(
+            std::string file);
 
         std::shared_ptr<Rendering::InstanceBasic> MakeInstanceBasic(
             ContextPtr context,
