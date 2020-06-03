@@ -1,8 +1,8 @@
 #pragma once
 
 #include "../GL.hpp"
-#include "../GLInstance.hpp"
 #include "../GLTexture.hpp"
+#include "../GLShader.hpp"
 
 #include "../../rendering/InstanceBasic.hpp"
 
@@ -10,17 +10,19 @@ namespace Application
 {
 namespace OpenGL
 {
-    class GLInstanceBasic : public Rendering::InstanceBasic, public GLInstance
+    class GLInstanceBasic : public Rendering::InstanceBasic
     {
         class GLRenderer;
         friend class GLRenderer;
 
     protected:
-
         static GLuint shader_program;
 
         GLuint texture_uniform_location = 0;
         GLuint sampler_state = 0;
+
+        GLuint gl_vertex_buffer = 0;
+        GLuint gl_index_buffer = 0;
 
     public:
         GLInstanceBasic(

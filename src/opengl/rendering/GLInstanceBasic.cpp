@@ -59,12 +59,20 @@ namespace OpenGL
         std::shared_ptr<Texture<TextureDataByteRGBA>> texture) :
         InstanceBasic(
             context,
-            texture),
-        GLInstance(
-            context,
             vertices,
-            indices)
+            indices,
+            texture)
     {
+        gl_vertex_buffer = GenBuffer(
+            vertices,
+            GL_ARRAY_BUFFER,
+            GL_STATIC_DRAW);
+
+        gl_index_buffer = GenBuffer(
+            indices,
+            GL_ELEMENT_ARRAY_BUFFER,
+            GL_STATIC_DRAW);
+
         texture_uniform_location = glGetUniformLocation(
             shader_program,
             "tex");

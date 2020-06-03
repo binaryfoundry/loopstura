@@ -5,7 +5,6 @@
 #include "../Texture.hpp"
 
 #include "GL.hpp"
-#include "GLInstance.hpp"
 
 #include "rendering/GLInstanceBasic.hpp"
 
