@@ -20,16 +20,13 @@ namespace OpenGL
             height),
         swap_buffers(swap_buffers)
     {
-        shader_program_basic = LinkShader(
-            vertex_shader_string_basic_texture,
-            fragment_shader_string_basic_texture);
+        GLInstanceBasic::Initialise();
 
         auto quad_texture = MakeTexture(
             512,
             512);
 
         quad_instance = std::make_shared<GLInstanceBasic>(
-            shader_program_basic,
             quad_vertices,
             quad_indices,
             quad_texture);

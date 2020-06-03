@@ -15,8 +15,6 @@ namespace OpenGL
         friend class GLRenderer;
 
     protected:
-        GLuint& shader_program;
-
         std::vector<float>& vertices;
         std::vector<uint32_t>& indices;
 
@@ -25,7 +23,6 @@ namespace OpenGL
 
     public:
         GLInstance(
-            GLuint& shader_program,
             std::vector<float>& vertices,
             std::vector<uint32_t>& indices);
         virtual ~GLInstance();

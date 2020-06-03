@@ -14,10 +14,8 @@ namespace OpenGL
         GLenum usage);
 
     GLInstance::GLInstance(
-        GLuint& shader_program,
         std::vector<GLfloat>& vertices,
         std::vector<GLuint>& indices) :
-        shader_program(shader_program),
         vertices(vertices),
         indices(indices)
     {

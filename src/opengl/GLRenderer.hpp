@@ -22,8 +22,6 @@ namespace OpenGL
     private:
         const std::function<void()> swap_buffers;
 
-        GLuint shader_program_basic = 0;
-
         std::shared_ptr<Texture<TextureDataByteRGBA>> MakeTexture(
             uint32_t width,
             uint32_t height);

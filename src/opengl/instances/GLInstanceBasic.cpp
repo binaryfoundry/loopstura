@@ -3,19 +3,56 @@
 #include <string>
 #include <iostream>
 
+#include "../GLShader.hpp"
+
 namespace Application
 {
 namespace OpenGL
 {
+    static std::string vertex_shader_string =
+        R"(#version 300 es
+        #ifdef GL_ES
+        precision mediump float;
+        #endif
+        layout(location = 0) in vec3 v_position;
+        layout(location = 1) in vec2 texcoord;
+        out vec2 v_texcoord;
+        void main()
+        {
+            v_texcoord = texcoord;
+            gl_Position = vec4(v_position, 1.0);
+        })";
+
+    static std::string fragment_shader_string =
+        R"(#version 300 es
+        #ifdef GL_ES
+        precision mediump float;
+        #endif
+        in vec2 v_texcoord;
+        layout(location = 0) out vec4 out_color;
+        uniform sampler2D tex;
+        void main()
+        {
+            vec4 c = texture(tex, v_texcoord);
+            out_color = vec4(c.xyz, 1.0);
+        })";
+
+    GLuint GLInstanceBasic::shader_program = 0;
+
+    void GLInstanceBasic::Initialise()
+    {
+        shader_program = LinkShader(
+            vertex_shader_string,
+            fragment_shader_string);
+    }
+
     GLInstanceBasic::GLInstanceBasic(
-        GLuint& shader_program,
         std::vector<float>& vertices,
         std::vector<uint32_t>& indices,
         std::shared_ptr<Texture<TextureDataByteRGBA>> texture) :
         InstanceBasic(
             texture),
         GLInstance(
-            shader_program,
             vertices,
             indices)
     {

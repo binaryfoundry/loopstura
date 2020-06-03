@@ -6,6 +6,10 @@ namespace Application
 {
 namespace OpenGL
 {
+    GLuint LoadShader(
+        GLenum type,
+        const char *shader_src);
+
     GLuint LinkShader(
         std::string vertex_shader_string,
         std::string fragment_shader_string)
