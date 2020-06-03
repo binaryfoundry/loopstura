@@ -36,12 +36,14 @@ set(HEADERS
 set(SOURCES_MAIN
     src/main/SDL.cpp
     src/main/MainSDL.cpp
-    src/main/MainWeb.cpp)
+    src/main/MainWeb.cpp
+    src/main/FileSDL.cpp)
 
 set(HEADERS_MAIN
     src/main/SDL.hpp
     src/main/MainSDL.hpp
-    src/main/MainWeb.hpp)
+    src/main/MainWeb.hpp
+    src/main/FileSDL.hpp)
 
 set(SOURCES_PROPERTIES
     src/properties/Easing.cpp
