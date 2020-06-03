@@ -17,6 +17,8 @@
 #include <iostream>
 #include <functional>
 #include <stdint.h>
+#include <vector>
+#include <memory>
 
 #if defined (IS_PLATFORM_WIN)
 #include <EGL/egl.h>
@@ -82,7 +84,7 @@ int main(int argc, char *argv[])
         uint8_t& p,
         uint32_t& w,
         uint32_t& h,
-        std::vector<uint8_t>& d)
+        std::shared_ptr<std::vector<uint8_t>> d)
     {
         FileLoadTexture2D(id, p, w, h, d);
     };

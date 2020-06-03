@@ -7,7 +7,7 @@ void FileLoadTexture2D(
     uint8_t& bpp,
     uint32_t& width,
     uint32_t& height,
-    std::vector<uint8_t>& data)
+    std::shared_ptr<std::vector<uint8_t>> data)
 {
     std::string file_path = resource_id;
 
@@ -52,9 +52,9 @@ void FileLoadTexture2D(
     uint8_t* pixels = static_cast<uint8_t*>(surface_converted->pixels);
 
     size_t total_size = width * height * bpp;
-    data.resize(total_size);
+    data->resize(total_size);
 
-    memcpy(&data[0], pixels, total_size);
+    memcpy(&(*data)[0], pixels, total_size);
 
     SDL_FreeSurface(
         surface_converted);

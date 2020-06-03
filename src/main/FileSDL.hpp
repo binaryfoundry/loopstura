@@ -10,7 +10,7 @@ void FileLoadTexture2D(
     uint8_t& bpp,
     uint32_t& width,
     uint32_t& height,
-    std::vector<uint8_t>& data);
+    std::shared_ptr<std::vector<uint8_t>> data);
 
 class File
 {

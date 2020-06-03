@@ -45,7 +45,10 @@ namespace OpenGL
     {
         uint8_t bpp;
         uint32_t tex_width, tex_height;
-        std::vector<uint8_t> data;
+
+        std::shared_ptr<std::vector<uint8_t>> data =
+            std::make_shared<std::vector<uint8_t>>();
+
         context->load_texture_2d(file, bpp, tex_width, tex_height, data);
 
         // TODO check matching BPP
