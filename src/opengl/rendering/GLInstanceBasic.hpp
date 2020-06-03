@@ -16,11 +16,11 @@ namespace OpenGL
         friend class GLRenderer;
 
     protected:
-        static GLuint shader_program;
+        static GLuint gl_shader_program;
 
-        GLuint texture_uniform_location = 0;
-        GLuint fade_uniform_location = 0;
-        GLuint sampler_state = 0;
+        GLuint gl_texture_uniform_location = 0;
+        GLuint gl_fade_uniform_location = 0;
+        GLuint gl_sampler_state = 0;
 
         GLuint gl_vertex_buffer = 0;
         GLuint gl_index_buffer = 0;

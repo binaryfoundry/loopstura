@@ -38,11 +38,11 @@ namespace OpenGL
             out_color = vec4(c.xyz, 1.0);
         })";
 
-    GLuint GLInstanceBasic::shader_program = 0;
+    GLuint GLInstanceBasic::gl_shader_program = 0;
 
     void GLInstanceBasic::Initialise()
     {
-        shader_program = LinkShader(
+        gl_shader_program = LinkShader(
             vertex_shader_string,
             fragment_shader_string);
     }
@@ -50,7 +50,7 @@ namespace OpenGL
     void GLInstanceBasic::Destroy()
     {
         glDeleteProgram(
-            shader_program);
+            gl_shader_program);
     }
 
     GLInstanceBasic::GLInstanceBasic(
@@ -74,37 +74,37 @@ namespace OpenGL
             GL_ELEMENT_ARRAY_BUFFER,
             GL_STATIC_DRAW);
 
-        texture_uniform_location = glGetUniformLocation(
-            shader_program,
+        gl_texture_uniform_location = glGetUniformLocation(
+            gl_shader_program,
             "tex");
 
-        fade_uniform_location = glGetUniformLocation(
-            shader_program,
+        gl_fade_uniform_location = glGetUniformLocation(
+            gl_shader_program,
             "fade");
 
         glGenSamplers(
-            1, &sampler_state);
+            1, &gl_sampler_state);
 
         glActiveTexture(
             GL_TEXTURE0);
 
         glSamplerParameteri(
-            sampler_state,
+            gl_sampler_state,
             GL_TEXTURE_WRAP_S,
             GL_CLAMP_TO_EDGE);
 
         glSamplerParameteri(
-            sampler_state,
+            gl_sampler_state,
             GL_TEXTURE_WRAP_T,
             GL_CLAMP_TO_EDGE);
 
         glSamplerParameteri(
-            sampler_state,
+            gl_sampler_state,
             GL_TEXTURE_MAG_FILTER,
             GL_NEAREST);
 
         glSamplerParameteri(
-            sampler_state,
+            gl_sampler_state,
             GL_TEXTURE_MIN_FILTER,
             GL_LINEAR_MIPMAP_LINEAR);
     }
@@ -113,7 +113,7 @@ namespace OpenGL
     {
 
         glDeleteSamplers(
-            1, &sampler_state);
+            1, &gl_sampler_state);
     }
 
     void GLInstanceBasic::Draw()
@@ -122,15 +122,14 @@ namespace OpenGL
             GL_TEXTURE0);
 
         glUseProgram(
-            shader_program);
+            gl_shader_program);
 
         glBindSampler(
             0,
-            sampler_state);
+            gl_sampler_state);
 
         texture->Update();
-        auto gl_texture = std::dynamic_pointer_cast<GLTextureHandle>(texture);
-        auto gl_texture_handle = gl_texture->gl_texture_handle;
+        auto gl_texture_handle = std::dynamic_pointer_cast<GLTextureHandle>(texture)->gl_texture_handle;
 
         glActiveTexture(
             GL_TEXTURE0);
@@ -140,11 +139,11 @@ namespace OpenGL
             gl_texture_handle);
 
         glUniform1i(
-            texture_uniform_location,
+            gl_texture_uniform_location,
             0);
 
         glUniform1f(
-            fade_uniform_location,
+            gl_fade_uniform_location,
             fade->Value());
 
         glBindBuffer(
