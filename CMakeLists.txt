@@ -64,14 +64,12 @@ set(HEADERS_RENDERING
 set(SOURCES_OPENGL
     src/opengl/GL.cpp
     src/opengl/GLRenderer.cpp
-    src/opengl/GLTexture.cpp
-    src/opengl/GLShader.cpp)
+    src/opengl/GLTexture.cpp)
 
 set(HEADERS_OPENGL
     src/opengl/GL.hpp
     src/opengl/GLRenderer.hpp
-    src/opengl/GLTexture.hpp
-    src/opengl/GLShader.hpp)
+    src/opengl/GLTexture.hpp)
 
 set(SOURCES_OPENGL_RENDERING
     src/opengl/rendering/GLInstanceBasic.cpp)

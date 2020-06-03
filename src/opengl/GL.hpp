@@ -20,24 +20,65 @@
 #endif
 
 #include <iostream>
+#include <string>
+#include <vector>
 
-class GLBindable
+namespace Application
 {
-public:
-    virtual void Bind() = 0;
-    virtual void Unbind() = 0;
-};
-
-static void GLCheckError()
+namespace OpenGL
 {
-    GLenum err = GL_NO_ERROR;
-    while ((err = glGetError()) != GL_NO_ERROR)
+    class GLBindable
     {
-        std::cout << "gl error: " << err << std::endl;
+    public:
+        virtual void Bind() = 0;
+        virtual void Unbind() = 0;
+    };
+
+    static void GLCheckError()
+    {
+        GLenum err = GL_NO_ERROR;
+        while ((err = glGetError()) != GL_NO_ERROR)
+        {
+            std::cout << "gl error: " << err << std::endl;
+        }
+
+        if (err != GL_NO_ERROR)
+        {
+            throw std::runtime_error("gl error");
+        }
     }
 
-    if (err != GL_NO_ERROR)
+    template<typename T>
+    static GLuint GenBuffer(
+        std::vector<T>& data,
+        GLenum target,
+        GLenum usage)
     {
-        throw std::runtime_error("gl error");
+        GLuint buffer;
+
+        glGenBuffers(
+            1,
+            &buffer);
+
+        glBindBuffer(
+            target,
+            buffer);
+
+        glBufferData(
+            target,
+            sizeof(T) * data.size(),
+            &data[0],
+            usage);
+
+        glBindBuffer(
+            target,
+            NULL);
+
+        return buffer;
     }
+
+    GLuint LinkShader(
+        std::string vertex_shader_string,
+        std::string fragment_shader_string);
+}
 }
