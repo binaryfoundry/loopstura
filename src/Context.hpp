@@ -21,4 +21,6 @@ namespace Application
 
         void Update();
     };
+
+    using ContextPtr = std::shared_ptr<Context>;
 }
