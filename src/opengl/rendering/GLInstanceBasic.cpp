@@ -111,9 +111,9 @@ namespace OpenGL
 
     GLInstanceBasic::~GLInstanceBasic()
     {
-
         glDeleteSamplers(
-            1, &gl_sampler_state);
+            1,
+            &gl_sampler_state);
     }
 
     void GLInstanceBasic::Draw()
@@ -129,7 +129,9 @@ namespace OpenGL
             gl_sampler_state);
 
         texture->Update();
-        auto gl_texture_handle = std::dynamic_pointer_cast<GLTextureHandle>(texture)->gl_texture_handle;
+
+        auto gl_texture_handle = std::dynamic_pointer_cast<GLTextureHandle>(
+            texture)->gl_texture_handle;
 
         glActiveTexture(
             GL_TEXTURE0);
