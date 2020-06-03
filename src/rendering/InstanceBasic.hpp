@@ -20,6 +20,9 @@ namespace Rendering
             std::shared_ptr<Texture<TextureDataByteRGBA>> texture);
 
     public:
+        const std::vector<float>& vertices;
+        const std::vector<uint32_t>& indices;
+
         const std::shared_ptr<Texture<TextureDataByteRGBA>> texture;
 
         virtual ~InstanceBasic();
