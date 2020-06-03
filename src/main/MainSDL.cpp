@@ -83,9 +83,10 @@ int main(int argc, char *argv[])
     Application::ContextPtr context = std::make_shared<Application::Context>();
 
     gl_renderer = std::make_shared<Application::OpenGL::GLRenderer>(
+        context,
+        swap,
         window_width,
-        window_height,
-        swap);
+        window_height);
 
     client = std::make_shared<Application::Client>(
         context,

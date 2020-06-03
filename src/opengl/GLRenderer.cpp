@@ -12,13 +12,15 @@ namespace Application
 namespace OpenGL
 {
     GLRenderer::GLRenderer(
+        ContextPtr context,
+        std::function<void()> swap_buffers,
         uint32_t width,
-        uint32_t height,
-        std::function<void()> swap_buffers) :
+        uint32_t height) :
         Application::Renderer(
+            context,
+            swap_buffers,
             width,
-            height,
-            swap_buffers)
+            height)
     {
         GLInstanceBasic::Initialise();
 

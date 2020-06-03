@@ -3,12 +3,14 @@
 namespace Application
 {
     Renderer::Renderer(
+        ContextPtr context,
+        std::function<void()> swap_buffers,
         uint32_t width,
-        uint32_t height,
-        std::function<void()> swap_buffers) :
+        uint32_t height) :
+        context(context),
+        swap_buffers(swap_buffers),
         width(width),
-        height(height),
-        swap_buffers(swap_buffers)
+        height(height)
     {
     }
 

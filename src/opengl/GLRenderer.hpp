@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../Context.hpp"
 #include "../Renderer.hpp"
 #include "../Texture.hpp"
 
@@ -26,9 +27,10 @@ namespace OpenGL
 
     public:
         GLRenderer(
+            ContextPtr context,
+            std::function<void()> swap_buffers,
             uint32_t width,
-            uint32_t height,
-            std::function<void()> swap_buffers);
+            uint32_t height);
         virtual ~GLRenderer();
 
         void Begin();

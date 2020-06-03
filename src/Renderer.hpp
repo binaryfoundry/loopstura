@@ -5,6 +5,7 @@
 #include <memory>
 #include <functional>
 
+#include "Context.hpp"
 #include "Texture.hpp"
 #include "rendering/InstanceBasic.hpp"
 
@@ -31,9 +32,12 @@ namespace Application
     {
     protected:
         Renderer(
+            ContextPtr context,
+            std::function<void()> swap_buffers,
             uint32_t width,
-            uint32_t height,
-            std::function<void()> swap_buffers);
+            uint32_t height);
+
+        ContextPtr context;
 
         const std::function<void()> swap_buffers;
 

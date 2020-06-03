@@ -50,9 +50,10 @@ int main(int argc, char *argv[])
     std::function<void()> swap = [&]() {};
 
     gl_renderer = std::make_shared<Application::OpenGL::GLRenderer>(
+        context,
+        swap,
         element_width,
-        element_height,
-        swap);
+        element_height);
 
     client = std::make_shared<Application::Client>(
         context,
