@@ -77,5 +77,8 @@ namespace Properties
         void operator*=(const T&& rhs) { (*value_ptr) *= rhs; Invalidate(); }
         void operator/=(const T&& rhs) { (*value_ptr) /= rhs; Invalidate(); }
     };
+
+    template<class T>
+    using PropertyPtr = std::shared_ptr<Property<T>>;
 }
 }
