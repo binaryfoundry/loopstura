@@ -23,12 +23,12 @@ namespace OpenGL
             height),
         context(context)
     {
-        GLInstanceBasic::Initialise();
+        GLInstanceUI::Initialise();
     }
 
     GLRenderer::~GLRenderer()
     {
-        GLInstanceBasic::Destroy();
+        GLInstanceUI::Destroy();
     }
 
     std::shared_ptr<Texture<TextureDataByteRGBA>> GLRenderer::MakeTexture(
@@ -69,13 +69,13 @@ namespace OpenGL
         return new_texture;
     }
 
-    std::shared_ptr<Rendering::InstanceBasic> GLRenderer::MakeInstanceBasic(
+    std::shared_ptr<Rendering::InstanceUI> GLRenderer::MakeInstanceUI(
         ContextPtr context,
         std::vector<float>& vertices,
         std::vector<uint32_t>& indices,
         std::shared_ptr<Texture<TextureDataByteRGBA>> texture)
     {
-        return std::make_shared<GLInstanceBasic>(
+        return std::make_shared<GLInstanceUI>(
             context,
             vertices,
             indices,

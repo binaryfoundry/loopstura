@@ -6,7 +6,7 @@
 
 #include "GL.hpp"
 
-#include "rendering/GLInstanceBasic.hpp"
+#include "rendering/GLInstanceUI.hpp"
 
 #include <functional>
 #include <stdint.h>
@@ -30,7 +30,7 @@ namespace OpenGL
         std::shared_ptr<Texture<TextureDataByteRGBA>> MakeTexture(
             std::string file);
 
-        std::shared_ptr<Rendering::InstanceBasic> MakeInstanceBasic(
+        std::shared_ptr<Rendering::InstanceUI> MakeInstanceUI(
             ContextPtr context,
             std::vector<float>& vertices,
             std::vector<uint32_t>& indices,

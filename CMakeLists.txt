@@ -59,10 +59,10 @@ set(HEADERS_PROPERTIES
     src/properties/Manager.hpp)
 
 set(SOURCES_RENDERING
-    src/rendering/InstanceBasic.cpp)
+    src/rendering/InstanceUI.cpp)
 
 set(HEADERS_RENDERING
-    src/rendering/InstanceBasic.hpp)
+    src/rendering/InstanceUI.hpp)
 
 set(SOURCES_OPENGL
     src/opengl/GL.cpp
@@ -75,10 +75,10 @@ set(HEADERS_OPENGL
     src/opengl/GLTexture.hpp)
 
 set(SOURCES_OPENGL_RENDERING
-    src/opengl/rendering/GLInstanceBasic.cpp)
+    src/opengl/rendering/GLInstanceUI.cpp)
 
 set(HEADERS_OPENGL_RENDERING
-    src/opengl/rendering/GLInstanceBasic.hpp)
+    src/opengl/rendering/GLInstanceUI.hpp)
 
 set(SOURCES_IMGUI
     lib/imgui/imgui.cpp

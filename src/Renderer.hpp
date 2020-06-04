@@ -8,7 +8,7 @@
 
 #include "Context.hpp"
 #include "Texture.hpp"
-#include "rendering/InstanceBasic.hpp"
+#include "rendering/InstanceUI.hpp"
 
 namespace Application
 {
@@ -43,7 +43,7 @@ namespace Application
         virtual std::shared_ptr<Texture<TextureDataByteRGBA>> MakeTexture(
             std::string file) = 0;
 
-        virtual std::shared_ptr<Rendering::InstanceBasic> MakeInstanceBasic(
+        virtual std::shared_ptr<Rendering::InstanceUI> MakeInstanceUI(
             ContextPtr context,
             std::vector<float>& vertices,
             std::vector<uint32_t>& indices,

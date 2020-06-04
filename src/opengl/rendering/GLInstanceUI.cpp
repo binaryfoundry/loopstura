@@ -1,4 +1,4 @@
-#include "GLInstanceBasic.hpp"
+#include "GLInstanceUI.hpp"
 
 #include <string>
 #include <iostream>
@@ -38,27 +38,27 @@ namespace OpenGL
             out_color = vec4(c.xyz, 1.0);
         })";
 
-    GLuint GLInstanceBasic::gl_shader_program = 0;
+    GLuint GLInstanceUI::gl_shader_program = 0;
 
-    void GLInstanceBasic::Initialise()
+    void GLInstanceUI::Initialise()
     {
         gl_shader_program = LinkShader(
             vertex_shader_string,
             fragment_shader_string);
     }
 
-    void GLInstanceBasic::Destroy()
+    void GLInstanceUI::Destroy()
     {
         glDeleteProgram(
             gl_shader_program);
     }
 
-    GLInstanceBasic::GLInstanceBasic(
+    GLInstanceUI::GLInstanceUI(
         ContextPtr context,
         std::vector<float>& vertices,
         std::vector<uint32_t>& indices,
         std::shared_ptr<Texture<TextureDataByteRGBA>> texture) :
-        InstanceBasic(
+        InstanceUI(
             context,
             vertices,
             indices,
@@ -109,14 +109,14 @@ namespace OpenGL
             GL_LINEAR_MIPMAP_LINEAR);
     }
 
-    GLInstanceBasic::~GLInstanceBasic()
+    GLInstanceUI::~GLInstanceUI()
     {
         glDeleteSamplers(
             1,
             &gl_sampler_state);
     }
 
-    void GLInstanceBasic::Draw()
+    void GLInstanceUI::Draw()
     {
         glActiveTexture(
             GL_TEXTURE0);

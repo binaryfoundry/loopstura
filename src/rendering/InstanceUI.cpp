@@ -1,10 +1,10 @@
-#include "InstanceBasic.hpp"
+#include "InstanceUI.hpp"
 
 namespace Application
 {
 namespace Rendering
 {
-    InstanceBasic::InstanceBasic(
+    InstanceUI::InstanceUI(
         ContextPtr context,
         std::vector<float>& vertices,
         std::vector<uint32_t>& indices,
@@ -18,7 +18,7 @@ namespace Rendering
             fade, 1.0f, 1.0f, EasingFunction::EaseOutCubic);
     }
 
-    InstanceBasic::~InstanceBasic()
+    InstanceUI::~InstanceUI()
     {
     }
 }

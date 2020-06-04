@@ -4,13 +4,13 @@
 #include "../GLTexture.hpp"
 #include "../GLShader.hpp"
 
-#include "../../rendering/InstanceBasic.hpp"
+#include "../../rendering/InstanceUI.hpp"
 
 namespace Application
 {
 namespace OpenGL
 {
-    class GLInstanceBasic : public Rendering::InstanceBasic
+    class GLInstanceUI : public Rendering::InstanceUI
     {
         class GLRenderer;
         friend class GLRenderer;
@@ -26,12 +26,12 @@ namespace OpenGL
         GLuint gl_index_buffer = 0;
 
     public:
-        GLInstanceBasic(
+        GLInstanceUI(
             ContextPtr context,
             std::vector<float>& vertices,
             std::vector<uint32_t>& indices,
             std::shared_ptr<Texture<TextureDataByteRGBA>> texture);
-        virtual ~GLInstanceBasic();
+        virtual ~GLInstanceUI();
 
         static void Initialise();
         static void Destroy();

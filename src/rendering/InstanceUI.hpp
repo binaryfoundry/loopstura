@@ -14,10 +14,10 @@ namespace Application
 {
 namespace Rendering
 {
-    class InstanceBasic : public Instance
+    class InstanceUI : public Instance
     {
     protected:
-        InstanceBasic(
+        InstanceUI(
             ContextPtr context,
             std::vector<float>& vertices,
             std::vector<uint32_t>& indices,
@@ -31,7 +31,7 @@ namespace Rendering
 
         std::shared_ptr<Property<float>> fade;
 
-        virtual ~InstanceBasic();
+        virtual ~InstanceUI();
     };
 }
 }

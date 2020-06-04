@@ -28,7 +28,7 @@ namespace Application
         quad_texture = renderer->MakeTexture(
             "test.png");
 
-        quad_instance = renderer->MakeInstanceBasic(
+        quad_instance = renderer->MakeInstanceUI(
             context,
             quad_vertices,
             quad_indices,
