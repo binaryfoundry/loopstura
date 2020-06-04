@@ -1,4 +1,4 @@
-#include "FileSDL.hpp"
+#include "SDLFile.hpp"
 
 #include <iostream>
 

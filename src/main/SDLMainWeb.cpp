@@ -1,8 +1,8 @@
-#include "MainWeb.hpp"
+#include "SDLMainWeb.hpp"
 
 #if defined(IS_PLATFORM_EMSCRIPTEN)
 
-#include "FileSDL.hpp"
+#include "SDLFile.hpp"
 
 #include "../Platform.hpp"
 #include "../Context.hpp"

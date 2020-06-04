@@ -1,8 +1,8 @@
-#include "MainSDL.hpp"
+#include "SDLMain.hpp"
 
 #if defined(IS_PLATFORM_WIN) || defined(IS_PLATFORM_DARWIN)
 
-#include "FileSDL.hpp"
+#include "SDLFile.hpp"
 
 #include "../Platform.hpp"
 #include "../Context.hpp"
