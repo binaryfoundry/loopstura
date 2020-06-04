@@ -31,12 +31,9 @@ namespace Application
     public:
         virtual ~Renderer();
 
-        const std::shared_ptr<Property<glm::mat4>> view;
-        const std::shared_ptr<Property<glm::mat4>> projection;
-        const std::shared_ptr<Property<glm::mat4>> inverse_projection;
-        const std::shared_ptr<Property<glm::mat4>> inverse_view_rotation;
-        const std::shared_ptr<Property<glm::vec4>> view_position;
-        const std::shared_ptr<Property<glm::vec4>> viewport;
+        const PropertyPtr<glm::mat4> view;
+        const PropertyPtr<glm::mat4> projection;
+        const PropertyPtr<glm::vec4> viewport;
 
         void Resize(
             uint32_t width,
