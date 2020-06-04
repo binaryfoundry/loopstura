@@ -31,7 +31,7 @@ namespace OpenGL
         GLInstanceUI::Destroy();
     }
 
-    std::shared_ptr<Texture<TextureDataByteRGBA>> GLRenderer::MakeTexture(
+    TextureRGBA8Ptr GLRenderer::MakeTexture(
         uint32_t width,
         uint32_t height)
     {
@@ -41,13 +41,13 @@ namespace OpenGL
         data->resize(
             width * height * 4);
 
-        return std::make_shared<GLTexture<TextureDataByteRGBA>>(
+        return std::make_shared<GLTexture<TextureDataByte>>(
             width,
             height,
             data);
     }
 
-    std::shared_ptr<Texture<TextureDataByteRGBA>> GLRenderer::MakeTexture(
+    TextureRGBA8Ptr GLRenderer::MakeTexture(
         std::string file)
     {
         uint8_t bpp = 0;
@@ -61,7 +61,7 @@ namespace OpenGL
 
         // TODO check matching BPP
 
-        auto new_texture = std::make_shared<GLTexture<TextureDataByteRGBA>>(
+        auto new_texture = std::make_shared<GLTexture<TextureDataByte>>(
             tex_width,
             tex_height,
             data);
@@ -73,7 +73,7 @@ namespace OpenGL
         ContextPtr context,
         std::vector<float>& vertices,
         std::vector<uint32_t>& indices,
-        std::shared_ptr<Texture<TextureDataByteRGBA>> texture)
+        TextureRGBA8Ptr texture)
     {
         return std::make_shared<GLInstanceUI>(
             context,

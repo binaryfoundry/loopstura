@@ -6,8 +6,8 @@
 
 namespace Application
 {
-    using TextureDataByteRGBA = uint8_t;
-    using TextureDataFloatRGBA = float;
+    using TextureDataByte = uint8_t;
+    using TextureDataFloat = float;
 
     template <typename T>
     class Texture
@@ -33,4 +33,10 @@ namespace Application
 
         virtual void Update() = 0;
     };
+
+    using TextureDataRGBA8Ptr = std::shared_ptr<std::vector<TextureDataByte>>;
+    using TextureDataRGBA32FPtr = std::shared_ptr<std::vector<TextureDataFloat>>;
+
+    using TextureRGBA8Ptr = std::shared_ptr<Texture<TextureDataByte>>;
+    using TextureRGBA32FPtr = std::shared_ptr<Texture<TextureDataFloat>>;
 }

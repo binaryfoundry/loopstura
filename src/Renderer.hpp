@@ -36,17 +36,17 @@ namespace Application
         virtual void Begin() = 0;
         virtual void End() = 0;
 
-        virtual std::shared_ptr<Texture<TextureDataByteRGBA>> MakeTexture(
+        virtual TextureRGBA8Ptr MakeTexture(
             uint32_t width,
             uint32_t height) = 0;
 
-        virtual std::shared_ptr<Texture<TextureDataByteRGBA>> MakeTexture(
+        virtual TextureRGBA8Ptr MakeTexture(
             std::string file) = 0;
 
         virtual std::shared_ptr<Rendering::InstanceUI> MakeInstanceUI(
             ContextPtr context,
             std::vector<float>& vertices,
             std::vector<uint32_t>& indices,
-            std::shared_ptr<Texture<TextureDataByteRGBA>> texture) = 0;
+            TextureRGBA8Ptr texture) = 0;
     };
 }

@@ -30,7 +30,7 @@ namespace OpenGL
             ContextPtr context,
             std::vector<float>& vertices,
             std::vector<uint32_t>& indices,
-            std::shared_ptr<Texture<TextureDataByteRGBA>> texture);
+            TextureRGBA8Ptr texture);
         virtual ~GLInstanceUI();
 
         static void Initialise();

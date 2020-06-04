@@ -5,14 +5,14 @@ namespace Application
 namespace OpenGL
 {
     template <>
-    GLTexture<TextureDataByteRGBA>::GLTexture(
+    GLTexture<TextureDataByte>::GLTexture(
         uint32_t width,
         uint32_t height,
-        std::shared_ptr<std::vector<TextureDataByteRGBA>> data) :
+        TextureDataRGBA8Ptr data) :
         gl_internal_format(GL_RGBA8),
         gl_format(GL_RGBA),
         gl_type(GL_UNSIGNED_BYTE),
-        Texture<TextureDataByteRGBA>(
+        Texture<TextureDataByte>(
             width,
             height,
             data)
@@ -21,14 +21,14 @@ namespace OpenGL
     }
 
     template <>
-    GLTexture<TextureDataFloatRGBA>::GLTexture(
+    GLTexture<TextureDataFloat>::GLTexture(
         uint32_t width,
         uint32_t height,
-        std::shared_ptr<std::vector<TextureDataFloatRGBA>> data) :
+        TextureDataRGBA32FPtr data) :
         gl_internal_format(GL_RGBA32F),
         gl_format(GL_RGBA),
         gl_type(GL_FLOAT),
-        Texture<TextureDataFloatRGBA>(
+        Texture<TextureDataFloat>(
             width,
             height,
             data)
@@ -90,7 +90,7 @@ namespace OpenGL
         }
     }
 
-    template class GLTexture<TextureDataByteRGBA>;
-    template class GLTexture<TextureDataFloatRGBA>;
+    template class GLTexture<TextureDataByte>;
+    template class GLTexture<TextureDataFloat>;
 }
 }

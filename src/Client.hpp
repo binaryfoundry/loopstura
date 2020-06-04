@@ -15,7 +15,7 @@ namespace Application
         const std::shared_ptr<Renderer> renderer;
 
         std::shared_ptr<Rendering::InstanceUI> quad_instance;
-        std::shared_ptr<Texture<TextureDataByteRGBA>> quad_texture;
+        TextureRGBA8Ptr quad_texture;
 
     public:
         Client(

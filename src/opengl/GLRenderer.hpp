@@ -23,18 +23,18 @@ namespace OpenGL
     protected:
         ContextPtr context;
 
-        std::shared_ptr<Texture<TextureDataByteRGBA>> MakeTexture(
+        TextureRGBA8Ptr MakeTexture(
             uint32_t width,
             uint32_t height);
 
-        std::shared_ptr<Texture<TextureDataByteRGBA>> MakeTexture(
+        TextureRGBA8Ptr MakeTexture(
             std::string file);
 
         std::shared_ptr<Rendering::InstanceUI> MakeInstanceUI(
             ContextPtr context,
             std::vector<float>& vertices,
             std::vector<uint32_t>& indices,
-            std::shared_ptr<Texture<TextureDataByteRGBA>> texture);
+            TextureRGBA8Ptr texture);
 
     public:
         GLRenderer(
