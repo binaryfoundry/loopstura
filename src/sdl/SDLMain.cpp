@@ -2,11 +2,11 @@
 
 #if defined(IS_PLATFORM_WIN) || defined(IS_PLATFORM_DARWIN)
 
+#include "SDL.hpp"
 #include "SDLFile.hpp"
 
 #include "../Platform.hpp"
 #include "../Context.hpp"
-#include "../main/SDL.hpp"
 #include "../opengl/GL.hpp"
 #include "../opengl/GLRenderer.hpp"
 

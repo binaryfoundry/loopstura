@@ -35,16 +35,16 @@ set(HEADERS
     src/Instance.hpp)
 
 set(SOURCES_MAIN
-    src/main/SDL.cpp
-    src/main/SDLMain.cpp
-    src/main/SDLMainWeb.cpp
-    src/main/SDLFile.cpp)
+    src/sdl/SDL.cpp
+    src/sdl/SDLMain.cpp
+    src/sdl/SDLMainWeb.cpp
+    src/sdl/SDLFile.cpp)
 
 set(HEADERS_MAIN
-    src/main/SDL.hpp
-    src/main/SDLMain.hpp
-    src/main/SDLMainWeb.hpp
-    src/main/SDLFile.hpp)
+    src/sdl/SDL.hpp
+    src/sdl/SDLMain.hpp
+    src/sdl/SDLMainWeb.hpp
+    src/sdl/SDLFile.hpp)
 
 set(SOURCES_PROPERTIES
     src/properties/Easing.cpp
@@ -99,14 +99,14 @@ file(GLOB RESOURCES "${PROJECT_SOURCE_DIR}/resources/*.*")
 SOURCE_GROUP("src" FILES ${SOURCES})
 SOURCE_GROUP("src" FILES ${HEADERS})
 
-SOURCE_GROUP("src\\main" FILES ${SOURCES_MAIN})
-SOURCE_GROUP("src\\main" FILES ${HEADERS_MAIN})
-
 SOURCE_GROUP("src\\properties" FILES ${SOURCES_PROPERTIES})
 SOURCE_GROUP("src\\properties" FILES ${HEADERS_PROPERTIES})
 
 SOURCE_GROUP("src\\rendering" FILES ${SOURCES_RENDERING})
 SOURCE_GROUP("src\\rendering" FILES ${HEADERS_RENDERING})
+
+SOURCE_GROUP("src\\sdl" FILES ${SOURCES_MAIN})
+SOURCE_GROUP("src\\sdl" FILES ${HEADERS_MAIN})
 
 SOURCE_GROUP("src\\opengl" FILES ${SOURCES_OPENGL})
 SOURCE_GROUP("src\\opengl" FILES ${HEADERS_OPENGL})
