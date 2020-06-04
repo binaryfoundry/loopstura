@@ -13,14 +13,14 @@ namespace Application
     class Texture
     {
     protected:
-        bool invalidated = true;
-
-    public:
         Texture(
             uint32_t width,
             uint32_t height,
             std::shared_ptr<std::vector<T>> data);
 
+        bool invalidated = true;
+
+    public:
         virtual ~Texture();
 
         const uint32_t width = 0;
