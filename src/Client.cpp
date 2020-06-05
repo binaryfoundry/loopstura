@@ -50,19 +50,6 @@ namespace Application
     void Client::Update()
     {
         context->Update();
-
-        auto quad_texture_data = quad_texture->data;
-
-        uint8_t v = 0;
-
-        for (size_t i = 0; i < quad_texture_data->size(); i+=4)
-        {
-            if (i % 16 == 0) v = rand() % 255;
-            (*quad_texture_data)[i + 0] = v;
-            (*quad_texture_data)[i + 3] = 255;
-        }
-
-        quad_texture->Invalidate();
     }
 
     void Client::Render()
@@ -71,9 +58,14 @@ namespace Application
 
         renderer->Begin();
 
+        vec3 scale = glm::vec3(
+            renderer->state.viewport.z,
+            renderer->state.viewport.w,
+            1.0);
+
         state.view = glm::scale(
             state.view,
-            glm::vec3(100.0f));
+            scale);
 
         quad_instance->Draw(state);
         renderer->End();
