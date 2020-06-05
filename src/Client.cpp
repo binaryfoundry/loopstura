@@ -46,7 +46,7 @@ namespace Application
             1.0);
 
         quad_instance->gradient->Set(
-            1.0);
+            0.0);
 
         quad_instance->gradient_0->Set(
             vec3(0.36, 0.65, 0.74));
