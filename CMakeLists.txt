@@ -156,7 +156,8 @@ elseif (EMSCRIPTEN)
 endif()
 
 include_directories(
-    ${PROJECT_SOURCE_DIR}/lib/glm)
+    ${PROJECT_SOURCE_DIR}/lib/glm
+    ${PROJECT_SOURCE_DIR}/lib/imgui)
 
 link_directories(
     ${FFMPEG_LIB_PATH})

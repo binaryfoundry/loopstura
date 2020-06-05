@@ -21,6 +21,8 @@ namespace Application
         VertexStreamPtr quad_vertices;
         IndexStreamPtr quad_indices;
 
+        TextureRGBA8Ptr imgui_texture;
+
     public:
         Client(
             ContextPtr context,
