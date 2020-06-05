@@ -167,6 +167,9 @@ namespace OpenGL
             0,
             gl_sampler_state);
 
+        vertices->Update();
+        indices->Update();
+
         GLuint gl_vertex_buffer = std::dynamic_pointer_cast<GLBufferHandle>(
             vertices)->gl_buffer_handle;
 
