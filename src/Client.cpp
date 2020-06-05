@@ -45,6 +45,15 @@ namespace Application
         quad_instance->brightness->Set(
             1.0);
 
+        quad_instance->gradient->Set(
+            1.0);
+
+        quad_instance->gradient_0->Set(
+            vec3(0.36, 0.65, 0.74));
+
+        quad_instance->gradient_1->Set(
+            vec3(0.16, 0.27, 0.63));
+
         context->property_manager->AddTween(
             quad_instance->brightness,
             0.0f,

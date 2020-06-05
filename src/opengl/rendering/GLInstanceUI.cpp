@@ -37,9 +37,13 @@ namespace OpenGL
         layout(location = 0) out vec4 out_color;
         uniform sampler2D tex;
         uniform float brightness;
+        uniform float gradient;
+        uniform vec3 gradient_0;
+        uniform vec3 gradient_1;
         void main()
         {
             vec3 c = linear(texture(tex, v_texcoord).xyz);
+            c = mix(c, mix(linear(gradient_0), linear(gradient_1), 1.0 - v_texcoord.y), gradient);
             c = mix(c, vec3(1.0), clamp(brightness, 0.0, 1.0));
             c = mix(c, vec3(0.0), clamp(-brightness, 0.0, 1.0));
             out_color = vec4(gamma(c), 1.0);
@@ -90,6 +94,18 @@ namespace OpenGL
         gl_brightness_uniform_location = glGetUniformLocation(
             gl_shader_program,
             "brightness");
+
+        gl_gradient_uniform_location = glGetUniformLocation(
+            gl_shader_program,
+            "gradient");
+
+        gl_gradient_0_uniform_location = glGetUniformLocation(
+            gl_shader_program,
+            "gradient_0");
+
+        gl_gradient_1_uniform_location = glGetUniformLocation(
+            gl_shader_program,
+            "gradient_1");
 
         glGenSamplers(
             1, &gl_sampler_state);
@@ -150,6 +166,20 @@ namespace OpenGL
         glUniform1f(
             gl_brightness_uniform_location,
             brightness->Value());
+
+        glUniform1f(
+            gl_gradient_uniform_location,
+            gradient->Value());
+
+        glUniform3fv(
+            gl_gradient_0_uniform_location,
+            1,
+            &gradient_0->Value()[0]);
+
+        glUniform3fv(
+            gl_gradient_1_uniform_location,
+            1,
+            &gradient_1->Value()[0]);
 
         texture->Update();
 

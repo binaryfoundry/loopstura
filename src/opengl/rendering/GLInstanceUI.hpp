@@ -23,6 +23,9 @@ namespace OpenGL
         GLuint gl_viewport_uniform_location = 0;
         GLuint gl_texture_uniform_location = 0;
         GLuint gl_brightness_uniform_location = 0;
+        GLuint gl_gradient_uniform_location = 0;
+        GLuint gl_gradient_0_uniform_location = 0;
+        GLuint gl_gradient_1_uniform_location = 0;
 
         GLuint gl_sampler_state = 0;
 
