@@ -23,7 +23,8 @@ set(SOURCES
     src/Renderer.cpp
     src/Texture.cpp
     src/Context.cpp
-    src/Instance.cpp)
+    src/Instance.cpp
+    src/Stream.cpp)
 
 set(HEADERS
     src/Platform.hpp
@@ -32,7 +33,8 @@ set(HEADERS
     src/Renderer.hpp
     src/Texture.hpp
     src/Context.hpp
-    src/Instance.hpp)
+    src/Instance.hpp
+    src/Stream.hpp)
 
 set(SOURCES_MAIN
     src/sdl/SDL.cpp

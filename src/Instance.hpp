@@ -1,11 +1,10 @@
 #pragma once
 
 #include "Context.hpp"
+#include "Stream.hpp"
 
 namespace Application
 {
-    using VerticesPtr = std::shared_ptr<std::vector<float>>;
-    using IndicesPtr = std::shared_ptr<std::vector<uint32_t>>;
 
     struct RenderState
     {
