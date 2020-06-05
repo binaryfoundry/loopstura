@@ -71,8 +71,8 @@ namespace OpenGL
 
     std::shared_ptr<Rendering::InstanceUI> GLRenderer::MakeInstanceUI(
         ContextPtr context,
-        VerticesPtr vertices,
-        IndicesPtr indices,
+        VertexStreamPtr vertices,
+        IndexStreamPtr indices,
         TextureRGBA8Ptr texture)
     {
         return std::make_shared<GLInstanceUI>(

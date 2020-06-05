@@ -19,13 +19,13 @@ namespace Rendering
     protected:
         InstanceUI(
             ContextPtr context,
-            VerticesPtr vertices,
-            IndicesPtr indices,
+            VertexStreamPtr vertices,
+            IndexStreamPtr indices,
             TextureRGBA8Ptr texture);
 
     public:
-        const VerticesPtr vertices;
-        const IndicesPtr indices;
+        const VertexStreamPtr vertices;
+        const IndexStreamPtr indices;
 
         const TextureRGBA8Ptr texture;
 

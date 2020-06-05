@@ -33,8 +33,8 @@ namespace OpenGL
     public:
         GLInstanceUI(
             ContextPtr context,
-            VerticesPtr vertices,
-            IndicesPtr indices,
+            VertexStreamPtr vertices,
+            IndexStreamPtr indices,
             TextureRGBA8Ptr texture);
         virtual ~GLInstanceUI();
 

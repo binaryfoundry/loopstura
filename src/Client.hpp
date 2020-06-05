@@ -5,6 +5,7 @@
 
 #include "Context.hpp"
 #include "Renderer.hpp"
+#include "Stream.hpp"
 
 namespace Application
 {
@@ -17,8 +18,8 @@ namespace Application
         std::shared_ptr<Rendering::InstanceUI> quad_instance;
         TextureRGBA8Ptr quad_texture;
 
-        VerticesPtr quad_vertices;
-        IndicesPtr quad_indices;
+        VertexStreamPtr quad_vertices;
+        IndexStreamPtr quad_indices;
 
     public:
         Client(

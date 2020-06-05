@@ -58,8 +58,8 @@ namespace OpenGL
 
     GLInstanceUI::GLInstanceUI(
         ContextPtr context,
-        VerticesPtr vertices,
-        IndicesPtr indices,
+        VertexStreamPtr vertices,
+        IndexStreamPtr indices,
         TextureRGBA8Ptr texture) :
         InstanceUI(
             context,
@@ -68,12 +68,12 @@ namespace OpenGL
             texture)
     {
         gl_vertex_buffer = GenBuffer(
-            vertices,
+            vertices->data,
             GL_ARRAY_BUFFER,
             GL_STATIC_DRAW);
 
         gl_index_buffer = GenBuffer(
-            indices,
+            indices->data,
             GL_ELEMENT_ARRAY_BUFFER,
             GL_STATIC_DRAW);
 
@@ -207,7 +207,7 @@ namespace OpenGL
 
         glDrawElements(
             GL_TRIANGLES,
-            static_cast<GLsizei>(indices->size()),
+            static_cast<GLsizei>(indices->data->size()),
             GL_UNSIGNED_INT,
             static_cast<char const*>(0));
 

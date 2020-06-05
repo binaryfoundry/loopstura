@@ -32,8 +32,8 @@ namespace OpenGL
 
         std::shared_ptr<Rendering::InstanceUI> MakeInstanceUI(
             ContextPtr context,
-            VerticesPtr vertices,
-            IndicesPtr indices,
+            VertexStreamPtr vertices,
+            IndexStreamPtr indices,
             TextureRGBA8Ptr texture);
 
     public:
