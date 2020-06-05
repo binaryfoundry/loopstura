@@ -23,7 +23,7 @@ namespace OpenGL
         void main()
         {
             v_texcoord = texcoord;
-            gl_Position = projection * view * vec4(v_position * 100.0, 1.0);
+            gl_Position = projection * view * vec4(v_position, 1.0);
         })";
 
     static std::string fragment_shader_string =

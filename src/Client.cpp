@@ -68,6 +68,11 @@ namespace Application
         RenderState state = renderer->state;
 
         renderer->Begin();
+
+        state.view = glm::scale(
+            state.view,
+            glm::vec3(100.0f));
+
         quad_instance->Draw(state);
         renderer->End();
     }
