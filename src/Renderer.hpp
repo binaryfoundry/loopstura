@@ -12,6 +12,13 @@
 
 namespace Application
 {
+    struct RendererState
+    {
+        glm::mat4 view = mat4();
+        glm::mat4 projection = mat4();
+        glm::vec4 viewport = vec4();
+    };
+
     class Renderer
     {
     protected:
@@ -31,9 +38,7 @@ namespace Application
     public:
         virtual ~Renderer();
 
-        const PropertyPtr<glm::mat4> view;
-        const PropertyPtr<glm::mat4> projection;
-        const PropertyPtr<glm::vec4> viewport;
+        RendererState state;
 
         void Resize(
             uint32_t width,

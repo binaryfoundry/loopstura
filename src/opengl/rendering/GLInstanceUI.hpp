@@ -4,6 +4,7 @@
 #include "../GLTexture.hpp"
 #include "../GLShader.hpp"
 
+#include "../../Renderer.hpp"
 #include "../../rendering/InstanceUI.hpp"
 
 namespace Application
@@ -25,9 +26,12 @@ namespace OpenGL
         GLuint gl_vertex_buffer = 0;
         GLuint gl_index_buffer = 0;
 
+        const RendererState& renderer_state;
+
     public:
         GLInstanceUI(
             ContextPtr context,
+            RendererState& renderer_state,
             std::vector<float>& vertices,
             std::vector<uint32_t>& indices,
             TextureRGBA8Ptr texture);

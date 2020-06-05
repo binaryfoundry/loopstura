@@ -8,10 +8,7 @@ namespace Application
         uint32_t new_width,
         uint32_t new_height) :
         context(context),
-        swap_buffers(swap_buffers),
-        view(std::make_shared<Property<glm::mat4>>(mat4())),
-        projection(std::make_shared<Property<glm::mat4>>(mat4())),
-        viewport(std::make_shared<Property<glm::vec4>>(vec4(0, 0, 1, 1)))
+        swap_buffers(swap_buffers)
     {
         Resize(new_width, new_height);
     }
@@ -27,15 +24,15 @@ namespace Application
         width = new_width;
         height = new_height;
 
-        projection->Set(glm::ortho(
+        state.projection = glm::ortho(
             0,
             static_cast<int>(width),
             0,
             static_cast<int>(height),
             -1000,
-            1000));
+            1000);
 
-        viewport->Set(
-            vec4(0, 0, width, height));
+        state.viewport = vec4(
+            0, 0, width, height);
     }
 }

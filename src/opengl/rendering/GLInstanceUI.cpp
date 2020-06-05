@@ -55,6 +55,7 @@ namespace OpenGL
 
     GLInstanceUI::GLInstanceUI(
         ContextPtr context,
+        RendererState& renderer_state,
         std::vector<float>& vertices,
         std::vector<uint32_t>& indices,
         TextureRGBA8Ptr texture) :
@@ -62,7 +63,8 @@ namespace OpenGL
             context,
             vertices,
             indices,
-            texture)
+            texture),
+        renderer_state(renderer_state)
     {
         gl_vertex_buffer = GenBuffer(
             vertices,
