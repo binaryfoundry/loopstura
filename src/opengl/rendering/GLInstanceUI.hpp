@@ -30,12 +30,9 @@ namespace OpenGL
         GLuint gl_vertex_buffer = 0;
         GLuint gl_index_buffer = 0;
 
-        const RendererState& renderer_state;
-
     public:
         GLInstanceUI(
             ContextPtr context,
-            RendererState& renderer_state,
             VerticesPtr vertices,
             IndicesPtr indices,
             TextureRGBA8Ptr texture);
@@ -44,7 +41,7 @@ namespace OpenGL
         static void Initialise();
         static void Destroy();
 
-        void Draw();
+        void Draw(RenderState state);
     };
 }
 }

@@ -65,8 +65,10 @@ namespace Application
 
     void Client::Render()
     {
+        RenderState state = renderer->state;
+
         renderer->Begin();
-        quad_instance->Draw();
+        quad_instance->Draw(state);
         renderer->End();
     }
 }

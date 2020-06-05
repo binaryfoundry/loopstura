@@ -58,7 +58,6 @@ namespace OpenGL
 
     GLInstanceUI::GLInstanceUI(
         ContextPtr context,
-        RendererState& renderer_state,
         VerticesPtr vertices,
         IndicesPtr indices,
         TextureRGBA8Ptr texture) :
@@ -66,8 +65,7 @@ namespace OpenGL
             context,
             vertices,
             indices,
-            texture),
-        renderer_state(renderer_state)
+            texture)
     {
         gl_vertex_buffer = GenBuffer(
             vertices,
@@ -133,7 +131,7 @@ namespace OpenGL
             &gl_sampler_state);
     }
 
-    void GLInstanceUI::Draw()
+    void GLInstanceUI::Draw(RenderState state)
     {
         glUseProgram(
             gl_shader_program);
@@ -142,18 +140,18 @@ namespace OpenGL
             gl_projection_uniform_location,
             1,
             false,
-            &renderer_state.projection[0][0]);
+            &state.projection[0][0]);
 
         glUniformMatrix4fv(
             gl_view_uniform_location,
             1,
             false,
-            &renderer_state.view[0][0]);
+            &state.view[0][0]);
 
         glUniform4fv(
             gl_viewport_uniform_location,
             1,
-            &renderer_state.viewport[0]);
+            &state.viewport[0]);
 
         glUniform1f(
             gl_fade_uniform_location,

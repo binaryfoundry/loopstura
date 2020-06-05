@@ -77,7 +77,6 @@ namespace OpenGL
     {
         return std::make_shared<GLInstanceUI>(
             context,
-            state,
             vertices,
             indices,
             texture);
