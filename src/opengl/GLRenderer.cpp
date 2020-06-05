@@ -89,10 +89,10 @@ namespace OpenGL
         glCullFace(GL_BACK);
 
         glViewport(
-            0,
-            0,
-            width,
-            height);
+            static_cast<uint32_t>(state.viewport.x),
+            static_cast<uint32_t>(state.viewport.y),
+            static_cast<uint32_t>(state.viewport.z),
+            static_cast<uint32_t>(state.viewport.w));
 
         glClearColor(
             0, 0, 0, 1);

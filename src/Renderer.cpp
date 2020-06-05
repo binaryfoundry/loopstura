@@ -24,13 +24,13 @@ namespace Application
         width = new_width;
         height = new_height;
 
-        state.projection = glm::ortho(
-            0,
-            static_cast<int>(width),
-            0,
-            static_cast<int>(height),
-            -1000,
-            1000);
+        state.projection = glm::ortho<float>(
+            0.0f,
+            static_cast<float>(width),
+            static_cast<float>(height),
+            0.0f,
+           -1.0f,
+            1.0f);
 
         state.viewport = vec4(
             0, 0, width, height);
