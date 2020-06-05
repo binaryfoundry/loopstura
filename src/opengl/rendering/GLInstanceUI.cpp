@@ -135,27 +135,8 @@ namespace OpenGL
 
     void GLInstanceUI::Draw()
     {
-        glActiveTexture(
-            GL_TEXTURE0);
-
         glUseProgram(
             gl_shader_program);
-
-        glBindSampler(
-            0,
-            gl_sampler_state);
-
-        texture->Update();
-
-        auto gl_texture_handle = std::dynamic_pointer_cast<GLTextureHandle>(
-            texture)->gl_texture_handle;
-
-        glActiveTexture(
-            GL_TEXTURE0);
-
-        glBindTexture(
-            GL_TEXTURE_2D,
-            gl_texture_handle);
 
         glUniformMatrix4fv(
             gl_projection_uniform_location,
@@ -174,13 +155,29 @@ namespace OpenGL
             1,
             &renderer_state.viewport[0]);
 
+        glUniform1f(
+            gl_fade_uniform_location,
+            fade->Value());
+
+        texture->Update();
+
+        auto gl_texture_handle = std::dynamic_pointer_cast<GLTextureHandle>(
+            texture)->gl_texture_handle;
+
+        glActiveTexture(
+            GL_TEXTURE0);
+
+        glBindTexture(
+            GL_TEXTURE_2D,
+            gl_texture_handle);
+
         glUniform1i(
             gl_texture_uniform_location,
             0);
 
-        glUniform1f(
-            gl_fade_uniform_location,
-            fade->Value());
+        glBindSampler(
+            0,
+            gl_sampler_state);
 
         glBindBuffer(
             GL_ARRAY_BUFFER,
