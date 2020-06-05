@@ -49,9 +49,11 @@ namespace Application
             std::string file) = 0;
 
         virtual VertexStreamPtr MakeVertexStream(
+            StreamUsage usage,
             std::initializer_list<float>& list) = 0;
 
         virtual IndexStreamPtr MakeIndexStream(
+            StreamUsage usage,
             std::initializer_list<uint32_t>& list) = 0;
 
         virtual std::shared_ptr<Rendering::InstanceUI> MakeInstanceUI(

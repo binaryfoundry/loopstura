@@ -70,16 +70,20 @@ namespace OpenGL
     }
 
     VertexStreamPtr GLRenderer::MakeVertexStream(
+        StreamUsage usage,
         std::initializer_list<float>& list)
     {
         return std::make_shared<GLStream<float>>(
+            usage,
             list);
     }
 
     IndexStreamPtr GLRenderer::MakeIndexStream(
+        StreamUsage usage,
         std::initializer_list<uint32_t>& list)
     {
         return std::make_shared<GLStream<uint32_t>>(
+            usage,
             list);
     }
 

@@ -6,6 +6,12 @@
 
 namespace Application
 {
+    enum class StreamUsage
+    {
+        STATIC,
+        DYNAMIC
+    };
+
     template <typename T>
     class Stream
     {

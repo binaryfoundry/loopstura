@@ -26,9 +26,11 @@ namespace Application
         context(context)
     {
         quad_vertices = renderer->MakeVertexStream(
+            StreamUsage::DYNAMIC,
             quad_vertices_data);
 
         quad_indices = renderer->MakeIndexStream(
+            StreamUsage::DYNAMIC,
             quad_indices_data);
 
         quad_texture = renderer->MakeTexture(

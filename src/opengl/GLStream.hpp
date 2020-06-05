@@ -22,13 +22,15 @@ namespace OpenGL
     class GLStream : public Stream<T>, public GLBufferHandle
     {
     protected:
-        void Initialise();
+        void Initialise(
+            StreamUsage usage);
 
-        GLenum target = GL_ARRAY_BUFFER;
-        GLenum usage = GL_STATIC_DRAW;
+        const GLenum gl_target = GL_ARRAY_BUFFER;
+        GLenum gl_usage = GL_STATIC_DRAW;
 
     public:
         GLStream(
+            StreamUsage usage,
             std::initializer_list<T>& list);
         virtual ~GLStream();
 

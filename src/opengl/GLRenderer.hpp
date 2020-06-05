@@ -31,9 +31,11 @@ namespace OpenGL
             std::string file);
 
         VertexStreamPtr MakeVertexStream(
+            StreamUsage usage,
             std::initializer_list<float>& list);
 
         IndexStreamPtr MakeIndexStream(
+            StreamUsage usage,
             std::initializer_list<uint32_t>& list);
 
         std::shared_ptr<Rendering::InstanceUI> MakeInstanceUI(
