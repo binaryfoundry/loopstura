@@ -50,6 +50,8 @@ namespace OpenGL
         glBindBuffer(
             target,
             NULL);
+
+        Stream<T>::invalidated = false;
     }
 
     template <typename T>
@@ -61,11 +63,11 @@ namespace OpenGL
                 target,
                 gl_buffer_handle);
 
-            glBufferData(
+            glBufferSubData(
                 target,
+                0,
                 sizeof(T) * data->size(),
-                &(*data)[0],
-                usage);
+                &(*data)[0]);
 
             glBindBuffer(
                 target,
