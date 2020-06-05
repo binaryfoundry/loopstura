@@ -2,7 +2,6 @@
 
 #include "../GL.hpp"
 #include "../GLTexture.hpp"
-#include "../GLShader.hpp"
 
 #include "../../Renderer.hpp"
 #include "../../rendering/InstanceUI.hpp"
@@ -26,9 +25,6 @@ namespace OpenGL
         GLuint gl_fade_uniform_location = 0;
 
         GLuint gl_sampler_state = 0;
-
-        GLuint gl_vertex_buffer = 0;
-        GLuint gl_index_buffer = 0;
 
     public:
         GLInstanceUI(

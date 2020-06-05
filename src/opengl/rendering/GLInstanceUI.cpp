@@ -3,7 +3,7 @@
 #include <string>
 #include <iostream>
 
-#include "../GLShader.hpp"
+#include "../GLStream.hpp"
 
 namespace Application
 {
@@ -67,16 +67,6 @@ namespace OpenGL
             indices,
             texture)
     {
-        gl_vertex_buffer = GenBuffer(
-            vertices->data,
-            GL_ARRAY_BUFFER,
-            GL_STATIC_DRAW);
-
-        gl_index_buffer = GenBuffer(
-            indices->data,
-            GL_ELEMENT_ARRAY_BUFFER,
-            GL_STATIC_DRAW);
-
         gl_projection_uniform_location = glGetUniformLocation(
             gl_shader_program,
             "projection");
@@ -176,6 +166,12 @@ namespace OpenGL
         glBindSampler(
             0,
             gl_sampler_state);
+
+        GLuint gl_vertex_buffer = std::dynamic_pointer_cast<GLBufferHandle>(
+            vertices)->gl_buffer_handle;
+
+        GLuint gl_index_buffer = std::dynamic_pointer_cast<GLBufferHandle>(
+            indices)->gl_buffer_handle;
 
         glBindBuffer(
             GL_ARRAY_BUFFER,

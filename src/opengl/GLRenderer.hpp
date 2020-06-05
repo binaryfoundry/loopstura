@@ -30,6 +30,12 @@ namespace OpenGL
         TextureRGBA8Ptr MakeTexture(
             std::string file);
 
+        VertexStreamPtr MakeVertexStream(
+            std::initializer_list<float>& list);
+
+        IndexStreamPtr MakeIndexStream(
+            std::initializer_list<uint32_t>& list);
+
         std::shared_ptr<Rendering::InstanceUI> MakeInstanceUI(
             ContextPtr context,
             VertexStreamPtr vertices,

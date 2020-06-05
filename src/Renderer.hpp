@@ -48,6 +48,12 @@ namespace Application
         virtual TextureRGBA8Ptr MakeTexture(
             std::string file) = 0;
 
+        virtual VertexStreamPtr MakeVertexStream(
+            std::initializer_list<float>& list) = 0;
+
+        virtual IndexStreamPtr MakeIndexStream(
+            std::initializer_list<uint32_t>& list) = 0;
+
         virtual std::shared_ptr<Rendering::InstanceUI> MakeInstanceUI(
             ContextPtr context,
             VertexStreamPtr vertices,

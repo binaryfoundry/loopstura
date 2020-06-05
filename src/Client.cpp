@@ -25,10 +25,10 @@ namespace Application
         renderer(renderer),
         context(context)
     {
-        quad_vertices = std::make_shared<VertexStream>(
+        quad_vertices = renderer->MakeVertexStream(
             quad_vertices_data);
 
-        quad_indices = std::make_shared<IndexStream>(
+        quad_indices = renderer->MakeIndexStream(
             quad_indices_data);
 
         quad_texture = renderer->MakeTexture(

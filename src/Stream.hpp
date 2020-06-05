@@ -9,12 +9,13 @@ namespace Application
     template <typename T>
     class Stream
     {
-    public:
+    protected:
         Stream(std::initializer_list<T>& list) :
             data(std::make_shared<std::vector<T>>(list))
         {
         }
 
+    public:
         const std::shared_ptr<std::vector<T>> data;
 
         bool invalidated = true;
@@ -23,6 +24,8 @@ namespace Application
         {
             invalidated = true;
         }
+
+        virtual void Update() = 0;
     };
 
     using VertexStream = Stream<float>;

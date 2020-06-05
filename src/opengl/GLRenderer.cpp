@@ -5,7 +5,7 @@
 #include <stdexcept>
 
 #include "GLTexture.hpp"
-#include "GLShader.hpp"
+#include "GLStream.hpp"
 
 namespace Application
 {
@@ -67,6 +67,20 @@ namespace OpenGL
             data);
 
         return new_texture;
+    }
+
+    VertexStreamPtr GLRenderer::MakeVertexStream(
+        std::initializer_list<float>& list)
+    {
+        return std::make_shared<GLStream<float>>(
+            list);
+    }
+
+    IndexStreamPtr GLRenderer::MakeIndexStream(
+        std::initializer_list<uint32_t>& list)
+    {
+        return std::make_shared<GLStream<uint32_t>>(
+            list);
     }
 
     std::shared_ptr<Rendering::InstanceUI> GLRenderer::MakeInstanceUI(
