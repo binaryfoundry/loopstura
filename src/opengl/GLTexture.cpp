@@ -52,7 +52,30 @@ namespace OpenGL
         glGenTextures(
             1, &gl_texture_handle);
 
-        Update();
+        glBindTexture(
+            GL_TEXTURE_2D,
+            gl_texture_handle);
+
+        T* data_ptr = &(*Texture<T>::data)[0];
+        glTexImage2D(
+            GL_TEXTURE_2D,
+            0,
+            gl_internal_format,
+            Texture<T>::width,
+            Texture<T>::height,
+            0,
+            gl_format,
+            gl_type,
+            (GLvoid*)data_ptr);
+
+        glGenerateMipmap(
+            GL_TEXTURE_2D);
+
+        glBindTexture(
+            GL_TEXTURE_2D,
+            NULL);
+
+        Texture<T>::invalidated = false;
     }
 
     template <typename T>
@@ -68,13 +91,13 @@ namespace OpenGL
                 gl_texture_handle);
 
             T* data_ptr = &(*Texture<T>::data)[0];
-            glTexImage2D(
+            glTexSubImage2D(
                 GL_TEXTURE_2D,
                 0,
-                gl_internal_format,
+                0,
+                0,
                 Texture<T>::width,
                 Texture<T>::height,
-                0,
                 gl_format,
                 gl_type,
                 (GLvoid*)data_ptr);
@@ -82,11 +105,11 @@ namespace OpenGL
             glGenerateMipmap(
                 GL_TEXTURE_2D);
 
-            Texture<T>::invalidated = false;
-
             glBindTexture(
                 GL_TEXTURE_2D,
                 NULL);
+
+            Texture<T>::invalidated = false;
         }
     }
 
