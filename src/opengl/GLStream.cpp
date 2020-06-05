@@ -4,6 +4,16 @@ namespace Application
 {
 namespace OpenGL
 {
+    template<typename T>
+    GLStream<T>::GLStream(
+        StreamUsage usage,
+        std::initializer_list<T>& list) :
+        Stream<T>(list),
+        gl_target(GL_ARRAY_BUFFER)
+    {
+        Initialise(usage);
+    }
+
     template<>
     GLStream<float>::GLStream(
        StreamUsage usage,
@@ -56,8 +66,8 @@ namespace OpenGL
 
         glBufferData(
             gl_target,
-            sizeof(T) * data->size(),
-            &(*data)[0],
+            sizeof(T) * Stream<T>::data->size(),
+            &(*Stream<T>::data)[0],
             gl_usage);
 
         glBindBuffer(
@@ -79,8 +89,8 @@ namespace OpenGL
             glBufferSubData(
                 gl_target,
                 0,
-                sizeof(T) * data->size(),
-                &(*data)[0]);
+                sizeof(T) * Stream<T>::data->size(),
+                &(*Stream<T>::data)[0]);
 
             glBindBuffer(
                 gl_target,
@@ -89,5 +99,8 @@ namespace OpenGL
             Stream<T>::invalidated = false;
         }
     }
+
+    template class GLStream<float>;
+    template class GLStream<uint32_t>;
 }
 }
