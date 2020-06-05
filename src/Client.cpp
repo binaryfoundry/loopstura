@@ -41,6 +41,15 @@ namespace Application
             quad_vertices,
             quad_indices,
             quad_texture);
+
+        quad_instance->brightness->Set(
+            1.0);
+
+        context->property_manager->AddTween(
+            quad_instance->brightness,
+            0.0f,
+            1.0f,
+            EasingFunction::EaseOutCubic);
     }
 
     Client::~Client()

@@ -34,11 +34,12 @@ namespace OpenGL
         in vec2 v_texcoord;
         layout(location = 0) out vec4 out_color;
         uniform sampler2D tex;
-        uniform float fade;
+        uniform float brightness;
         void main()
         {
-            vec4 c = texture(tex, v_texcoord) * fade;
-            out_color = vec4(c.xyz, 1.0);
+            vec3 c = texture(tex, v_texcoord).xyz;
+            c = mix(c, vec3(1.0, 1.0, 1.0), brightness);
+            out_color = vec4(c, 1.0);
         })";
 
     GLuint GLInstanceUI::gl_shader_program = 0;
@@ -83,9 +84,9 @@ namespace OpenGL
             gl_shader_program,
             "tex");
 
-        gl_fade_uniform_location = glGetUniformLocation(
+        gl_brightness_uniform_location = glGetUniformLocation(
             gl_shader_program,
-            "fade");
+            "brightness");
 
         glGenSamplers(
             1, &gl_sampler_state);
@@ -144,8 +145,8 @@ namespace OpenGL
             &state.viewport[0]);
 
         glUniform1f(
-            gl_fade_uniform_location,
-            fade->Value());
+            gl_brightness_uniform_location,
+            brightness->Value());
 
         texture->Update();
 

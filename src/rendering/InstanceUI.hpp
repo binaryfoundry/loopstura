@@ -29,7 +29,7 @@ namespace Rendering
 
         const TextureRGBA8Ptr texture;
 
-        std::shared_ptr<Property<float>> fade;
+        std::shared_ptr<Property<float>> brightness;
 
         virtual ~InstanceUI();
     };

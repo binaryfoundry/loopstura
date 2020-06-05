@@ -112,7 +112,7 @@ namespace OpenGL
             static_cast<uint32_t>(state.viewport.w));
 
         glClearColor(
-            0, 0, 0, 1);
+            1, 1, 1, 1);
 
         glClear(
             GL_COLOR_BUFFER_BIT |
