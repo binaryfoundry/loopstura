@@ -34,5 +34,8 @@ namespace Application
             static_cast<int>(height),
             -1000,
             1000));
+
+        viewport->Set(
+            vec4(0, 0, width, height));
     }
 }
