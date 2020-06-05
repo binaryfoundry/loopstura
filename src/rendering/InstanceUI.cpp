@@ -6,8 +6,8 @@ namespace Rendering
 {
     InstanceUI::InstanceUI(
         ContextPtr context,
-        std::vector<float>& vertices,
-        std::vector<uint32_t>& indices,
+        VerticesPtr vertices,
+        IndicesPtr indices,
         TextureRGBA8Ptr texture) :
         vertices(vertices),
         indices(indices),

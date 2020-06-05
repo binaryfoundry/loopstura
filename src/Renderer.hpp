@@ -56,8 +56,8 @@ namespace Application
 
         virtual std::shared_ptr<Rendering::InstanceUI> MakeInstanceUI(
             ContextPtr context,
-            std::vector<float>& vertices,
-            std::vector<uint32_t>& indices,
+            VerticesPtr vertices,
+            IndicesPtr indices,
             TextureRGBA8Ptr texture) = 0;
     };
 }

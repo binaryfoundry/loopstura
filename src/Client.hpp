@@ -17,6 +17,9 @@ namespace Application
         std::shared_ptr<Rendering::InstanceUI> quad_instance;
         TextureRGBA8Ptr quad_texture;
 
+        VerticesPtr quad_vertices;
+        IndicesPtr quad_indices;
+
     public:
         Client(
             ContextPtr context,

@@ -43,7 +43,7 @@ namespace OpenGL
 
     template<typename T>
     static GLuint GenBuffer(
-        std::vector<T>& data,
+        std::shared_ptr<std::vector<T>> data,
         GLenum target,
         GLenum usage)
     {
@@ -59,8 +59,8 @@ namespace OpenGL
 
         glBufferData(
             target,
-            sizeof(T) * data.size(),
-            &data[0],
+            sizeof(T) * data->size(),
+            &(*data)[0],
             usage);
 
         glBindBuffer(

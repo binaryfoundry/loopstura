@@ -59,8 +59,8 @@ namespace OpenGL
     GLInstanceUI::GLInstanceUI(
         ContextPtr context,
         RendererState& renderer_state,
-        std::vector<float>& vertices,
-        std::vector<uint32_t>& indices,
+        VerticesPtr vertices,
+        IndicesPtr indices,
         TextureRGBA8Ptr texture) :
         InstanceUI(
             context,
@@ -209,7 +209,7 @@ namespace OpenGL
 
         glDrawElements(
             GL_TRIANGLES,
-            static_cast<GLsizei>(indices.size()),
+            static_cast<GLsizei>(indices->size()),
             GL_UNSIGNED_INT,
             static_cast<char const*>(0));
 

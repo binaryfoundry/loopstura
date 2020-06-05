@@ -19,13 +19,13 @@ namespace Rendering
     protected:
         InstanceUI(
             ContextPtr context,
-            std::vector<float>& vertices,
-            std::vector<uint32_t>& indices,
+            VerticesPtr vertices,
+            IndicesPtr indices,
             TextureRGBA8Ptr texture);
 
     public:
-        const std::vector<float>& vertices;
-        const std::vector<uint32_t>& indices;
+        const VerticesPtr vertices;
+        const IndicesPtr indices;
 
         const TextureRGBA8Ptr texture;
 

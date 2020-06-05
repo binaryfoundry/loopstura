@@ -36,8 +36,8 @@ namespace OpenGL
         GLInstanceUI(
             ContextPtr context,
             RendererState& renderer_state,
-            std::vector<float>& vertices,
-            std::vector<uint32_t>& indices,
+            VerticesPtr vertices,
+            IndicesPtr indices,
             TextureRGBA8Ptr texture);
         virtual ~GLInstanceUI();
 

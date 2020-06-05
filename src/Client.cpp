@@ -2,7 +2,7 @@
 
 namespace Application
 {
-    static std::vector<float> quad_vertices =
+    static std::initializer_list<float> quad_vertices_data
     {
         -1.0f,  1.0f, 0.0f,
          1.0f,  0.0f,
@@ -14,7 +14,7 @@ namespace Application
          0.0f,  0.0f
     };
 
-    static std::vector<uint32_t> quad_indices =
+    static std::initializer_list<uint32_t> quad_indices_data
     {
          0, 1, 2, 2, 3, 0
     };
@@ -25,6 +25,12 @@ namespace Application
         renderer(renderer),
         context(context)
     {
+        quad_vertices = std::make_shared<std::vector<float>>(
+            quad_vertices_data);
+
+        quad_indices = std::make_shared<std::vector<uint32_t>>(
+            quad_indices_data);
+
         quad_texture = renderer->MakeTexture(
             "test.png");
 
