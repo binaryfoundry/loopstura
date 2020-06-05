@@ -31,15 +31,18 @@ namespace OpenGL
         #ifdef GL_ES
         precision mediump float;
         #endif
+        vec3 linear(vec3 v) { return pow(v, vec3(2.2)); }
+        vec3 gamma(vec3 v) { return pow(v, 1.0 / vec3(2.2)); }
         in vec2 v_texcoord;
         layout(location = 0) out vec4 out_color;
         uniform sampler2D tex;
         uniform float brightness;
         void main()
         {
-            vec3 c = texture(tex, v_texcoord).xyz;
-            c = mix(c, vec3(1.0, 1.0, 1.0), brightness);
-            out_color = vec4(c, 1.0);
+            vec3 c = linear(texture(tex, v_texcoord).xyz);
+            c = mix(c, vec3(1.0), clamp(brightness, 0.0, 1.0));
+            c = mix(c, vec3(0.0), clamp(-brightness, 0.0, 1.0));
+            out_color = vec4(gamma(c), 1.0);
         })";
 
     GLuint GLInstanceUI::gl_shader_program = 0;
