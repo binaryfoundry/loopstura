@@ -14,13 +14,16 @@ namespace OpenGL
         #ifdef GL_ES
         precision mediump float;
         #endif
+        uniform mat4 projection;
+        uniform mat4 view;
+        uniform vec4 viewport;
         layout(location = 0) in vec3 v_position;
         layout(location = 1) in vec2 texcoord;
         out vec2 v_texcoord;
         void main()
         {
             v_texcoord = texcoord;
-            gl_Position = vec4(v_position, 1.0);
+            gl_Position = projection * view * vec4(v_position, 1.0);
         })";
 
     static std::string fragment_shader_string =
@@ -75,6 +78,18 @@ namespace OpenGL
             indices,
             GL_ELEMENT_ARRAY_BUFFER,
             GL_STATIC_DRAW);
+
+        gl_projection_uniform_location = glGetUniformLocation(
+            gl_shader_program,
+            "projection");
+
+        gl_view_uniform_location = glGetUniformLocation(
+            gl_shader_program,
+            "view");
+
+        gl_viewport_uniform_location = glGetUniformLocation(
+            gl_shader_program,
+            "viewport");
 
         gl_texture_uniform_location = glGetUniformLocation(
             gl_shader_program,
@@ -141,6 +156,23 @@ namespace OpenGL
         glBindTexture(
             GL_TEXTURE_2D,
             gl_texture_handle);
+
+        glUniformMatrix4fv(
+            gl_projection_uniform_location,
+            1,
+            false,
+            &renderer_state.projection[0][0]);
+
+        glUniformMatrix4fv(
+            gl_view_uniform_location,
+            1,
+            false,
+            &renderer_state.view[0][0]);
+
+        glUniform4fv(
+            gl_viewport_uniform_location,
+            1,
+            &renderer_state.viewport[0]);
 
         glUniform1i(
             gl_texture_uniform_location,

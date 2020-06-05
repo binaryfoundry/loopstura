@@ -19,8 +19,12 @@ namespace OpenGL
     protected:
         static GLuint gl_shader_program;
 
+        GLuint gl_projection_uniform_location = 0;
+        GLuint gl_view_uniform_location = 0;
+        GLuint gl_viewport_uniform_location = 0;
         GLuint gl_texture_uniform_location = 0;
         GLuint gl_fade_uniform_location = 0;
+
         GLuint gl_sampler_state = 0;
 
         GLuint gl_vertex_buffer = 0;
