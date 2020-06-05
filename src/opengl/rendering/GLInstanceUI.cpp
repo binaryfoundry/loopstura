@@ -43,7 +43,7 @@ namespace OpenGL
         void main()
         {
             vec3 c = linear(texture(tex, v_texcoord).xyz);
-            c = mix(c, mix(linear(gradient_0), linear(gradient_1), 1.0 - v_texcoord.y), gradient);
+            c = mix(c, mix(linear(gradient_0), linear(gradient_1), v_texcoord.y), gradient);
             c = mix(c, vec3(1.0), clamp(brightness, 0.0, 1.0));
             c = mix(c, vec3(0.0), clamp(-brightness, 0.0, 1.0));
             out_color = vec4(gamma(c), 1.0);

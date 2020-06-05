@@ -25,10 +25,10 @@ namespace Application
         height = new_height;
 
         state.projection = glm::ortho<float>(
-            0.0f,
+            -static_cast<float>(width),
             static_cast<float>(width),
             static_cast<float>(height),
-            0.0f,
+            -static_cast<float>(height),
            -1.0f,
             1.0f);
 

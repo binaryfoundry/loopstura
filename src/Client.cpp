@@ -5,13 +5,13 @@ namespace Application
     static std::initializer_list<float> quad_vertices_data
     {
         -1.0f,  1.0f, 0.0f,
-         1.0f,  0.0f,
-        -1.0f, -1.0f, 0.0f,
-         1.0f,  1.0f,
-         1.0f, -1.0f, 0.0f,
          0.0f,  1.0f,
+        -1.0f, -1.0f, 0.0f,
+         0.0f,  0.0f,
+         1.0f, -1.0f, 0.0f,
+         1.0f,  0.0f,
          1.0f,  1.0f, 0.0f,
-         0.0f,  0.0f
+         1.0f,  1.0f
     };
 
     static std::initializer_list<uint32_t> quad_indices_data
@@ -46,7 +46,7 @@ namespace Application
             1.0);
 
         quad_instance->gradient->Set(
-            0.0);
+            1.0);
 
         quad_instance->gradient_0->Set(
             vec3(0.36, 0.65, 0.74));
