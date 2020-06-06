@@ -85,18 +85,18 @@ set(HEADERS_OPENGL_RENDERING
     src/opengl/rendering/GLInstanceUI.hpp)
 
 set(SOURCES_IMGUI
-    lib/imgui/imgui.cpp
-    lib/imgui/imgui_draw.cpp
-    lib/imgui/imgui_demo.cpp
-    lib/imgui/imgui_widgets.cpp)
+    lib/imgui/imgui/imgui.cpp
+    lib/imgui/imgui/imgui_draw.cpp
+    lib/imgui/imgui/imgui_demo.cpp
+    lib/imgui/imgui/imgui_widgets.cpp)
 
 set(HEADERS_IMGUI
-    lib/imgui/imconfig.h
-    lib/imgui/imgui.h
-    lib/imgui/imgui_internal.h
-    lib/imgui/imstb_rectpack.h
-    lib/imgui/imstb_textedit.h
-    lib/imgui/imstb_truetype.h)
+    lib/imgui/imgui/imconfig.h
+    lib/imgui/imgui/imgui.h
+    lib/imgui/imgui/imgui_internal.h
+    lib/imgui/imgui/imstb_rectpack.h
+    lib/imgui/imgui/imstb_textedit.h
+    lib/imgui/imgui/imstb_truetype.h)
 
 file(GLOB RESOURCES "${PROJECT_SOURCE_DIR}/resources/*.*")
 

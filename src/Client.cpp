@@ -1,6 +1,6 @@
 #include "Client.hpp"
 
-#include "imgui.h" // TODO fix path
+#include "imgui/imgui.h"
 
 namespace Application
 {
