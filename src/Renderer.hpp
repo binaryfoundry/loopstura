@@ -9,7 +9,9 @@
 #include "Context.hpp"
 #include "Texture.hpp"
 #include "Instance.hpp"
+
 #include "rendering/InstanceUI.hpp"
+#include "rendering/InstanceImgui.hpp"
 
 namespace Application
 {
@@ -61,5 +63,8 @@ namespace Application
             VertexStreamPtr vertices,
             IndexStreamPtr indices,
             TextureRGBA8Ptr texture) = 0;
+
+        virtual std::shared_ptr<Rendering::InstanceImgui> MakeInstanceImgui(
+            ContextPtr context) = 0;
     };
 }

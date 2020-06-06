@@ -24,11 +24,13 @@ namespace OpenGL
         context(context)
     {
         GLInstanceUI::Initialise();
+        GLInstanceImgui::Initialise();
     }
 
     GLRenderer::~GLRenderer()
     {
         GLInstanceUI::Destroy();
+        GLInstanceImgui::Destroy();
     }
 
     TextureRGBA8Ptr GLRenderer::MakeTexture(
@@ -98,6 +100,13 @@ namespace OpenGL
             vertices,
             indices,
             texture);
+    }
+
+    std::shared_ptr<Rendering::InstanceImgui> GLRenderer::MakeInstanceImgui(
+        ContextPtr context)
+    {
+        return std::make_shared<GLInstanceImgui>(
+            context);
     }
 
     void GLRenderer::Begin()

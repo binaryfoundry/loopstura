@@ -7,6 +7,7 @@
 #include "GL.hpp"
 
 #include "rendering/GLInstanceUI.hpp"
+#include "rendering/GLInstanceImgui.hpp"
 
 #include <functional>
 #include <stdint.h>
@@ -43,6 +44,9 @@ namespace OpenGL
             VertexStreamPtr vertices,
             IndexStreamPtr indices,
             TextureRGBA8Ptr texture);
+
+        std::shared_ptr<Rendering::InstanceImgui> MakeInstanceImgui(
+            ContextPtr context);
 
     public:
         GLRenderer(

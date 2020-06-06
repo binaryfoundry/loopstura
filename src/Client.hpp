@@ -7,6 +7,9 @@
 #include "Renderer.hpp"
 #include "Stream.hpp"
 
+#include "rendering/InstanceUI.hpp"
+#include "rendering/InstanceImgui.hpp"
+
 namespace Application
 {
     class Client
@@ -17,11 +20,10 @@ namespace Application
 
         std::shared_ptr<Rendering::InstanceUI> quad_instance;
         TextureRGBA8Ptr quad_texture;
-
         VertexStreamPtr quad_vertices;
         IndexStreamPtr quad_indices;
 
-        TextureRGBA8Ptr imgui_texture;
+        std::shared_ptr<Rendering::InstanceImgui> imgui_instance;
 
     public:
         Client(

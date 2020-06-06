@@ -62,45 +62,28 @@ namespace Application
             1.0f,
             EasingFunction::EaseOutCubic);
 
-        {
-            IMGUI_CHECKVERSION();
-            ImGui::CreateContext();
-            ImGuiIO& io = ImGui::GetIO();
-            io.DisplaySize = ImVec2(1280, 720);
-            io.DeltaTime = 1.0f / 60.0f;
+        IMGUI_CHECKVERSION();
+        ImGui::CreateContext();
+        ImGuiIO& io = ImGui::GetIO();
+        io.DisplaySize = ImVec2(1280, 720);
+        io.DeltaTime = 1.0f / 60.0f;
 
-            unsigned char* tex_pixels = NULL;
-            int tex_w, tex_h;
-            io.Fonts->GetTexDataAsRGBA32(
-                &tex_pixels,
-                &tex_w,
-                &tex_h);
+        ImGui::StyleColorsDark();
 
-            imgui_texture = renderer->MakeTexture(
-                tex_w,
-                tex_h);
-
-            TextureDataByte* ptr = &(*quad_texture->data)[0];
-            memcpy(ptr, tex_pixels, tex_w * tex_h * 4);
-            quad_texture->Invalidate();
-
-            ImGui::StyleColorsDark();
-            ImGui::NewFrame();
-            ImGui::Text("Hello, world!");
-        }
+        imgui_instance = renderer->MakeInstanceImgui(
+            context);
     }
 
     Client::~Client()
     {
-        ImGui::DestroyContext();
     }
 
     void Client::Update()
     {
-        context->Update();
+        ImGui::NewFrame();
+        ImGui::ShowDemoWindow();
 
-        ImGui::Render();
-        //ImGui::GetDrawData();
+        context->Update();
     }
 
     void Client::Render()
@@ -119,6 +102,9 @@ namespace Application
             scale);
 
         quad_instance->Draw(state);
+
+        imgui_instance->Draw(state);
+
         renderer->End();
     }
 }
