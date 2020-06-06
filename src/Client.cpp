@@ -6,14 +6,14 @@ namespace Application
 {
     static std::initializer_list<float> quad_vertices_data
     {
-        -1.0f,  1.0f, 0.0f,
-         0.0f,  1.0f,
-        -1.0f, -1.0f, 0.0f,
-         0.0f,  0.0f,
-         1.0f, -1.0f, 0.0f,
-         1.0f,  0.0f,
-         1.0f,  1.0f, 0.0f,
-         1.0f,  1.0f
+        0.0f, 1.0f, 0.0f,
+        0.0f, 1.0f,
+        0.0f, 0.0f, 0.0f,
+        0.0f, 0.0f,
+        1.0f, 0.0f, 0.0f,
+        1.0f, 0.0f,
+        1.0f, 1.0f, 0.0f,
+        1.0f, 1.0f
     };
 
     static std::initializer_list<uint32_t> quad_indices_data
