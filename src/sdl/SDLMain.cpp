@@ -4,6 +4,7 @@
 
 #include "SDL.hpp"
 #include "SDLFile.hpp"
+#include "SDLImgui.hpp"
 
 #include "../Platform.hpp"
 #include "../Context.hpp"
@@ -72,6 +73,8 @@ int main(int argc, char *argv[])
         return 1;
     }
 
+    sdl_imgui_initialise();
+
     int ret = init_graphics();
 
     if (ret != 0)
@@ -114,10 +117,16 @@ int main(int argc, char *argv[])
         done = poll_events();
 
         // TODO proper game loop timing
+
+        sdl_imgui_update_input(window);
+        sdl_imgui_update_cursor();
         client->Update();
         client->Render();
+
         std::this_thread::sleep_for(std::chrono::milliseconds(16));
     }
+
+    sdl_imgui_destroy();
 
     SDL_GL_DeleteContext(gl);
     SDL_DestroyWindow(window);
@@ -132,6 +141,8 @@ static bool poll_events()
     SDL_Event event;
 
     SDL_PumpEvents();
+
+    ImGuiIO& io = ImGui::GetIO();
 
     while (SDL_PollEvent(&event))
     {
@@ -183,11 +194,33 @@ static bool poll_events()
         case SDL_MOUSEBUTTONUP:
             break;
 
+        case SDL_MOUSEBUTTONDOWN:
+            if (event.button.button == SDL_BUTTON_LEFT) g_MousePressed[0] = true;
+            if (event.button.button == SDL_BUTTON_RIGHT) g_MousePressed[1] = true;
+            if (event.button.button == SDL_BUTTON_MIDDLE) g_MousePressed[2] = true;
+            break;
+
+        case SDL_TEXTINPUT:
+            io.AddInputCharactersUTF8(event.text.text);
+            break;
+
         case SDL_KEYDOWN:
             break;
 
         case SDL_KEYUP:
+            int key = event.key.keysym.scancode;
+            IM_ASSERT(key >= 0 && key < IM_ARRAYSIZE(io.KeysDown));
+            io.KeysDown[key] = (event.type == SDL_KEYDOWN);
+            io.KeyShift = ((SDL_GetModState() & KMOD_SHIFT) != 0);
+            io.KeyCtrl = ((SDL_GetModState() & KMOD_CTRL) != 0);
+            io.KeyAlt = ((SDL_GetModState() & KMOD_ALT) != 0);
+#ifdef IS_PLATFORM_WIN
+            io.KeySuper = false;
+#else
+            io.KeySuper = ((SDL_GetModState() & KMOD_GUI) != 0);
+#endif
             break;
+
         }
     }
 

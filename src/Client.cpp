@@ -62,14 +62,6 @@ namespace Application
             1.0f,
             EasingFunction::EaseOutCubic);
 
-        IMGUI_CHECKVERSION();
-        ImGui::CreateContext();
-        ImGuiIO& io = ImGui::GetIO();
-        io.DisplaySize = ImVec2(1280, 720);
-        io.DeltaTime = 1.0f / 60.0f;
-
-        ImGui::StyleColorsDark();
-
         imgui_instance = renderer->MakeInstanceImgui(
             context);
     }

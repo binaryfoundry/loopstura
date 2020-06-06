@@ -40,13 +40,15 @@ set(SOURCES_MAIN
     src/sdl/SDL.cpp
     src/sdl/SDLMain.cpp
     src/sdl/SDLMainWeb.cpp
-    src/sdl/SDLFile.cpp)
+    src/sdl/SDLFile.cpp
+    src/sdl/SDLImgui.cpp)
 
 set(HEADERS_MAIN
     src/sdl/SDL.hpp
     src/sdl/SDLMain.hpp
     src/sdl/SDLMainWeb.hpp
-    src/sdl/SDLFile.hpp)
+    src/sdl/SDLFile.hpp
+    src/sdl/SDLImgui.hpp)
 
 set(SOURCES_PROPERTIES
     src/properties/Easing.cpp
