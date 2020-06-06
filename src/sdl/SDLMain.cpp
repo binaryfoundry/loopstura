@@ -179,6 +179,13 @@ static bool poll_events()
         case SDL_MOUSEMOTION:
             break;
 
+        case SDL_MOUSEWHEEL:
+            if (event.wheel.x > 0) io.MouseWheelH += 1;
+            if (event.wheel.x < 0) io.MouseWheelH -= 1;
+            if (event.wheel.y > 0) io.MouseWheel += 1;
+            if (event.wheel.y < 0) io.MouseWheel -= 1;
+            break;
+
         case SDL_WINDOWEVENT:
             switch (event.window.event)
             {
