@@ -4,6 +4,7 @@
 
 #include "SDL.hpp"
 #include "SDLFile.hpp"
+#include "SDLImgui.hpp"
 
 #include "../Platform.hpp"
 #include "../Context.hpp"
@@ -46,6 +47,8 @@ int main(int argc, char *argv[])
         SDL_ClearError();
         return 1;
     }
+
+    sdl_imgui_initialise();
 
     init_graphics();
 
@@ -120,6 +123,8 @@ static int init_graphics()
 
 static void update()
 {
+    sdl_imgui_update_input(window);
+    sdl_imgui_update_cursor();
     client->Update();
     client->Render();
 }
@@ -243,6 +248,63 @@ EM_BOOL em_resize_callback(
     return 0;
 }
 
+static int
+Emscripten_ConvertUTF32toUTF8(Uint32 codepoint, char * text)
+{
+    if (codepoint <= 0x7F) {
+        text[0] = (char)codepoint;
+        text[1] = '\0';
+    }
+    else if (codepoint <= 0x7FF) {
+        text[0] = 0xC0 | (char)((codepoint >> 6) & 0x1F);
+        text[1] = 0x80 | (char)(codepoint & 0x3F);
+        text[2] = '\0';
+    }
+    else if (codepoint <= 0xFFFF) {
+        text[0] = 0xE0 | (char)((codepoint >> 12) & 0x0F);
+        text[1] = 0x80 | (char)((codepoint >> 6) & 0x3F);
+        text[2] = 0x80 | (char)(codepoint & 0x3F);
+        text[3] = '\0';
+    }
+    else if (codepoint <= 0x10FFFF) {
+        text[0] = 0xF0 | (char)((codepoint >> 18) & 0x0F);
+        text[1] = 0x80 | (char)((codepoint >> 12) & 0x3F);
+        text[2] = 0x80 | (char)((codepoint >> 6) & 0x3F);
+        text[3] = 0x80 | (char)(codepoint & 0x3F);
+        text[4] = '\0';
+    }
+    else {
+        return SDL_FALSE;
+    }
+    return SDL_TRUE;
+}
+
+static EM_BOOL em_handle_key_press(
+    int eventType,
+    const EmscriptenKeyboardEvent *keyEvent,
+    void *userData)
+{
+    char text[5];
+    if (Emscripten_ConvertUTF32toUTF8(keyEvent->charCode, text)) {
+        ImGuiIO& io = ImGui::GetIO();
+        io.AddInputCharactersUTF8(text);
+    }
+    return SDL_GetEventState(SDL_TEXTINPUT) == SDL_ENABLE;
+}
+
+static EM_BOOL em_wheel_callback(
+    int eventType,
+    const EmscriptenWheelEvent *wheelEvent,
+    void *userData)
+{
+    ImGuiIO& io = ImGui::GetIO();
+    if (wheelEvent->deltaX > 0) io.MouseWheelH -= 1;
+    if (wheelEvent->deltaX < 0) io.MouseWheelH += 1;
+    if (wheelEvent->deltaY > 0) io.MouseWheel -= 1;
+    if (wheelEvent->deltaY < 0) io.MouseWheel += 1;
+    return SDL_TRUE;
+}
+
 static void run()
 {
     emscripten_set_pointerlockchange_callback(
@@ -259,6 +321,11 @@ static void run()
         NULL, NULL, true, em_key_up_callback);
     emscripten_set_resize_callback(
         NULL, NULL, true, em_resize_callback);
+    emscripten_set_keypress_callback(
+        NULL, NULL, true, em_handle_key_press);
+    emscripten_set_wheel_callback(
+        NULL, NULL, true, em_wheel_callback);
+
     emscripten_set_element_css_size(
         NULL, element_width, element_height);
 

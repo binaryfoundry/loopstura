@@ -5,9 +5,9 @@
 
 // https://github.com/ocornut/imgui/blob/master/examples/imgui_impl_sdl.cpp
 
-extern char* g_ClipboardTextData = NULL;
-extern bool g_MousePressed[3] = { false, false, false };
-extern SDL_Cursor* g_MouseCursors[ImGuiMouseCursor_COUNT] = {};
+static char* g_ClipboardTextData = NULL;
+static bool g_MousePressed[3] = { false, false, false };
+static SDL_Cursor* g_MouseCursors[ImGuiMouseCursor_COUNT] = {};
 
 static const char* sdl_imgui_get_clipboard(void*)
 {
@@ -61,6 +61,7 @@ static void sdl_imgui_initialise()
     io.KeyMap[ImGuiKey_Y] = SDL_SCANCODE_Y;
     io.KeyMap[ImGuiKey_Z] = SDL_SCANCODE_Z;
 
+#ifndef EMSCRIPTEN
     g_MouseCursors[ImGuiMouseCursor_Arrow] = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_ARROW);
     g_MouseCursors[ImGuiMouseCursor_TextInput] = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_IBEAM);
     g_MouseCursors[ImGuiMouseCursor_ResizeAll] = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_SIZEALL);
@@ -70,6 +71,7 @@ static void sdl_imgui_initialise()
     g_MouseCursors[ImGuiMouseCursor_ResizeNWSE] = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_SIZENWSE);
     g_MouseCursors[ImGuiMouseCursor_Hand] = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_HAND);
     g_MouseCursors[ImGuiMouseCursor_NotAllowed] = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_NO);
+#endif
 
     io.SetClipboardTextFn = sdl_imgui_set_clipboard;
     io.GetClipboardTextFn = sdl_imgui_get_clipboard;
