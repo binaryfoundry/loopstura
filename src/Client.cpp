@@ -82,6 +82,11 @@ namespace Application
     {
         RenderState state = renderer->state;
 
+        ImGuiIO& io = ImGui::GetIO();
+        io.DisplaySize = ImVec2(
+            state.viewport.z,
+            state.viewport.w);
+
         renderer->Begin();
 
         vec3 scale = glm::vec3(
