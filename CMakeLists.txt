@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.8)
 
-set(PROJECT imgui-shell)
-set(RESOURCES_NAME imgui-shell-resources)
+set(PROJECT mistura)
+set(RESOURCES_NAME mistura-resources)
 
 project(${PROJECT})
 
@@ -144,6 +144,10 @@ if (MSVC)
     set(PVR_PATH ${PROJECT_SOURCE_DIR}/lib/pvr)
     set(PVR_LIB_PATH ${PVR_PATH}/Windows/x86_64)
 
+    set(OPENAL_PATH ${PROJECT_SOURCE_DIR}/lib/openal)
+    set(OPENAL_BIN_PATH ${OPENAL_PATH}/windows/Win64/bin)
+    set(OPENAL_LIB_PATH ${OPENAL_PATH}/windows/Win64/lib)
+
     include_directories(${SDL2_PATH}/include)
     link_directories(${SDL2_LIB_PATH})
 
@@ -152,6 +156,9 @@ if (MSVC)
 
     include_directories(${PVR_PATH}/Include)
     link_directories(${PVR_LIB_PATH})
+
+    include_directories(${OPENAL_PATH}/include)
+    link_directories(${OPENAL_LIB_PATH})
 
 elseif (EMSCRIPTEN)
     message(STATUS "Platform: EMSCRIPTEN")
@@ -210,7 +217,8 @@ if (MSVC)
         ${FFMPEG_PATH}/include
         ${SDL2_PATH}/include
         ${SDL2_IMAGE_PATH}/include
-        ${PVR_PATH}/include)
+        ${PVR_PATH}/include
+        ${OPENAL_PATH}/include)
 
     target_link_libraries(
         ${PROJECT}
@@ -224,7 +232,8 @@ if (MSVC)
         SDL2_image
         libEGL
         libGLESv2
-        libGLES_CM)
+        libGLES_CM
+        OpenAL32)
 
     add_custom_command(
         TARGET ${PROJECT}
@@ -252,6 +261,13 @@ if (MSVC)
         POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory
         "${PVR_LIB_PATH}"
+        $<TARGET_FILE_DIR:${PROJECT}>)
+
+    add_custom_command(
+        TARGET ${PROJECT}
+        POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+        "${OPENAL_BIN_PATH}"
         $<TARGET_FILE_DIR:${PROJECT}>)
 
 elseif (EMSCRIPTEN)
