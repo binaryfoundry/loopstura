@@ -4,6 +4,7 @@
 
 #include <string>
 #include <vector>
+#include <memory>
 
 void FileLoadTexture2D(
     std::string resource_id,
