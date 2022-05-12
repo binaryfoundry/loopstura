@@ -24,22 +24,23 @@ public:
     {
     }
 
-    bool empty()
+    bool Empty()
     {
-        return head == tail;
+        return head.load(std::memory_order_acquire) == tail.load(std::memory_order_relaxed);
     }
 
-    T read()
+    T Read()
     {
-        uint64_t tail_index = to_index(tail);
-        T val = buffer[tail_index];
-        ++tail;
+        size_t idx = to_index(tail.load(std::memory_order_relaxed));
+        T val = buffer[idx];
+        tail.fetch_add(1);
         return val;
     }
 
-    void write(T& val)
+    void Write(T& val)
     {
-        buffer[to_index(head)] = val;
-        ++head;
+        size_t idx = to_index(head.load(std::memory_order_acquire));
+        buffer[idx] = val;
+        head.fetch_add(1);
     }
 };

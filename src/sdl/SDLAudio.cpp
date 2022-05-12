@@ -25,10 +25,10 @@ private:
 SDLAudio::SDLAudio()
 {
     SDL_zero(audio_spec);
-    audio_spec.freq = 44100;
+    audio_spec.freq = SAMPLE_FREQ;
     audio_spec.format = AUDIO_S16SYS;
     audio_spec.channels = 1;
-    audio_spec.samples = 1024;
+    audio_spec.samples = INPUT_BUFFER_SIZE;
     audio_spec.callback = NULL;
 
     audio_device = SDL_OpenAudioDevice(
@@ -38,15 +38,37 @@ SDLAudio::SDLAudio()
         NULL,
         0);
 
+    for (uint32_t i = 0; i < 8; i++)
+    {
+        ReadInput();
+    }
+
     input_thread_running = true;
 
     input_thread = std::make_unique<std::thread>([&]
     {
-        UpdateLimiter<1024, 44100> limiter;
+        UpdateLimiter<INPUT_BUFFER_SIZE, SAMPLE_FREQ> limiter;
         while (input_thread_running)
         {
-            Update();
+            ReadInput();
+            input_cond_var.notify_one();
             limiter.sleep();
+        }
+    });
+
+    output_thread_running = true;
+
+    output_thread = std::make_unique<std::thread>([&]
+    {
+        while (output_thread_running)
+        {
+            std::unique_lock<std::mutex> lk(input_mutex);
+
+            input_cond_var.wait(lk, [&] {
+                return !input_buffer.Empty();
+            });
+
+            WriteOutput();
         }
     });
 
@@ -60,24 +82,32 @@ SDLAudio::~SDLAudio()
     input_thread_running = false;
     input_thread->join();
 
+    output_thread_running = false;
+    output_thread->join();
+
     SDL_CloseAudioDevice(
         audio_device);
 }
 
-void SDLAudio::Update()
+void SDLAudio::ReadInput()
 {
-    for (int i = 0; i < audio_spec.samples; i++)
+    for (int i = 0; i < INPUT_BUFFER_SIZE; i++)
     {
         x += .010f;
+        int16_t sample = sin(x * 3.142) * 5000;
+        input_buffer.Write(sample);
+    }
+}
 
-        // SDL_QueueAudio expects a signed 16-bit value
-        // note: "5000" here is just gain so that we will hear something
-        int16_t sample = sin(x * 4) * 5000;
+void SDLAudio::WriteOutput()
+{
+    while (!input_buffer.Empty())
+    {
+        int16_t sample = input_buffer.Read();
 
-        const int sample_size = sizeof(int16_t) * 1;
         SDL_QueueAudio(
             audio_device,
             &sample,
-            sample_size);
+            sizeof(uint16_t));
     }
 }
