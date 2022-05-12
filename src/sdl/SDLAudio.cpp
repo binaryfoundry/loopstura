@@ -93,9 +93,11 @@ void SDLAudio::ReadInput()
 {
     for (int i = 0; i < INPUT_BUFFER_SIZE; i++)
     {
-        x += .010f;
-        int16_t sample = sin(x * 3.142) * 5000;
+        int16_t sample = wav_file->ReadSample<int16_t>();
         input_buffer.Write(sample);
+
+        // TODO account for # of samples
+        wav_file->ReadSample<int16_t>();
     }
 }
 

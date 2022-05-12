@@ -70,6 +70,14 @@ set(HEADERS_PROPERTIES
     src/properties/Animator.hpp
     src/properties/Manager.hpp)
 
+set(SOURCES_FILE
+    src/file/MappedFile.cpp
+    src/file/WAVFile.cpp)
+
+set(HEADERS_FILE
+    src/file/MappedFile.hpp
+    src/file/WAVFile.hpp)
+
 set(SOURCES_RENDERING
     src/rendering/InstanceUI.cpp
     src/rendering/InstanceImgui.cpp)
@@ -119,6 +127,9 @@ SOURCE_GROUP("src" FILES ${HEADERS})
 
 SOURCE_GROUP("src\\properties" FILES ${SOURCES_PROPERTIES})
 SOURCE_GROUP("src\\properties" FILES ${HEADERS_PROPERTIES})
+
+SOURCE_GROUP("src\\file" FILES ${SOURCES_FILE})
+SOURCE_GROUP("src\\file" FILES ${HEADERS_FILE})
 
 SOURCE_GROUP("src\\rendering" FILES ${SOURCES_RENDERING})
 SOURCE_GROUP("src\\rendering" FILES ${HEADERS_RENDERING})
@@ -185,6 +196,8 @@ add_executable(
     ${HEADERS_MAIN}
     ${SOURCES_PROPERTIES}
     ${HEADERS_PROPERTIES}
+    ${SOURCES_FILE}
+    ${HEADERS_FILE}
     ${SOURCES_RENDERING}
     ${HEADERS_RENDERING}
     ${SOURCES_OPENGL}
@@ -218,7 +231,8 @@ if (MSVC)
         ${FFMPEG_PATH}/include
         ${SDL2_PATH}/include
         ${SDL2_IMAGE_PATH}/include
-        ${PVR_PATH}/include)
+        ${PVR_PATH}/include
+        ${PROJECT_SOURCE_DIR}/lib/winmmap)
 
     target_link_libraries(
         ${PROJECT}

@@ -6,12 +6,13 @@
 #include <mutex>
 #include <condition_variable>
 
+#include "../Audio.hpp"
 #include "../RingBuffer.hpp"
 
 #define INPUT_BUFFER_SIZE 1024
 #define SAMPLE_FREQ 44100
 
-class SDLAudio
+class SDLAudio : public Audio
 {
 public:
     SDLAudio();
