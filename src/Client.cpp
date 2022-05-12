@@ -21,6 +21,7 @@ namespace Application
          0, 1, 2, 2, 3, 0
     };
 
+
     Client::Client(
         ContextPtr context,
         std::shared_ptr<Renderer> renderer) :

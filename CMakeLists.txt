@@ -24,7 +24,10 @@ set(SOURCES
     src/Texture.cpp
     src/Context.cpp
     src/Instance.cpp
-    src/Stream.cpp)
+    src/Stream.cpp
+    src/Audio.cpp
+    src/Worker.cpp
+    src/RingBuffer.cpp)
 
 set(HEADERS
     src/Platform.hpp
@@ -34,21 +37,26 @@ set(HEADERS
     src/Texture.hpp
     src/Context.hpp
     src/Instance.hpp
-    src/Stream.hpp)
+    src/Stream.hpp
+    src/Audio.hpp
+    src/Worker.hpp
+    src/RingBuffer.hpp)
 
 set(SOURCES_MAIN
     src/sdl/SDL.cpp
     src/sdl/SDLMain.cpp
     src/sdl/SDLMainWeb.cpp
     src/sdl/SDLFile.cpp
-    src/sdl/SDLImgui.cpp)
+    src/sdl/SDLImgui.cpp
+    src/sdl/SDLAudio.cpp)
 
 set(HEADERS_MAIN
     src/sdl/SDL.hpp
     src/sdl/SDLMain.hpp
     src/sdl/SDLMainWeb.hpp
     src/sdl/SDLFile.hpp
-    src/sdl/SDLImgui.hpp)
+    src/sdl/SDLImgui.hpp
+    src/sdl/SDLAudio.hpp)
 
 set(SOURCES_PROPERTIES
     src/properties/Easing.cpp

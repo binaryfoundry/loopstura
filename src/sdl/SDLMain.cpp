@@ -56,6 +56,8 @@ int main(int argc, char *argv[])
         return 1;
     }
 
+    SDL_Init(SDL_INIT_AUDIO);
+
     int flags = IMG_INIT_PNG;
     int initted = IMG_Init(flags);
 

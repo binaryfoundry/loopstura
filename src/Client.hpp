@@ -10,6 +10,8 @@
 #include "rendering/InstanceUI.hpp"
 #include "rendering/InstanceImgui.hpp"
 
+#include "sdl/SDLAudio.hpp"
+
 namespace Application
 {
     class Client
@@ -24,6 +26,8 @@ namespace Application
         IndexStreamPtr quad_indices;
 
         std::shared_ptr<Rendering::InstanceImgui> imgui_instance;
+
+        SDLAudio audio;
 
     public:
         Client(
