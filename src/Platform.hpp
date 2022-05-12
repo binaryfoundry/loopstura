@@ -11,4 +11,4 @@
 #include <emscripten/html5.h>
 #endif
 
-#define IS_APPLICATION_NAME "IMGUI-SHELL"
+#define IS_APPLICATION_NAME "MISTURA"
