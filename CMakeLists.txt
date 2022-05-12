@@ -27,6 +27,7 @@ set(SOURCES
     src/Stream.cpp
     src/Audio.cpp
     src/Worker.cpp
+    src/Wavelets.cpp
     src/RingBuffer.cpp)
 
 set(HEADERS
@@ -40,6 +41,7 @@ set(HEADERS
     src/Stream.hpp
     src/Audio.hpp
     src/Worker.hpp
+    src/Wavelets.hpp
     src/RingBuffer.hpp)
 
 set(SOURCES_MAIN
