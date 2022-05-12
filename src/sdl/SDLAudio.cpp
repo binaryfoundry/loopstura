@@ -1,27 +1,5 @@
 #include "SDLAudio.hpp"
 
-#include <chrono>
-#include <ratio>
-
-template<std::intmax_t N, std::intmax_t D>
-class UpdateLimiter {
-public:
-    UpdateLimiter() :
-        time_between_frames{ 1 },
-        tp{ std::chrono::steady_clock::now() }
-    {
-    }
-
-    void sleep() {
-        tp += time_between_frames;
-        std::this_thread::sleep_until(tp);
-    }
-
-private:
-    std::chrono::duration<double, std::ratio<N, D>> time_between_frames;
-    std::chrono::time_point<std::chrono::steady_clock, decltype(time_between_frames)> tp;
-};
-
 SDLAudio::SDLAudio()
 {
     SDL_zero(audio_spec);
@@ -38,78 +16,25 @@ SDLAudio::SDLAudio()
         NULL,
         0);
 
-    for (uint32_t i = 0; i < 8; i++)
-    {
-        ReadInput();
-    }
+}
 
-    input_thread_running = true;
+SDLAudio::~SDLAudio()
+{
+    SDL_CloseAudioDevice(
+        audio_device);
+}
 
-    input_thread = std::make_unique<std::thread>([&]
-    {
-        UpdateLimiter<INPUT_BUFFER_SIZE, SAMPLE_FREQ> limiter;
-        while (input_thread_running)
-        {
-            ReadInput();
-            input_cond_var.notify_one();
-            limiter.sleep();
-        }
-    });
-
-    output_thread_running = true;
-
-    output_thread = std::make_unique<std::thread>([&]
-    {
-        while (output_thread_running)
-        {
-            std::unique_lock<std::mutex> lk(input_mutex);
-
-            input_cond_var.wait(lk, [&] {
-                return !input_buffer.Empty();
-            });
-
-            WriteOutput();
-        }
-    });
-
+void SDLAudio::InitComplete()
+{
     SDL_PauseAudioDevice(
         audio_device,
         0);
 }
 
-SDLAudio::~SDLAudio()
+void SDLAudio::Queue(const void* data, uint32_t len)
 {
-    input_thread_running = false;
-    input_thread->join();
-
-    output_thread_running = false;
-    output_thread->join();
-
-    SDL_CloseAudioDevice(
-        audio_device);
-}
-
-void SDLAudio::ReadInput()
-{
-    for (int i = 0; i < INPUT_BUFFER_SIZE; i++)
-    {
-        int16_t sample = wav_file->ReadSample<int16_t>();
-        input_buffer.Write(sample);
-
-        // TODO account for # of samples
-        wav_file->ReadSample<int16_t>();
-    }
-}
-
-void SDLAudio::WriteOutput()
-{
-    while (!input_buffer.Empty())
-    {
-        int16_t sample = input_buffer.Read();
-
-        SDL_QueueAudio(
-            audio_device,
-            &sample,
-            sizeof(uint16_t));
-    }
+    SDL_QueueAudio(
+        audio_device,
+        data,
+        len);
 }

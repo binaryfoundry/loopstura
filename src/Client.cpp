@@ -28,6 +28,8 @@ namespace Application
         renderer(renderer),
         context(context)
     {
+        audio.InitComplete();
+
         quad_vertices = renderer->MakeVertexStream(
             StreamUsage::DYNAMIC,
             quad_vertices_data);
