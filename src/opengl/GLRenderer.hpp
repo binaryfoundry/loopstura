@@ -1,8 +1,8 @@
 #pragma once
 
 #include "../Context.hpp"
-#include "../Renderer.hpp"
-#include "../Texture.hpp"
+#include "../rendering/Renderer.hpp"
+#include "../rendering/Texture.hpp"
 
 #include "GL.hpp"
 

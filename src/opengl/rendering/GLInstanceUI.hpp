@@ -3,7 +3,7 @@
 #include "../GL.hpp"
 #include "../GLTexture.hpp"
 
-#include "../../Renderer.hpp"
+#include "../../rendering/Renderer.hpp"
 #include "../../rendering/InstanceUI.hpp"
 
 namespace Application

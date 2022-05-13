@@ -2,7 +2,7 @@
 
 #include "GL.hpp"
 
-#include "../Texture.hpp"
+#include "../rendering/Texture.hpp"
 
 #include <stdint.h>
 #include <vector>

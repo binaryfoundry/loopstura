@@ -2,8 +2,8 @@
 
 #include <memory>
 
-#include "../Instance.hpp"
-#include "../Texture.hpp"
+#include "../rendering/Instance.hpp"
+#include "../rendering/Texture.hpp"
 #include "../Context.hpp"
 
 #include "../properties/Property.hpp"

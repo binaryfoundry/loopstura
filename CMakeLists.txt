@@ -20,11 +20,7 @@ set(SOURCES
     src/Platform.cpp
     src/Math.cpp
     src/Client.cpp
-    src/Renderer.cpp
-    src/Texture.cpp
     src/Context.cpp
-    src/Instance.cpp
-    src/Stream.cpp
     src/Audio.cpp
     src/Worker.cpp
     src/RingBuffer.cpp)
@@ -33,11 +29,7 @@ set(HEADERS
     src/Platform.hpp
     src/Math.hpp
     src/Client.hpp
-    src/Renderer.hpp
-    src/Texture.hpp
     src/Context.hpp
-    src/Instance.hpp
-    src/Stream.hpp
     src/Audio.hpp
     src/Worker.hpp
     src/RingBuffer.hpp)
@@ -85,10 +77,19 @@ set(HEADERS_SIGNAL
     src/signal/Wavelets.hpp)
 
 set(SOURCES_RENDERING
+    src/rendering/Instance.cpp
+    src/rendering/Renderer.cpp
+    src/rendering/Stream.cpp
+    src/rendering/Texture.cpp
     src/rendering/InstanceUI.cpp
     src/rendering/InstanceImgui.cpp)
 
 set(HEADERS_RENDERING
+    src/rendering/Instance.hpp
+    src/rendering/Renderer.hpp
+    src/rendering/Stream.hpp
+    src/rendering/Texture.hpp
+    src/rendering/Instance.hpp
     src/rendering/InstanceUI.hpp
     src/rendering/InstanceImgui.hpp)
 

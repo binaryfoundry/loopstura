@@ -2,7 +2,7 @@
 
 #include "GL.hpp"
 
-#include "../Stream.hpp"
+#include "../rendering/Stream.hpp"
 
 #include <stdint.h>
 #include <vector>

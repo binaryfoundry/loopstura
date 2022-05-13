@@ -4,9 +4,9 @@
 #include <string>
 
 #include "Context.hpp"
-#include "Renderer.hpp"
-#include "Stream.hpp"
 
+#include "rendering/Renderer.hpp"
+#include "rendering/Stream.hpp"
 #include "rendering/InstanceUI.hpp"
 #include "rendering/InstanceImgui.hpp"
 

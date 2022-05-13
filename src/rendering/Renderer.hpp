@@ -6,12 +6,12 @@
 #include <functional>
 #include <string>
 
-#include "Context.hpp"
+#include "../Context.hpp"
 #include "Texture.hpp"
 #include "Instance.hpp"
 
-#include "rendering/InstanceUI.hpp"
-#include "rendering/InstanceImgui.hpp"
+#include "InstanceUI.hpp"
+#include "InstanceImgui.hpp"
 
 namespace Application
 {
