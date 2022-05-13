@@ -58,6 +58,8 @@ void WAVFile::ReadHeader()
     file->Read<uint8_t, 4>(&subchunk2_id[0]);
     subchunk2_size = file->Read<uint32_t>();
 
+    data = file->CurrentPointer();
+
     return;
 }
 

@@ -29,6 +29,11 @@ public:
         position += offset;
     }
 
+    char* CurrentPointer()
+    {
+        return mmapped_data + position;
+    }
+
     template <typename T>
     T Read()
     {

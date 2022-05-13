@@ -13,9 +13,12 @@ public:
     virtual ~WAVFile();
 
     template<typename T>
-    T const ReadSample() const
+    T const ReadSample()
     {
-        return file->Read<T>();
+        T* val = (T*)(data + position);
+        position += sizeof(T);
+        position %= subchunk2_size;
+        return *val;
     }
 
     uint32_t const SampleRate() const
@@ -45,4 +48,7 @@ private:
 
     void ReadHeader();
     std::unique_ptr<MappedFile> file;
+
+    uint32_t position = 0;
+    char* data;
 };
