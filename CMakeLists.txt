@@ -121,8 +121,9 @@ set(HEADERS_OPENGL_RENDERING
 
 set(SOURCES_IMGUI
     lib/imgui/imgui/imgui.cpp
-    lib/imgui/imgui/imgui_draw.cpp
     lib/imgui/imgui/imgui_demo.cpp
+    lib/imgui/imgui/imgui_tables.cpp
+    lib/imgui/imgui/imgui_draw.cpp
     lib/imgui/imgui/imgui_widgets.cpp)
 
 set(HEADERS_IMGUI
