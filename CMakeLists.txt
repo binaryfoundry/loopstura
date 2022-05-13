@@ -20,15 +20,13 @@ set(SOURCES
     src/Platform.cpp
     src/Math.cpp
     src/Client.cpp
-    src/Context.cpp
-    src/Audio.cpp)
+    src/Context.cpp)
 
 set(HEADERS
     src/Platform.hpp
     src/Math.hpp
     src/Client.hpp
-    src/Context.hpp
-    src/Audio.hpp)
+    src/Context.hpp)
 
 set(SOURCES_MAIN
     src/sdl/SDL.cpp
@@ -36,7 +34,7 @@ set(SOURCES_MAIN
     src/sdl/SDLMainWeb.cpp
     src/sdl/SDLFile.cpp
     src/sdl/SDLImgui.cpp
-    src/sdl/SDLAudio.cpp)
+    src/sdl/SDLTrack.cpp)
 
 set(HEADERS_MAIN
     src/sdl/SDL.hpp
@@ -44,7 +42,7 @@ set(HEADERS_MAIN
     src/sdl/SDLMainWeb.hpp
     src/sdl/SDLFile.hpp
     src/sdl/SDLImgui.hpp
-    src/sdl/SDLAudio.hpp)
+    src/sdl/SDLTrack.hpp)
 
 set(SOURCES_PROPERTIES
     src/properties/Easing.cpp
@@ -57,6 +55,12 @@ set(HEADERS_PROPERTIES
     src/properties/Property.hpp
     src/properties/Animator.hpp
     src/properties/Manager.hpp)
+
+set(SOURCES_AUDIO
+    src/audio/Track.cpp)
+
+set(HEADERS_AUDIO
+    src/audio/Track.hpp)
 
 set(SOURCES_FILE
     src/file/MappedFile.cpp
@@ -142,6 +146,9 @@ SOURCE_GROUP("src\\properties" FILES ${HEADERS_PROPERTIES})
 SOURCE_GROUP("src\\file" FILES ${SOURCES_FILE})
 SOURCE_GROUP("src\\file" FILES ${HEADERS_FILE})
 
+SOURCE_GROUP("src\\audio" FILES ${SOURCES_AUDIO})
+SOURCE_GROUP("src\\audio" FILES ${HEADERS_AUDIO})
+
 SOURCE_GROUP("src\\concurrency" FILES ${SOURCES_CONCURRENCY})
 SOURCE_GROUP("src\\concurrency" FILES ${HEADERS_CONCURRENCY})
 
@@ -215,6 +222,8 @@ add_executable(
     ${HEADERS_PROPERTIES}
     ${SOURCES_FILE}
     ${HEADERS_FILE}
+    ${SOURCES_AUDIO}
+    ${HEADERS_AUDIO}
     ${SOURCES_CONCURRENCY}
     ${HEADERS_CONCURRENCY}
     ${SOURCES_SIGNAL}

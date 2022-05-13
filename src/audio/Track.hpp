@@ -5,19 +5,19 @@
 #include <mutex>
 #include <condition_variable>
 
-#include "Audio.hpp"
-#include "concurrency/RingBuffer.hpp"
-#include "file/WAVFile.hpp"
+#include "../audio/Track.hpp"
+#include "../concurrency/RingBuffer.hpp"
+#include "../file/WAVFile.hpp"
 
 #define INPUT_BUFFER_SIZE 1024
 #define SAMPLE_FREQ 44100
 
-class Audio
+class Track
 {
 
 public:
-    Audio();
-    virtual ~Audio();
+    Track();
+    virtual ~Track();
 
     virtual void InitComplete() = 0;
 

@@ -10,7 +10,7 @@
 #include "rendering/InstanceUI.hpp"
 #include "rendering/InstanceImgui.hpp"
 
-#include "sdl/SDLAudio.hpp"
+#include "sdl/SDLTrack.hpp"
 
 namespace Application
 {
@@ -27,7 +27,7 @@ namespace Application
 
         std::shared_ptr<Rendering::InstanceImgui> imgui_instance;
 
-        SDLAudio audio;
+        SDLTrack track;
 
     public:
         Client(

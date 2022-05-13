@@ -2,13 +2,13 @@
 
 #include <SDL.h>
 
-#include "../Audio.hpp"
+#include "../audio/Track.hpp"
 
-class SDLAudio : public Audio
+class SDLTrack : public Track
 {
 public:
-    SDLAudio();
-    virtual ~SDLAudio();
+    SDLTrack();
+    virtual ~SDLTrack();
 
     void InitComplete();
 

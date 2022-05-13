@@ -1,4 +1,4 @@
-#include "Audio.hpp"
+#include "Track.hpp"
 
 #include <chrono>
 #include <ratio>
@@ -22,7 +22,7 @@ private:
     std::chrono::time_point<std::chrono::steady_clock, decltype(time_between_frames)> tp;
 };
 
-Audio::Audio()
+Track::Track()
 {
     wav_file = std::make_unique<WAVFile>("D:\\file_example_WAV_10MG.wav");
 
@@ -64,7 +64,7 @@ Audio::Audio()
     });
 }
 
-Audio::~Audio()
+Track::~Track()
 {
     input_thread_running = false;
     input_thread->join();
@@ -74,7 +74,7 @@ Audio::~Audio()
     output_thread->join();
 }
 
-void Audio::ReadInput()
+void Track::ReadInput()
 {
     for (int i = 0; i < INPUT_BUFFER_SIZE; i++)
     {
@@ -86,7 +86,7 @@ void Audio::ReadInput()
     }
 }
 
-void Audio::WriteOutput()
+void Track::WriteOutput()
 {
     while (!input_buffer.Empty())
     {

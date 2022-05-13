@@ -1,6 +1,6 @@
-#include "SDLAudio.hpp"
+#include "SDLTrack.hpp"
 
-SDLAudio::SDLAudio()
+SDLTrack::SDLTrack()
 {
     SDL_zero(audio_spec);
     audio_spec.freq = SAMPLE_FREQ;
@@ -18,20 +18,20 @@ SDLAudio::SDLAudio()
 
 }
 
-SDLAudio::~SDLAudio()
+SDLTrack::~SDLTrack()
 {
     SDL_CloseAudioDevice(
         audio_device);
 }
 
-void SDLAudio::InitComplete()
+void SDLTrack::InitComplete()
 {
     SDL_PauseAudioDevice(
         audio_device,
         0);
 }
 
-void SDLAudio::Queue(const void* data, uint32_t len)
+void SDLTrack::Queue(const void* data, uint32_t len)
 {
     SDL_QueueAudio(
         audio_device,
