@@ -27,7 +27,6 @@ set(SOURCES
     src/Stream.cpp
     src/Audio.cpp
     src/Worker.cpp
-    src/Wavelets.cpp
     src/RingBuffer.cpp)
 
 set(HEADERS
@@ -41,7 +40,6 @@ set(HEADERS
     src/Stream.hpp
     src/Audio.hpp
     src/Worker.hpp
-    src/Wavelets.hpp
     src/RingBuffer.hpp)
 
 set(SOURCES_MAIN
@@ -79,6 +77,12 @@ set(SOURCES_FILE
 set(HEADERS_FILE
     src/file/MappedFile.hpp
     src/file/WAVFile.hpp)
+
+set(SOURCES_SIGNAL
+    src/signal/Wavelets.cpp)
+
+set(HEADERS_SIGNAL
+    src/signal/Wavelets.hpp)
 
 set(SOURCES_RENDERING
     src/rendering/InstanceUI.cpp
@@ -132,6 +136,9 @@ SOURCE_GROUP("src\\properties" FILES ${HEADERS_PROPERTIES})
 
 SOURCE_GROUP("src\\file" FILES ${SOURCES_FILE})
 SOURCE_GROUP("src\\file" FILES ${HEADERS_FILE})
+
+SOURCE_GROUP("src\\signal" FILES ${SOURCES_SIGNAL})
+SOURCE_GROUP("src\\signal" FILES ${HEADERS_SIGNAL})
 
 SOURCE_GROUP("src\\rendering" FILES ${SOURCES_RENDERING})
 SOURCE_GROUP("src\\rendering" FILES ${HEADERS_RENDERING})
@@ -200,6 +207,8 @@ add_executable(
     ${HEADERS_PROPERTIES}
     ${SOURCES_FILE}
     ${HEADERS_FILE}
+    ${SOURCES_SIGNAL}
+    ${HEADERS_SIGNAL}
     ${SOURCES_RENDERING}
     ${HEADERS_RENDERING}
     ${SOURCES_OPENGL}
