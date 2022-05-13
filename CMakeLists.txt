@@ -10,8 +10,6 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 
-option(EMSCRIPTEN "Web Compilation" OFF)
-
 add_definitions(-D_CRT_SECURE_NO_WARNINGS)
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
@@ -31,7 +29,6 @@ set(HEADERS
 set(SOURCES_MAIN
     src/sdl/SDL.cpp
     src/sdl/SDLMain.cpp
-    src/sdl/SDLMainWeb.cpp
     src/sdl/SDLFile.cpp
     src/sdl/SDLImgui.cpp
     src/sdl/SDLTrack.cpp)
@@ -39,7 +36,6 @@ set(SOURCES_MAIN
 set(HEADERS_MAIN
     src/sdl/SDL.hpp
     src/sdl/SDLMain.hpp
-    src/sdl/SDLMainWeb.hpp
     src/sdl/SDLFile.hpp
     src/sdl/SDLImgui.hpp
     src/sdl/SDLTrack.hpp)
@@ -196,12 +192,6 @@ if (MSVC)
     include_directories(${PVR_PATH}/Include)
     link_directories(${PVR_LIB_PATH})
 
-elseif (EMSCRIPTEN)
-    message(STATUS "Platform: EMSCRIPTEN")
-    add_definitions(-DIS_PLATFORM_EMSCRIPTEN)
-
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -stdlib=libc++")
-
 endif()
 
 include_directories(
@@ -305,11 +295,5 @@ if (MSVC)
         COMMAND ${CMAKE_COMMAND} -E copy_directory
         "${PVR_LIB_PATH}"
         $<TARGET_FILE_DIR:${PROJECT}>)
-
-elseif (EMSCRIPTEN)
-    set_target_properties(
-        ${PROJECT_NAME}
-        PROPERTIES SUFFIX ".html"
-        LINK_FLAGS "--bind -s USE_SDL_IMAGE=2 -s USE_WEBGL2=1 -s USE_SDL_TTF=2 -s DEMANGLE_SUPPORT=1 -s USE_SDL=2 -s WASM=1 -s NO_EXIT_RUNTIME=1 -s ALLOW_MEMORY_GROWTH=1 -s ASSERTIONS=2 -s --emrun -std=c++11 -O3 --shell-file \"${PROJECT_SOURCE_DIR}/shell.html\" --use-preload-plugins --preload-file resources --no-heap-copy ")
 
 endif ()
