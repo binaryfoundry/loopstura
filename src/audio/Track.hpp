@@ -9,8 +9,8 @@
 #include "../concurrency/RingBuffer.hpp"
 #include "../file/WAVFile.hpp"
 
-#define INPUT_BUFFER_SIZE 1024
-#define SAMPLE_FREQ 44100
+const uint32_t INPUT_BUFFER_SIZE = 1024;
+const uint32_t SAMPLE_FREQ = 44100;
 
 class Track
 {
