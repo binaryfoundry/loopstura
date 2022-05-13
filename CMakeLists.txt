@@ -21,18 +21,14 @@ set(SOURCES
     src/Math.cpp
     src/Client.cpp
     src/Context.cpp
-    src/Audio.cpp
-    src/Worker.cpp
-    src/RingBuffer.cpp)
+    src/Audio.cpp)
 
 set(HEADERS
     src/Platform.hpp
     src/Math.hpp
     src/Client.hpp
     src/Context.hpp
-    src/Audio.hpp
-    src/Worker.hpp
-    src/RingBuffer.hpp)
+    src/Audio.hpp)
 
 set(SOURCES_MAIN
     src/sdl/SDL.cpp
@@ -69,6 +65,14 @@ set(SOURCES_FILE
 set(HEADERS_FILE
     src/file/MappedFile.hpp
     src/file/WAVFile.hpp)
+
+set(SOURCES_CONCURRENCY
+    src/concurrency/Worker.cpp
+    src/concurrency/RingBuffer.cpp)
+
+set(HEADERS_CONCURRENCY
+    src/concurrency/Worker.hpp
+    src/concurrency/RingBuffer.hpp)
 
 set(SOURCES_SIGNAL
     src/signal/Wavelets.cpp)
@@ -137,6 +141,9 @@ SOURCE_GROUP("src\\properties" FILES ${HEADERS_PROPERTIES})
 
 SOURCE_GROUP("src\\file" FILES ${SOURCES_FILE})
 SOURCE_GROUP("src\\file" FILES ${HEADERS_FILE})
+
+SOURCE_GROUP("src\\concurrency" FILES ${SOURCES_CONCURRENCY})
+SOURCE_GROUP("src\\concurrency" FILES ${HEADERS_CONCURRENCY})
 
 SOURCE_GROUP("src\\signal" FILES ${SOURCES_SIGNAL})
 SOURCE_GROUP("src\\signal" FILES ${HEADERS_SIGNAL})
@@ -208,6 +215,8 @@ add_executable(
     ${HEADERS_PROPERTIES}
     ${SOURCES_FILE}
     ${HEADERS_FILE}
+    ${SOURCES_CONCURRENCY}
+    ${HEADERS_CONCURRENCY}
     ${SOURCES_SIGNAL}
     ${HEADERS_SIGNAL}
     ${SOURCES_RENDERING}

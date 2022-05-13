@@ -6,7 +6,7 @@
 #include <condition_variable>
 
 #include "Audio.hpp"
-#include "RingBuffer.hpp"
+#include "concurrency/RingBuffer.hpp"
 #include "file/WAVFile.hpp"
 
 #define INPUT_BUFFER_SIZE 1024
