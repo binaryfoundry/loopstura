@@ -53,10 +53,13 @@ Audio::Audio()
             std::unique_lock<std::mutex> lk(input_mutex);
 
             input_cond_var.wait(lk, [&] {
-                return !input_buffer.Empty();
-                });
+                return !input_buffer.Empty() || (!output_thread_running);
+            });
 
-            WriteOutput();
+            if (output_thread_running)
+            {
+                WriteOutput();
+            }
         }
     });
 }
@@ -67,6 +70,7 @@ Audio::~Audio()
     input_thread->join();
 
     output_thread_running = false;
+    input_cond_var.notify_one();
     output_thread->join();
 }
 
