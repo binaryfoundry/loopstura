@@ -31,10 +31,12 @@ Audio::Audio()
         ReadInput();
     }
 
+    input_thread_running = true;
+
     input_thread = std::make_unique<std::thread>([&]
     {
         UpdateLimiter<INPUT_BUFFER_SIZE, SAMPLE_FREQ> limiter;
-        while (true)
+        while (input_thread_running)
         {
             ReadInput();
             input_cond_var.notify_one();
@@ -42,28 +44,30 @@ Audio::Audio()
         }
     });
 
-    input_thread->detach();
+    output_thread_running = true;
 
     output_thread = std::make_unique<std::thread>([&]
     {
-        while (true)
+        while (output_thread_running)
         {
             std::unique_lock<std::mutex> lk(input_mutex);
 
             input_cond_var.wait(lk, [&] {
                 return !input_buffer.Empty();
-            });
+                });
 
             WriteOutput();
         }
     });
-
-    output_thread->detach();
 }
 
 Audio::~Audio()
 {
+    input_thread_running = false;
+    input_thread->join();
 
+    output_thread_running = false;
+    output_thread->join();
 }
 
 void Audio::ReadInput()
