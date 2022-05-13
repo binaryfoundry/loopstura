@@ -15,7 +15,7 @@ public:
     template<typename T>
     T const ReadSample()
     {
-        T* val = (T*)(data + position);
+        const T* val = (T*)(data + position);
         position += sizeof(T);
         position %= subchunk2_size;
         return *val;

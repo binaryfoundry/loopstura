@@ -78,7 +78,7 @@ void Track::ReadInput()
 {
     for (int i = 0; i < INPUT_BUFFER_SIZE; i++)
     {
-        int16_t sample = wav_file->ReadSample<int16_t>();
+        const int16_t sample = wav_file->ReadSample<int16_t>();
         input_buffer.Write(sample);
 
         // TODO account for # of samples
@@ -90,7 +90,7 @@ void Track::WriteOutput()
 {
     while (!input_buffer.Empty())
     {
-        int16_t sample = input_buffer.Read();
+        const int16_t sample = input_buffer.Read();
 
         Queue(
             &sample,

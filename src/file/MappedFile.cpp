@@ -13,7 +13,7 @@ MappedFile::MappedFile(const std::string filename)
 {
     struct __stat64 s;
     fh = _open(filename.c_str(), O_RDONLY);
-    int status = _fstat64(fh, &s);
+    const int status = _fstat64(fh, &s);
     if (status == -1)
     {
         throw std::runtime_error("Failed to open file");

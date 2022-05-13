@@ -31,15 +31,15 @@ public:
 
     T Read()
     {
-        size_t idx = to_index(tail.load(std::memory_order_relaxed));
-        T val = buffer[idx];
+        const size_t idx = to_index(tail.load(std::memory_order_relaxed));
+        const T val = buffer[idx];
         tail.fetch_add(1);
         return val;
     }
 
-    void Write(T& val)
+    void Write(const T& val)
     {
-        size_t idx = to_index(head.load(std::memory_order_acquire));
+        const size_t idx = to_index(head.load(std::memory_order_acquire));
         buffer[idx] = val;
         head.fetch_add(1);
     }

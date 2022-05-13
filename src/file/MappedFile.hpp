@@ -9,27 +9,27 @@ public:
     MappedFile(const std::string filename);
     ~MappedFile();
 
-    size_t Size()
+    size_t Size() const
     {
         return file_size;
     }
 
-    char* Data()
+    char* Data() const
     {
         return mmapped_data;
     }
 
-    size_t Position()
+    size_t Position() const
     {
         return position;
     }
 
-    void Advance(size_t offset)
+    void Advance(const size_t offset)
     {
         position += offset;
     }
 
-    char* CurrentPointer()
+    char* CurrentPointer() const
     {
         return mmapped_data + position;
     }
@@ -37,7 +37,7 @@ public:
     template <typename T>
     T Read()
     {
-        T* val = (T*)(mmapped_data + position);
+        const T* val = (T*)(mmapped_data + position);
         position += sizeof(T);
         return *val;
     }
@@ -45,7 +45,7 @@ public:
     template <typename T, size_t S>
     void Read(T* dst)
     {
-        T* src = (T*)(mmapped_data + position);
+        const T* src = (T*)(mmapped_data + position);
         position += sizeof(T) * S;
         memcpy(dst, src, S);
     }
