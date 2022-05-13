@@ -5,7 +5,7 @@ set(RESOURCES_NAME mistura-resources)
 
 project(${PROJECT})
 
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 20)
 
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
@@ -75,9 +75,11 @@ set(HEADERS_CONCURRENCY
     src/concurrency/RingBuffer.hpp)
 
 set(SOURCES_SIGNAL
+    src/signal/DFT.cpp
     src/signal/Wavelets.cpp)
 
 set(HEADERS_SIGNAL
+    src/signal/DFT.hpp
     src/signal/Wavelets.hpp)
 
 set(SOURCES_RENDERING
