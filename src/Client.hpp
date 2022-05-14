@@ -27,7 +27,10 @@ namespace Application
 
         std::shared_ptr<Rendering::InstanceImgui> imgui_instance;
 
-        SDLTrack track;
+        std::unique_ptr<Track> track;
+
+        bool dock_created = false;
+        void DrawDock(bool* p_open);
 
     public:
         Client(

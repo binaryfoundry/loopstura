@@ -1,6 +1,9 @@
 #include "Client.hpp"
 
+#define IMGUI_HAS_DOCK
+
 #include "imgui/imgui.h"
+#include "imgui/imgui_internal.h"
 
 namespace Application
 {
@@ -28,8 +31,6 @@ namespace Application
         renderer(renderer),
         context(context)
     {
-        track.InitComplete();
-
         quad_vertices = renderer->MakeVertexStream(
             StreamUsage::DYNAMIC,
             quad_vertices_data);
@@ -73,10 +74,76 @@ namespace Application
     {
     }
 
+    void Client::DrawDock(bool* p_open)
+    {
+        static ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_None;
+
+        ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoSavedSettings;// | ImGuiWindowFlags_MenuBar;
+
+        const ImGuiViewport* viewport = ImGui::GetMainViewport();
+        ImGui::SetNextWindowPos(viewport->WorkPos);
+        ImGui::SetNextWindowSize(viewport->WorkSize);
+        ImGui::SetNextWindowViewport(viewport->ID);
+        ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
+        ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
+
+        window_flags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize;
+        window_flags |= ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
+        window_flags |= ImGuiWindowFlags_NoBackground;
+
+        dockspace_flags |= ImGuiDockNodeFlags_PassthruCentralNode;
+        dockspace_flags |= ImGuiDockNodeFlags_NoTabBar;
+
+        ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
+        ImGui::Begin("DockSpace Demo", p_open, window_flags);
+        ImGui::PopStyleVar();
+        ImGui::PopStyleVar(2);
+
+        // Submit the DockSpace
+        ImGuiIO& io = ImGui::GetIO();
+        if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable)
+        {
+            ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
+            ImGui::DockSpace(dockspace_id, viewport->Size, dockspace_flags);
+
+            if (!dock_created)
+            {
+                ImGui::DockBuilderRemoveNode(dockspace_id);
+                ImGui::DockBuilderAddNode(dockspace_id, dockspace_flags| ImGuiDockNodeFlags_DockSpace);
+                ImGui::DockBuilderSetNodeSize(dockspace_id, viewport->Size);
+
+                ImGuiID dock_id_left = ImGui::DockBuilderSplitNode(dockspace_id, ImGuiDir_Left, 0.20f, nullptr, &dockspace_id);
+                ImGuiID dock_id_right = ImGui::DockBuilderSplitNode(dockspace_id, ImGuiDir_Right, 0.20f, nullptr, &dockspace_id);
+                ImGuiID dock_id_bottom = ImGui::DockBuilderSplitNode(dockspace_id, ImGuiDir_Down, 0.20f, nullptr, &dockspace_id);
+
+                ImGui::DockBuilderDockWindow("Dear ImGui Demo", dock_id_left);
+                ImGui::DockBuilderDockWindow("Audio", dock_id_right);
+                ImGui::DockBuilderFinish(dockspace_id);
+
+                dock_created = true;
+            }
+        }
+
+        ImGui::End();
+    }
+
     void Client::Update()
     {
         ImGui::NewFrame();
+
+        bool show = true;
+        DrawDock(&show);
+
         ImGui::ShowDemoWindow();
+
+        ImGui::Begin("Audio");
+        if (ImGui::Button("Play") && track == nullptr)
+        {
+            track = std::make_unique<SDLTrack>();
+            track->InitComplete();
+
+        }
+        ImGui::End();
 
         context->Update();
     }
