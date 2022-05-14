@@ -34,7 +34,7 @@ namespace OpenGL
             std::initializer_list<T>& list);
         virtual ~GLStream();
 
-        void Update();
+        void Update() override;
     };
 }
 }

@@ -26,27 +26,27 @@ namespace OpenGL
 
         TextureRGBA8Ptr MakeTexture(
             uint32_t width,
-            uint32_t height);
+            uint32_t height) override;
 
         TextureRGBA8Ptr MakeTexture(
-            std::string file);
+            std::string file) override;
 
         VertexStreamPtr MakeVertexStream(
             StreamUsage usage,
-            std::initializer_list<float>& list);
+            std::initializer_list<float>& list) override;
 
         IndexStreamPtr MakeIndexStream(
             StreamUsage usage,
-            std::initializer_list<uint32_t>& list);
+            std::initializer_list<uint32_t>& list) override;
 
         std::shared_ptr<Rendering::InstanceUI> MakeInstanceUI(
             ContextPtr context,
             VertexStreamPtr vertices,
             IndexStreamPtr indices,
-            TextureRGBA8Ptr texture);
+            TextureRGBA8Ptr texture) override;
 
         std::shared_ptr<Rendering::InstanceImgui> MakeInstanceImgui(
-            ContextPtr context);
+            ContextPtr context) override;
 
     public:
         GLRenderer(
@@ -56,8 +56,8 @@ namespace OpenGL
             uint32_t height);
         virtual ~GLRenderer();
 
-        void Begin();
-        void End();
+        void Begin() override;
+        void End() override;
     };
 }
 }

@@ -38,7 +38,7 @@ namespace OpenGL
             std::shared_ptr<std::vector<T>> data);
         virtual ~GLTexture();
 
-        void Update();
+        void Update() override;
     };
 }
 }

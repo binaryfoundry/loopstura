@@ -10,12 +10,12 @@ public:
     SDLTrack();
     virtual ~SDLTrack();
 
-    void InitComplete();
+    void InitComplete() override;
 
 private:
     SDL_AudioDeviceID audio_device;
     SDL_AudioSpec audio_spec;
 
 protected:
-    void Queue(const void* data, uint32_t len);
+    void Queue(const void* data, uint32_t len) override;
 };
