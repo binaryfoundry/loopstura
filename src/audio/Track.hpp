@@ -21,6 +21,8 @@ public:
 
     virtual void InitComplete() = 0;
 
+    float speed_scale = 1.0;
+
 protected:
     std::unique_ptr<WAVFile> wav_file;
 

@@ -9,15 +9,18 @@
 class WAVFile
 {
 public:
+    double position = 0;
+
     WAVFile(const std::string path);
     virtual ~WAVFile();
 
     template<typename T>
     T const ReadSample()
     {
-        const T* val = (T*)(data + position);
-        position += sizeof(T);
-        position %= subchunk2_size;
+        const size_t index = (static_cast<size_t>(position) * num_channels *
+            (bits_per_sample / 8)) % subchunk2_size;
+
+        const T* val = (T*)(data + index);
         return *val;
     }
 
@@ -49,6 +52,6 @@ private:
     void ReadHeader();
     std::unique_ptr<MappedFile> file;
 
-    uint32_t position = 0;
+
     char* data;
 };

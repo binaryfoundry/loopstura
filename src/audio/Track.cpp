@@ -81,8 +81,8 @@ void Track::ReadInput()
         const int16_t sample = wav_file->ReadSample<int16_t>();
         input_buffer.Write(sample);
 
-        // TODO account for # of samples
         wav_file->ReadSample<int16_t>();
+        wav_file->position += speed_scale;
     }
 }
 

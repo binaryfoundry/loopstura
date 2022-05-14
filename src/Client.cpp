@@ -5,6 +5,8 @@
 #include "imgui/imgui.h"
 #include "imgui/imgui_internal.h"
 
+#include "sdl/SDLTrack.hpp"
+
 namespace Application
 {
     static std::initializer_list<float> quad_vertices_data
@@ -137,12 +139,17 @@ namespace Application
         ImGui::ShowDemoWindow();
 
         ImGui::Begin("Audio");
+
         if (ImGui::Button("Play") && track == nullptr)
         {
             track = std::make_unique<SDLTrack>();
             track->InitComplete();
 
         }
+
+        if (track != nullptr)
+            ImGui::SliderFloat("Speed", &track->speed_scale, -2, 2);
+
         ImGui::End();
 
         context->Update();

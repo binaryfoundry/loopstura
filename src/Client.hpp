@@ -10,7 +10,7 @@
 #include "rendering/InstanceUI.hpp"
 #include "rendering/InstanceImgui.hpp"
 
-#include "sdl/SDLTrack.hpp"
+#include "audio/Track.hpp"
 
 namespace Application
 {
