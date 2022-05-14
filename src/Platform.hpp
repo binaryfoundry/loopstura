@@ -11,4 +11,4 @@
 #include <emscripten/html5.h>
 #endif
 
-static const char* IS_APPLICATION_NAME = "MISTURA";
+static const char* IS_APPLICATION_NAME = "Loopstura";

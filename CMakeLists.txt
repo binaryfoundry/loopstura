@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.8)
 
-set(PROJECT mistura)
-set(RESOURCES_NAME mistura-resources)
+set(PROJECT loopstura)
+set(RESOURCES_NAME loopstura-resources)
 
 project(${PROJECT})
 
