@@ -5,9 +5,11 @@
 #include <mutex>
 #include <condition_variable>
 
-#include "../audio/Track.hpp"
+#include "Waveform.hpp"
+#include "Track.hpp"
+#include "WAVFile.hpp"
+
 #include "../concurrency/RingBuffer.hpp"
-#include "../file/WAVFile.hpp"
 
 const uint32_t INPUT_BUFFER_SIZE = 1024;
 const uint32_t SAMPLE_FREQ = 44100;
@@ -22,6 +24,9 @@ public:
     virtual void InitComplete() = 0;
 
     float speed_scale = 1.0;
+
+    std::shared_ptr<Waveform> waveform;
+    void DrawWaveform(const double scale);
 
 protected:
     std::unique_ptr<WAVFile> wav_file;

@@ -31,6 +31,7 @@ namespace Application
 
         bool dock_created = false;
         void DrawDock(bool* p_open);
+        void DrawPlot();
 
     public:
         Client(

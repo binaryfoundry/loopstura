@@ -4,6 +4,7 @@
 
 #include "imgui/imgui.h"
 #include "imgui/imgui_internal.h"
+#include "imgui_plot/imgui_plot.h"
 
 #include "sdl/SDLTrack.hpp"
 
@@ -129,6 +130,46 @@ namespace Application
         ImGui::End();
     }
 
+    void Client::DrawPlot()
+    {
+        if (track == nullptr)
+            return;
+
+        track->DrawWaveform(200);
+
+        static const float* y_data[] = { &track->waveform->min_data[0], &track->waveform->max_data[0] };
+        static ImU32 colors[2] = { ImColor(255, 255, 0), ImColor(255, 255, 0) };
+        static uint32_t selection_start = 0, selection_length = 0;
+
+        ImGui::PlotConfig conf;
+        conf.values.xs = &track->waveform->x_data[0];
+        conf.values.count = track->waveform->Size();
+        conf.values.ys_list = y_data;
+        conf.values.ys_count = 2;
+        conf.values.colors = colors;
+        conf.scale.min = -1;
+        conf.scale.max = 1;
+        conf.tooltip.show = true;
+        conf.grid_x.show = true;
+        conf.grid_x.size = 128;
+        conf.grid_x.subticks = 4;
+        conf.grid_y.show = true;
+        conf.grid_y.size = 0.5f;
+        conf.grid_y.subticks = 5;
+        conf.selection.show = true;
+        conf.selection.start = &selection_start;
+        conf.selection.length = &selection_length;
+        conf.frame_size = ImVec2((float)track->waveform->Size(), 200);
+        ImGui::Plot("plot1", conf);
+
+        conf.values.ys_list = nullptr;
+        conf.selection.show = false;
+        conf.values.ys = &track->waveform->max_data[0];
+        conf.values.offset = selection_start;
+        conf.values.count = selection_length;
+        conf.line_thickness = 1.f;
+    }
+
     void Client::Update()
     {
         ImGui::NewFrame();
@@ -149,6 +190,8 @@ namespace Application
 
         if (track != nullptr)
             ImGui::SliderFloat("Speed", &track->speed_scale, -2, 2);
+
+        DrawPlot();
 
         ImGui::End();
 

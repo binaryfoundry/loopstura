@@ -53,18 +53,20 @@ set(HEADERS_PROPERTIES
     src/properties/Manager.hpp)
 
 set(SOURCES_AUDIO
-    src/audio/Track.cpp)
+    src/audio/Track.cpp
+    src/audio/Waveform.cpp
+    src/audio/WAVFile.hpp)
 
 set(HEADERS_AUDIO
-    src/audio/Track.hpp)
+    src/audio/Track.hpp
+    src/audio/Waveform.hpp
+    src/audio/WAVFile.cpp)
 
 set(SOURCES_FILE
-    src/file/MappedFile.cpp
-    src/file/WAVFile.cpp)
+    src/file/MappedFile.cpp)
 
 set(HEADERS_FILE
-    src/file/MappedFile.hpp
-    src/file/WAVFile.hpp)
+    src/file/MappedFile.hpp)
 
 set(SOURCES_CONCURRENCY
     src/concurrency/Worker.cpp
@@ -124,7 +126,8 @@ set(SOURCES_IMGUI
     lib/imgui/imgui/imgui_demo.cpp
     lib/imgui/imgui/imgui_tables.cpp
     lib/imgui/imgui/imgui_draw.cpp
-    lib/imgui/imgui/imgui_widgets.cpp)
+    lib/imgui/imgui/imgui_widgets.cpp
+    lib/imgui_plot/imgui_plot/imgui_plot.cpp)
 
 set(HEADERS_IMGUI
     lib/imgui/imgui/imconfig.h
@@ -132,7 +135,8 @@ set(HEADERS_IMGUI
     lib/imgui/imgui/imgui_internal.h
     lib/imgui/imgui/imstb_rectpack.h
     lib/imgui/imgui/imstb_textedit.h
-    lib/imgui/imgui/imstb_truetype.h)
+    lib/imgui/imgui/imstb_truetype.h
+    lib/imgui_plot/imgui_plot/imgui_plot.h)
 
 file(GLOB RESOURCES "${PROJECT_SOURCE_DIR}/resources/*.*")
 
@@ -199,7 +203,8 @@ endif()
 
 include_directories(
     ${PROJECT_SOURCE_DIR}/lib/glm
-    ${PROJECT_SOURCE_DIR}/lib/imgui)
+    ${PROJECT_SOURCE_DIR}/lib/imgui
+    ${PROJECT_SOURCE_DIR}/lib/imgui_plot)
 
 link_directories(
     ${FFMPEG_LIB_PATH})

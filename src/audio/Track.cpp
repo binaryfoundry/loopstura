@@ -26,6 +26,8 @@ Track::Track()
 {
     wav_file = std::make_unique<WAVFile>("D:\\file_example_WAV_10MG.wav");
 
+    waveform = std::make_unique<Waveform>(512);
+
     for (uint32_t i = 0; i < 8; i++)
     {
         ReadInput();
@@ -72,6 +74,11 @@ Track::~Track()
     output_thread_running = false;
     input_cond_var.notify_one();
     output_thread->join();
+}
+
+void Track::DrawWaveform(const double scale)
+{
+    wav_file->Draw(waveform, scale);
 }
 
 void Track::ReadInput()

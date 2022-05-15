@@ -4,12 +4,13 @@
 #include <string>
 #include <memory>
 
-#include "MappedFile.hpp"
+#include "Waveform.hpp"
+#include "../file/MappedFile.hpp"
 
 class WAVFile
 {
 public:
-    double position = 0;
+    std::atomic<double> position = 0;
 
     WAVFile(const std::string path);
     virtual ~WAVFile();
@@ -17,10 +18,14 @@ public:
     template<typename T>
     T const ReadSample()
     {
-        const size_t index = (static_cast<size_t>(position) * num_channels *
-            (bits_per_sample / 8)) % subchunk2_size;
+        const T* val = (T*)(data + position_to_index(position));
+        return *val;
+    }
 
-        const T* val = (T*)(data + index);
+    template<typename T>
+    T const ReadSample(const double pos)
+    {
+        const T* val = (T*)(data + position_to_index(pos));
         return *val;
     }
 
@@ -34,7 +39,15 @@ public:
         return num_channels;
     }
 
+    void Draw(std::shared_ptr<Waveform> waveform, const double scale);
+
 private:
+    inline size_t position_to_index(double pos)
+    {
+        return (static_cast<size_t>(pos) * num_channels *
+            (bits_per_sample / 8)) % subchunk2_size;
+    }
+
     uint8_t  chunk_id[4] = { 0, 0, 0, 0 };
     uint32_t chunk_size = 0;
     uint8_t  format[4] = { 0, 0, 0, 0 };

@@ -63,3 +63,27 @@ void WAVFile::ReadHeader()
     return;
 }
 
+void WAVFile::Draw(std::shared_ptr<Waveform> waveform, const double scale)
+{
+
+    for (size_t i = 0; i < waveform->Size(); ++i)
+    {
+        const float t = static_cast<float>(i) / sample_rate;
+        waveform->x_data[i] = t;
+        waveform->min_data[i] = 0;
+        waveform->max_data[i] = 0;
+    }
+
+    const size_t count = static_cast<size_t>(waveform->Size() * scale);
+    const double start = scale * static_cast<int64_t>(position / scale);
+
+    constexpr int16_t max_int16_t = std::numeric_limits<int16_t>::max();
+
+    for (size_t i = 0; i < count; ++i)
+    {
+        size_t j = static_cast<size_t>(i / scale);
+        float sample = static_cast<float>(ReadSample<int16_t>(start + i)) / max_int16_t;
+        waveform->max_data[j] = std::max(sample, waveform->max_data[j]);
+        waveform->min_data[j] = std::min(sample, waveform->min_data[j]);
+    }
+}
