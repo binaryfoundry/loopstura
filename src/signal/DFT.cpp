@@ -2,6 +2,7 @@
 #include <cmath>
 
 // https://www.nayuki.io/page/how-to-implement-the-discrete-fourier-transform
+// https://gamedev.stackexchange.com/questions/9761/beat-detection-and-fft
 
 void dft(
     double* inreal , double* inimag,
