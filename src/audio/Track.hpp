@@ -28,7 +28,10 @@ public:
     std::shared_ptr<Waveform> waveform;
     void DrawWaveform(const double scale);
 
+    void SetPaused(bool value);
+
 protected:
+    std::atomic<bool> paused;
     std::unique_ptr<WAVFile> wav_file;
 
     void ReadInput();

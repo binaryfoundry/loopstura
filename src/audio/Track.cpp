@@ -24,6 +24,8 @@ private:
 
 Track::Track()
 {
+    paused = true;
+
     wav_file = std::make_unique<WAVFile>("D:\\file_example_WAV_10MG.wav");
 
     waveform = std::make_unique<Waveform>(512);
@@ -40,7 +42,11 @@ Track::Track()
         UpdateLimiter<INPUT_BUFFER_SIZE, SAMPLE_FREQ> limiter;
         while (input_thread_running)
         {
-            ReadInput();
+            if (!paused)
+            {
+                ReadInput();
+            }
+
             input_cond_var.notify_one();
             limiter.sleep();
         }
@@ -74,6 +80,11 @@ Track::~Track()
     output_thread_running = false;
     input_cond_var.notify_one();
     output_thread->join();
+}
+
+void Track::SetPaused(bool value)
+{
+    paused = value;
 }
 
 void Track::DrawWaveform(const double scale)

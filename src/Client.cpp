@@ -34,6 +34,9 @@ namespace Application
         renderer(renderer),
         context(context)
     {
+        track = std::make_unique<SDLTrack>();
+        track->InitComplete();
+
         quad_vertices = renderer->MakeVertexStream(
             StreamUsage::DYNAMIC,
             quad_vertices_data);
@@ -132,9 +135,6 @@ namespace Application
 
     void Client::DrawPlot()
     {
-        if (track == nullptr)
-            return;
-
         track->DrawWaveform(200);
 
         static const float* y_data[] = { &track->waveform->min_data[0], &track->waveform->max_data[0] };
@@ -181,15 +181,12 @@ namespace Application
 
         ImGui::Begin("Audio");
 
-        if (ImGui::Button("Play") && track == nullptr)
+        if (ImGui::Button("Play"))
         {
-            track = std::make_unique<SDLTrack>();
-            track->InitComplete();
-
+            track->SetPaused(false);
         }
 
-        if (track != nullptr)
-            ImGui::SliderFloat("Speed", &track->speed_scale, -2, 2);
+        ImGui::SliderFloat("Speed", &track->speed_scale, -2, 2);
 
         DrawPlot();
 
