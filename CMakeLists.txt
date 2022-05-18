@@ -79,12 +79,14 @@ set(HEADERS_CONCURRENCY
 set(SOURCES_SIGNAL
     src/signal/DFT.cpp
     src/signal/FFT.cpp
-    src/signal/Wavelets.cpp)
+    src/signal/Wavelets.cpp
+    src/signal/Windowing.cpp)
 
 set(HEADERS_SIGNAL
     src/signal/DFT.hpp
     src/signal/FFT.hpp
-    src/signal/Wavelets.hpp)
+    src/signal/Wavelets.hpp
+    src/signal/Windowing.hpp)
 
 set(SOURCES_RENDERING
     src/rendering/Instance.cpp

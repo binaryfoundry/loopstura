@@ -3,7 +3,7 @@
 #include <chrono>
 #include <ratio>
 
-#include "../signal/FFT.hpp"
+#include "../signal/Windowing.hpp"
 
 template<std::intmax_t N, std::intmax_t D>
 class UpdateLimiter {
@@ -24,11 +24,13 @@ private:
     std::chrono::time_point<std::chrono::steady_clock, decltype(time_between_frames)> tp;
 };
 
+constexpr HannWindow hann_window = HannWindow<WINDOW_SIZE>();
+
 Track::Track()
 {
     paused = true;
 
-    wav_file = std::make_unique<WAVFile>("D:\\file_example_WAV_10MG.wav");
+    wav_file = std::make_unique<WAVFile>("D:\\109193__juskiddink__leq-acappella.wav");
 
     waveform = std::make_unique<Waveform>(512);
 
@@ -60,7 +62,7 @@ Track::Track()
 
     output_thread = std::make_unique<std::thread>([&]
     {
-        std::array<std::complex<double>, WINDOW_SIZE> fft_buf;
+        std::array<Complex, WINDOW_SIZE> fft_buf;
 
         while (output_thread_running)
         {
@@ -74,24 +76,23 @@ Track::Track()
             {
                 while (!input_buffer.Empty())
                 {
-                    const float in = static_cast<float>(input_buffer.Read());
+                    const double in = static_cast<double>(input_buffer.Read());
 
-                    processingInputBuffer[processingInputBufferPointer++] = in;
-                    if (processingInputBufferPointer >= PROCESSING_BUFFER_SIZE)
+                    processing_input_buffer[processing_input_buffer_pointer++] = in;
+                    if (processing_input_buffer_pointer >= PROCESSING_BUFFER_SIZE)
                     {
                         // Wrap the circular buffer
                         // Notice: this is not the condition for starting a new FFT
-                        processingInputBufferPointer = 0;
+                        processing_input_buffer_pointer = 0;
                     }
 
                     //get the output sample from the output buffer
-                    float out = processing_output_buffer[processing_output_buffer_read_pointer];
+                    // Scale the output down by the overlap factor (e.g. how many windows overlap per sample?)
+                    double out = processing_output_buffer[processing_output_buffer_read_pointer] *
+                        (static_cast<double>(HOP_SIZE) / WINDOW_SIZE);
 
                     // then clear the output sample in the buffer so it is ready for the next overlap-add
                     processing_output_buffer[processing_output_buffer_read_pointer] = 0;
-
-                    // Scale the output down by the overlap factor (e.g. how many windows overlap per sample?)
-                    out *= static_cast<float>(HOP_SIZE) / WINDOW_SIZE;
 
                     // increment the read pointer in the output cicular buffer
                     processing_output_buffer_read_pointer++;
@@ -106,7 +107,7 @@ Track::Track()
                         hop_counter = 0;
 
                         process_fft(
-                            processingInputBuffer, processingInputBufferPointer,
+                            processing_input_buffer, processing_input_buffer_pointer,
                             processing_output_buffer, processing_output_buffer_write_pointer,
                             fft_buf);
 
@@ -146,16 +147,22 @@ void Track::DrawWaveform(const double scale)
 }
 
 void process_fft(
-    std::array<float, PROCESSING_BUFFER_SIZE> const& in_buffer, unsigned int in_pointer,
-    std::array<float, PROCESSING_BUFFER_SIZE>& out_buffer, unsigned int out_pointer,
-    std::array<std::complex<double>, WINDOW_SIZE>& fft_buf)
+    std::array<double, PROCESSING_BUFFER_SIZE> const& in_buffer, size_t in_pointer,
+    std::array<double, PROCESSING_BUFFER_SIZE>& out_buffer, size_t out_pointer,
+    std::array<Complex, WINDOW_SIZE>& fft_buf)
 {
     // Copy buffer into FFT input, starting one window ago
     for (int n = 0; n < WINDOW_SIZE; n++)
     {
         // Use modulo arithmetic to calculate the circular buffer index
         const size_t circular_buffer_index = (in_pointer + n - WINDOW_SIZE + PROCESSING_BUFFER_SIZE) % PROCESSING_BUFFER_SIZE;
-        fft_buf[n] = std::complex<double>(in_buffer[circular_buffer_index]);
+        fft_buf[n] = Complex(in_buffer[circular_buffer_index]);
+    }
+
+    // Analysis window
+    for (int n = 0; n < WINDOW_SIZE; n++)
+    {
+        fft_buf[n] = fft_buf[n] * hann_window.arr[n];
     }
 
     // Process the FFT based on the time domain input
@@ -165,17 +172,23 @@ void process_fft(
     for(int n = 0; n < WINDOW_SIZE; n++)
     {
         const Complex v = fft_buf[n];
-        double amplitude = std::sqrt(v.real() * v.real() + v.imag() * v.imag());
-        fft_buf[n] = std::complex<double>(amplitude, 0);
+        const double amplitude = std::sqrt(v.real() * v.real() + v.imag() * v.imag());
+        fft_buf[n] = Complex(amplitude, 0);
     }
 
     // Run the inverse FFT
     ifft(fft_buf);
 
+    // Synthesis window
+    for (int n = 0; n < WINDOW_SIZE; n++)
+    {
+        fft_buf[n] = fft_buf[n] * hann_window.arr[n];
+    }
+
     // Add timeDomainOut into the output buffer starting at the write pointer
     for (int n = 0; n < WINDOW_SIZE; n++)
     {
         const size_t circular_buffer_index = (out_pointer + n) % PROCESSING_BUFFER_SIZE;
-        out_buffer[circular_buffer_index] += static_cast<float>(fft_buf[n].real());
+        out_buffer[circular_buffer_index] += fft_buf[n].real();
     }
 }

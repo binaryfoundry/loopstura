@@ -29,8 +29,8 @@ static_assert(IS_POW_2(WINDOW_SIZE), "HOP_SIZE must be power of two.");
 static_assert(HOP_SIZE < WINDOW_SIZE, "HOP_SIZE must be less than WINDOW_SIZE");
 
 void process_fft(
-    std::array<float, PROCESSING_BUFFER_SIZE> const& in_buffer, unsigned int in_pointer,
-    std::array<float, PROCESSING_BUFFER_SIZE>& out_buffer, unsigned int out_pointer,
+    std::array<double, PROCESSING_BUFFER_SIZE> const& in_buffer, size_t in_pointer,
+    std::array<double, PROCESSING_BUFFER_SIZE>& out_buffer, size_t out_pointer,
     std::array<Complex, WINDOW_SIZE>& fft_buf);
 
 class Track
@@ -67,12 +67,12 @@ protected:
     virtual void Queue(const void* data, uint32_t len) = 0;
 
     // Circular buffer and pointer for assembling a window of samples
-    std::array<float, PROCESSING_BUFFER_SIZE> processing_input_buffer {};
+    std::array<double, PROCESSING_BUFFER_SIZE> processing_input_buffer {};
     std::atomic<uint32_t> processing_input_buffer_pointer = 0;
     std::atomic<uint32_t> hop_counter = 0;
 
     // Circular buffer for collecting the output of the overlap-add process
-    std::array<float, PROCESSING_BUFFER_SIZE> processing_output_buffer {};
+    std::array<double, PROCESSING_BUFFER_SIZE> processing_output_buffer {};
     std::atomic<uint32_t> processing_output_buffer_write_pointer = HOP_SIZE;        // At minimum, write pointer stays one hop ahead of read pointer
     std::atomic<uint32_t> processing_output_buffer_read_pointer = 0;
 };
