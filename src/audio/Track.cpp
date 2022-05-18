@@ -24,10 +24,15 @@ private:
     std::chrono::time_point<std::chrono::steady_clock, decltype(time_between_frames)> tp;
 };
 
-constexpr HannWindow hann_window = HannWindow<WINDOW_SIZE>();
+std::array<double, WINDOW_SIZE> hann_window;
 
 Track::Track()
 {
+    for (size_t i = 0; i < WINDOW_SIZE; i++)
+    {
+        hann_window[i] = 0.5 * (1.0 - cos(2.0 * 3.14159265358979323846 * i / (WINDOW_SIZE - 1)));
+    }
+
     paused = true;
 
     wav_file = std::make_unique<WAVFile>("D:\\109193__juskiddink__leq-acappella.wav");
@@ -162,7 +167,7 @@ void process_fft(
     // Analysis window
     for (int n = 0; n < WINDOW_SIZE; n++)
     {
-        fft_buf[n] = fft_buf[n] * hann_window.arr[n];
+        fft_buf[n] = fft_buf[n] * hann_window[n];
     }
 
     // Process the FFT based on the time domain input
@@ -182,7 +187,7 @@ void process_fft(
     // Synthesis window
     for (int n = 0; n < WINDOW_SIZE; n++)
     {
-        fft_buf[n] = fft_buf[n] * hann_window.arr[n];
+        fft_buf[n] = fft_buf[n] * hann_window[n];
     }
 
     // Add timeDomainOut into the output buffer starting at the write pointer
