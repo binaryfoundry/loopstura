@@ -43,4 +43,20 @@ public:
         buffer[idx] = val;
         head.fetch_add(1);
     }
+
+    size_t const Count() const
+    {
+        return head - tail;
+    }
+
+    size_t const Head() const
+    {
+        return head;
+    }
+
+    size_t const Tail() const
+    {
+        return tail;
+    }
+
 };
