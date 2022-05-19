@@ -31,6 +31,7 @@ double wrap_phase(double phaseIn)
     else
         return fmod(phaseIn - std::numbers::pi, -2.0 * std::numbers::pi) + std::numbers::pi;
 }
+//                    double pitch_shift = pow(2.0, pitch_shift_semitones);
 
 void process_fft(
     std::shared_ptr<WAVFile> wav_file,
@@ -39,6 +40,8 @@ void process_fft(
     std::array<Complex, FFT_SIZE>& fft_buf,
     std::array<double, FFT_SIZE / 2 + 1>& analysis_magnitudes,
     std::array<double, FFT_SIZE / 2 + 1>& analysis_frequencies,
+    std::array<double, FFT_SIZE / 2 + 1>& synthesis_magnitudes,
+    std::array<double, FFT_SIZE / 2 + 1>& synthesis_frequencies,
     std::array<double, FFT_SIZE>& last_input_phases,
     std::array<double, FFT_SIZE>& window,
     std::atomic<double>& frequency,
@@ -183,6 +186,8 @@ Track::Track()
 
         std::array<double, FFT_SIZE / 2 + 1> analysis_magnitudes;
         std::array<double, FFT_SIZE / 2 + 1> analysis_frequencies;
+        std::array<double, FFT_SIZE / 2 + 1> synthesis_magnitudes;
+        std::array<double, FFT_SIZE / 2 + 1> synthesis_frequencies;
         std::array<double, FFT_SIZE> last_input_phases;
 
         while (output_thread_running)
@@ -197,7 +202,6 @@ Track::Track()
             {
                 while (!input_buffer.Empty())
                 {
-
                     const double in = static_cast<double>(input_buffer.Read());
 
                     processing_input_buffer[processing_input_buffer_pointer++] = in;
@@ -241,6 +245,8 @@ Track::Track()
                             fft_buf,
                             analysis_magnitudes,
                             analysis_frequencies,
+                            synthesis_magnitudes,
+                            synthesis_frequencies,
                             last_input_phases,
                             window,
                             frequency,

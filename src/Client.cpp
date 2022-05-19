@@ -188,6 +188,8 @@ namespace Application
 
         ImGui::SliderFloat("Speed", &track->speed_scale, -2, 2);
         ImGui::SliderInt("Hop Size", &track->hop_size, 64, 1024);
+        ImGui::SliderFloat("Pitch Shift", &track->pitch_shift_semitones, -12, 12);
+
         DrawPlot();
 
         ImGui::Text("Estimated Frequency: %f", track->Frequency());
