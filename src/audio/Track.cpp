@@ -31,103 +31,6 @@ double wrap_phase(double phaseIn)
     else
         return fmod(phaseIn - std::numbers::pi, -2.0 * std::numbers::pi) + std::numbers::pi;
 }
-//                    double pitch_shift = pow(2.0, pitch_shift_semitones);
-
-void process_fft(
-    std::shared_ptr<WAVFile> wav_file,
-    std::array<double, PROCESSING_BUFFER_SIZE> const& in_buffer, const size_t in_pointer,
-    std::array<double, PROCESSING_BUFFER_SIZE>& out_buffer, const size_t out_pointer,
-    std::array<Complex, FFT_SIZE>& fft_buf,
-    std::array<double, FFT_SIZE / 2 + 1>& analysis_magnitudes,
-    std::array<double, FFT_SIZE / 2 + 1>& analysis_frequencies,
-    std::array<double, FFT_SIZE / 2 + 1>& synthesis_magnitudes,
-    std::array<double, FFT_SIZE / 2 + 1>& synthesis_frequencies,
-    std::array<double, FFT_SIZE>& last_input_phases,
-    std::array<double, FFT_SIZE>& window,
-    std::atomic<double>& frequency,
-    const int hop_size)
-{
-    // Copy buffer into FFT input, starting one window ago
-    for (int n = 0; n < FFT_SIZE; n++)
-    {
-        // Use modulo arithmetic to calculate the circular buffer index
-        const size_t circular_buffer_index = (in_pointer + n - FFT_SIZE + PROCESSING_BUFFER_SIZE) % PROCESSING_BUFFER_SIZE;
-        fft_buf[n] = Complex(in_buffer[circular_buffer_index]);
-    }
-
-    // Analysis window
-    for (int n = 0; n < FFT_SIZE; n++)
-    {
-        fft_buf[n] = fft_buf[n] * window[n];
-    }
-
-    // Process the FFT based on the time domain input
-    fft(fft_buf);
-
-    size_t max_bin_index = 0;
-    double max_bin_value = 0;
-
-    for (int n = 0; n < FFT_SIZE / 2; n++)
-    {
-        const Complex v = fft_buf[n];
-        const double amplitude = std::sqrt(v.real() * v.real() + v.imag() * v.imag());
-        const double phase = atan2(v.imag(), v.real());
-
-        const double phase_diff_unwrapped = phase - last_input_phases[n];
-        const double bin_centre_frequency = 2.0 * std::numbers::pi / (float)n / (float)FFT_SIZE;
-        const double phase_diff = wrap_phase(phase_diff_unwrapped - bin_centre_frequency * hop_size);
-        const double bin_deviation = phase_diff * (float)FFT_SIZE / (float)hop_size / (2.0 * std::numbers::pi);
-
-        analysis_magnitudes[n] = (double)n + bin_deviation;
-        analysis_frequencies[n] = amplitude;
-        last_input_phases[n] = phase;
-
-        if (amplitude > max_bin_value)
-        {
-            max_bin_value = amplitude;
-            max_bin_index = n;
-        }
-    }
-
-    frequency = max_bin_index * wav_file->SampleRate() / FFT_SIZE;
-
-#if false
-    // Robotise the output
-    for(int n = 0; n < FFT_SIZE; n++)
-    {
-        const Complex v = fft_buf[n];
-        const double amplitude = std::sqrt(v.real() * v.real() + v.imag() * v.imag());
-        fft_buf[n] = Complex(amplitude, 0);
-    }
-#else
-    // Whisperise the output
-    for (int n = 0; n < FFT_SIZE; n++)
-    {
-        const Complex v = fft_buf[n];
-        const double amplitude = std::sqrt(v.real() * v.real() + v.imag() * v.imag());
-        const double phase = 2.0 * std::numbers::pi * (float)rand() / (float)RAND_MAX;
-        const double real = amplitude * cos(phase);
-        const double imag = amplitude * sin(phase);
-        fft_buf[n] = Complex(real, imag);
-    }
-#endif
-
-    // Run the inverse FFT
-    ifft(fft_buf);
-
-    // Synthesis window
-    for (int n = 0; n < FFT_SIZE; n++)
-    {
-        fft_buf[n] = fft_buf[n] * window[n];
-    }
-
-    // Add timeDomainOut into the output buffer starting at the write pointer
-    for (int n = 0; n < FFT_SIZE; n++)
-    {
-        const size_t circular_buffer_index = (out_pointer + n) % PROCESSING_BUFFER_SIZE;
-        out_buffer[circular_buffer_index] += fft_buf[n].real();
-    }
-}
 
 void calculate_window(std::array<double, FFT_SIZE>& window, const size_t hop_size)
 {
@@ -181,15 +84,6 @@ Track::Track()
 
     output_thread = std::make_unique<std::thread>([&]
     {
-        std::array<Complex, FFT_SIZE> fft_buf;
-        std::array<double, FFT_SIZE> window;
-
-        std::array<double, FFT_SIZE / 2 + 1> analysis_magnitudes;
-        std::array<double, FFT_SIZE / 2 + 1> analysis_frequencies;
-        std::array<double, FFT_SIZE / 2 + 1> synthesis_magnitudes;
-        std::array<double, FFT_SIZE / 2 + 1> synthesis_frequencies;
-        std::array<double, FFT_SIZE> last_input_phases;
-
         while (output_thread_running)
         {
             std::unique_lock<std::mutex> lk(input_mutex);
@@ -238,19 +132,9 @@ Track::Track()
                         hop_size_last = hop_size;
                         hop_counter = 0;
 
-                        process_fft(
-                            wav_file,
+                        ProcessFFT(
                             processing_input_buffer, processing_input_buffer_pointer,
-                            processing_output_buffer, processing_output_buffer_write_pointer,
-                            fft_buf,
-                            analysis_magnitudes,
-                            analysis_frequencies,
-                            synthesis_magnitudes,
-                            synthesis_frequencies,
-                            last_input_phases,
-                            window,
-                            frequency,
-                            hop_size);
+                            processing_output_buffer, processing_output_buffer_write_pointer);
 
                         processing_output_buffer_write_pointer =
                             (processing_output_buffer_write_pointer + hop_size) % PROCESSING_BUFFER_SIZE;
@@ -266,6 +150,142 @@ Track::Track()
         }
     });
 }
+
+void Track::ProcessFFT(
+    std::array<double, PROCESSING_BUFFER_SIZE> const& in_buffer, const size_t in_pointer,
+    std::array<double, PROCESSING_BUFFER_SIZE>& out_buffer, const size_t out_pointer)
+{
+    // Copy buffer into FFT input, starting one window ago
+    for (int n = 0; n < FFT_SIZE; n++)
+    {
+        // Use modulo arithmetic to calculate the circular buffer index
+        const size_t circular_buffer_index = (in_pointer + n - FFT_SIZE + PROCESSING_BUFFER_SIZE) % PROCESSING_BUFFER_SIZE;
+        fft_buf[n] = Complex(in_buffer[circular_buffer_index]);
+    }
+
+    // Analysis window
+    for (int n = 0; n < FFT_SIZE; n++)
+    {
+        fft_buf[n] = fft_buf[n] * window[n];
+    }
+
+    // Process the FFT based on the time domain input
+    fft(fft_buf);
+
+    size_t max_bin_index = 0;
+    double max_bin_value = 0;
+
+    for (int n = 0; n < FFT_SIZE / 2; n++)
+    {
+        const Complex v = fft_buf[n];
+        const double amplitude = std::sqrt(v.real() * v.real() + v.imag() * v.imag());
+        const double phase = atan2(v.imag(), v.real());
+
+        const double phase_diff_unwrapped = phase - last_input_phases[n];
+        const double bin_centre_frequency = 2.0 * std::numbers::pi / (float)n / (float)FFT_SIZE;
+        const double phase_diff = wrap_phase(phase_diff_unwrapped - bin_centre_frequency * hop_size);
+        const double bin_deviation = phase_diff * (float)FFT_SIZE / (float)hop_size / (2.0 * std::numbers::pi);
+
+        analysis_magnitudes[n] = (double)n + bin_deviation;
+        analysis_frequencies[n] = amplitude;
+        last_input_phases[n] = phase;
+
+        if (amplitude > max_bin_value)
+        {
+            max_bin_value = amplitude;
+            max_bin_index = n;
+        }
+    }
+
+    frequency = max_bin_index * wav_file->SampleRate() / FFT_SIZE;
+
+    for (int n = 0; n < FFT_SIZE / 2; n++)
+    {
+        analysis_frequencies[n] = 0;
+        synthesis_frequencies[n] = 0;
+    }
+
+    const double pitch_shift = pow(2.0, pitch_shift_semitones);
+
+    for (int n = 0; n < FFT_SIZE / 2; n++)
+    {
+        const uint32_t new_bin = floorf(n * pitch_shift + 0.5);
+
+        // Ignore any bins above Nyquist
+        if (new_bin <= FFT_SIZE / 2)
+        {
+            synthesis_magnitudes[new_bin] += analysis_magnitudes[n];
+            synthesis_frequencies[new_bin] = analysis_frequencies[n] * pitch_shift;
+        }
+    }
+
+    for (int n = 0; n < FFT_SIZE / 2; n++)
+    {
+        const double amplitude = synthesis_magnitudes[n];
+
+        // Fractional offset from bin center frequency
+        const double bin_deviation = synthesis_frequencies[n] - n;
+
+        // Convert to phase value
+        double phase_diff = bin_deviation * 2.0 * std::numbers::pi * (double)hop_size / (double)FFT_SIZE;
+
+        const double bin_centre_frequency = 2.0 * std::numbers::pi * (double)n / (double)FFT_SIZE;
+        phase_diff += bin_centre_frequency * hop_size;
+
+        const double out_phase = wrap_phase(last_output_phases[n] + phase_diff);
+
+        const double real = amplitude * cos(out_phase);
+        const double imag = amplitude * sin(out_phase);
+
+        fft_buf[n] = Complex(real, imag);
+
+        // Fill in mirror image of FFT
+        if (n > 0 && n < FFT_SIZE / 2)
+        {
+            fft_buf[FFT_SIZE - n] = Complex(fft_buf[n].real(), -fft_buf[n].imag());
+        }
+
+        last_output_phases[n] = out_phase;
+    }
+
+#if false
+    // Robotise the output
+    for (int n = 0; n < FFT_SIZE; n++)
+    {
+        const Complex v = fft_buf[n];
+        const double amplitude = std::sqrt(v.real() * v.real() + v.imag() * v.imag());
+        fft_buf[n] = Complex(amplitude, 0);
+    }
+
+    // Whisperise the output
+    for (int n = 0; n < FFT_SIZE; n++)
+    {
+        const Complex v = fft_buf[n];
+        const double amplitude = std::sqrt(v.real() * v.real() + v.imag() * v.imag());
+        const double phase = 2.0 * std::numbers::pi * (float)rand() / (float)RAND_MAX;
+        const double real = amplitude * cos(phase);
+        const double imag = amplitude * sin(phase);
+        fft_buf[n] = Complex(real, imag);
+    }
+#endif
+
+    // Run the inverse FFT
+    ifft(fft_buf);
+
+    // Synthesis window
+    for (int n = 0; n < FFT_SIZE; n++)
+    {
+        fft_buf[n] = fft_buf[n] * window[n];
+    }
+
+    // Add timeDomainOut into the output buffer starting at the write pointer
+    for (int n = 0; n < FFT_SIZE; n++)
+    {
+        const size_t circular_buffer_index = (out_pointer + n) % PROCESSING_BUFFER_SIZE;
+        out_buffer[circular_buffer_index] += fft_buf[n].real();
+    }
+}
+
 
 Track::~Track()
 {

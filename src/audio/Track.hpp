@@ -78,4 +78,19 @@ protected:
     std::array<double, PROCESSING_BUFFER_SIZE> processing_output_buffer {};
     std::atomic<uint32_t> processing_output_buffer_write_pointer = 0;        // At minimum, write pointer stays one hop ahead of read pointer
     std::atomic<uint32_t> processing_output_buffer_read_pointer = 0;
+
+    // FFT Processing
+    std::array<Complex, FFT_SIZE> fft_buf;
+    std::array<double, FFT_SIZE> window;
+
+    std::array<double, FFT_SIZE / 2 + 1> analysis_magnitudes;
+    std::array<double, FFT_SIZE / 2 + 1> analysis_frequencies;
+    std::array<double, FFT_SIZE / 2 + 1> synthesis_magnitudes;
+    std::array<double, FFT_SIZE / 2 + 1> synthesis_frequencies;
+    std::array<double, FFT_SIZE> last_input_phases;
+    std::array<double, FFT_SIZE> last_output_phases;
+
+    void ProcessFFT(
+        std::array<double, PROCESSING_BUFFER_SIZE> const& in_buffer, const size_t in_pointer,
+        std::array<double, PROCESSING_BUFFER_SIZE>& out_buffer, const size_t out_pointer);
 };
