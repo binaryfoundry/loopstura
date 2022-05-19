@@ -175,19 +175,19 @@ void Track::ProcessFFT(
     size_t max_bin_index = 0;
     double max_bin_value = 0;
 
-    for (int n = 0; n < FFT_SIZE / 2; n++)
+    for (int n = 0; n <= FFT_SIZE / 2; n++)
     {
         const Complex v = fft_buf[n];
         const double amplitude = std::sqrt(v.real() * v.real() + v.imag() * v.imag());
         const double phase = atan2(v.imag(), v.real());
 
         const double phase_diff_unwrapped = phase - last_input_phases[n];
-        const double bin_centre_frequency = 2.0 * std::numbers::pi / (float)n / (float)FFT_SIZE;
+        const double bin_centre_frequency = 2.0 * std::numbers::pi * ((double)n / (double)FFT_SIZE);
         const double phase_diff = wrap_phase(phase_diff_unwrapped - bin_centre_frequency * hop_size);
-        const double bin_deviation = phase_diff * (float)FFT_SIZE / (float)hop_size / (2.0 * std::numbers::pi);
+        const double bin_deviation = phase_diff * (double)FFT_SIZE / (double)hop_size / (2.0 * std::numbers::pi);
 
-        analysis_magnitudes[n] = (double)n + bin_deviation;
-        analysis_frequencies[n] = amplitude;
+        analysis_magnitudes[n] = amplitude;
+        analysis_frequencies[n] = (double)n + bin_deviation;
         last_input_phases[n] = phase;
 
         if (amplitude > max_bin_value)
@@ -199,15 +199,16 @@ void Track::ProcessFFT(
 
     frequency = max_bin_index * wav_file->SampleRate() / FFT_SIZE;
 
-    for (int n = 0; n < FFT_SIZE / 2; n++)
+    for (int n = 0; n <= FFT_SIZE / 2; n++)
     {
-        analysis_frequencies[n] = 0;
+        synthesis_magnitudes[n] = 0;
         synthesis_frequencies[n] = 0;
     }
 
-    const double pitch_shift = pow(2.0, pitch_shift_semitones);
+    const double pitch_shift = pow(2.0, pitch_shift_semitones / 12.0);
 
-    for (int n = 0; n < FFT_SIZE / 2; n++)
+    // Handle pitch shift, storing frequencies in to new bins.
+    for (int n = 0; n <= FFT_SIZE / 2; n++)
     {
         const uint32_t new_bin = floorf(n * pitch_shift + 0.5);
 
@@ -219,7 +220,7 @@ void Track::ProcessFFT(
         }
     }
 
-    for (int n = 0; n < FFT_SIZE / 2; n++)
+    for (int n = 0; n <= FFT_SIZE / 2; n++)
     {
         const double amplitude = synthesis_magnitudes[n];
 
@@ -227,9 +228,9 @@ void Track::ProcessFFT(
         const double bin_deviation = synthesis_frequencies[n] - n;
 
         // Convert to phase value
-        double phase_diff = bin_deviation * 2.0 * std::numbers::pi * (double)hop_size / (double)FFT_SIZE;
+        double phase_diff = bin_deviation * 2.0 * std::numbers::pi * ((double)hop_size / (double)FFT_SIZE);
 
-        const double bin_centre_frequency = 2.0 * std::numbers::pi * (double)n / (double)FFT_SIZE;
+        const double bin_centre_frequency = 2.0 * std::numbers::pi * ((double)n / (double)FFT_SIZE);
         phase_diff += bin_centre_frequency * hop_size;
 
         const double out_phase = wrap_phase(last_output_phases[n] + phase_diff);

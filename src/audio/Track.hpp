@@ -36,7 +36,7 @@ public:
 
     float speed_scale = 1.0;
     int hop_size = 256;
-    float pitch_shift_semitones = 1.0;
+    float pitch_shift_semitones = 0.0;
 
     std::shared_ptr<Waveform> waveform;
     void DrawWaveform(const double scale);
