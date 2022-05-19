@@ -24,8 +24,6 @@ private:
     std::chrono::time_point<std::chrono::steady_clock, decltype(time_between_frames)> tp;
 };
 
-static std::array<double, FFT_SIZE> hann_window;
-
 double wrap_phase(double phaseIn)
 {
     if (phaseIn >= 0)
@@ -42,6 +40,7 @@ void process_fft(
     std::array<double, FFT_SIZE / 2 + 1>& analysis_magnitudes,
     std::array<double, FFT_SIZE / 2 + 1>& analysis_frequencies,
     std::array<double, FFT_SIZE>& last_input_phases,
+    std::array<double, FFT_SIZE>& window,
     std::atomic<double>& frequency,
     const int hop_size)
 {
@@ -56,7 +55,7 @@ void process_fft(
     // Analysis window
     for (int n = 0; n < FFT_SIZE; n++)
     {
-        fft_buf[n] = fft_buf[n] * hann_window[n];
+        fft_buf[n] = fft_buf[n] * window[n];
     }
 
     // Process the FFT based on the time domain input
@@ -103,7 +102,7 @@ void process_fft(
     // Synthesis window
     for (int n = 0; n < FFT_SIZE; n++)
     {
-        fft_buf[n] = fft_buf[n] * hann_window[n];
+        fft_buf[n] = fft_buf[n] * window[n];
     }
 
     // Add timeDomainOut into the output buffer starting at the write pointer
@@ -114,13 +113,23 @@ void process_fft(
     }
 }
 
+void calculate_window(std::array<double, FFT_SIZE>& window, const size_t hop_size)
+{
+    // Recalculate window based on overlap factor
+    const size_t OVERLAP = 4;
+
+    size_t length = hop_size * OVERLAP;
+    if (length > FFT_SIZE)
+        length = FFT_SIZE;
+
+    for (size_t i = 0; i < length; i++)
+    {
+        window[i] = 0.5 * (1.0 - cos(2.0 * std::numbers::pi * i / (length - 1)));
+    }
+}
+
 Track::Track()
 {
-    for (size_t i = 0; i < FFT_SIZE; i++)
-    {
-        hann_window[i] = 0.5 * (1.0 - cos(2.0 * std::numbers::pi * i / (FFT_SIZE - 1)));
-    }
-
     processing_output_buffer_write_pointer = hop_size;
     paused = true;
 
@@ -157,6 +166,7 @@ Track::Track()
     output_thread = std::make_unique<std::thread>([&]
     {
         std::array<Complex, FFT_SIZE> fft_buf;
+        std::array<double, FFT_SIZE> window;
 
         std::array<double, FFT_SIZE / 2 + 1> analysis_magnitudes;
         std::array<double, FFT_SIZE / 2 + 1> analysis_frequencies;
@@ -200,9 +210,15 @@ Track::Track()
                         processing_output_buffer_read_pointer = 0;
                     }
 
+                    if (hop_size != hop_size_last)
+                    {
+                        calculate_window(window, hop_size);
+                    }
+
                     // increment the hop counter and start a new FFT if we've reached the hop size
                     if (++hop_counter >= hop_size)
                     {
+                        hop_size_last = hop_size;
                         hop_counter = 0;
 
                         process_fft(
@@ -213,6 +229,7 @@ Track::Track()
                             analysis_magnitudes,
                             analysis_frequencies,
                             last_input_phases,
+                            window,
                             frequency,
                             hop_size);
 

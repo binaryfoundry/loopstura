@@ -48,6 +48,8 @@ public:
     }
 
 protected:
+    int hop_size_last = -1;
+
     std::atomic<double> frequency = 0;
 
     std::atomic<bool> paused;
