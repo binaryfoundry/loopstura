@@ -25,11 +25,7 @@ private:
     std::chrono::time_point<std::chrono::steady_clock, decltype(time_between_frames)> tp;
 };
 
-std::array<double, WINDOW_SIZE> hann_window;
-
-static std::array<double, WINDOW_SIZE / 2 + 1> analysisMagnitudes;
-static std::array<double, WINDOW_SIZE / 2 + 1> analysisFrequencies;
-static std::array<double, WINDOW_SIZE> last_input_phases;
+static std::array<double, WINDOW_SIZE> hann_window;
 
 double wrap_phase(double phaseIn)
 {
@@ -39,6 +35,83 @@ double wrap_phase(double phaseIn)
         return fmod(phaseIn - std::numbers::pi, -2.0 * std::numbers::pi) + std::numbers::pi;
 }
 
+void process_fft(
+    std::array<double, PROCESSING_BUFFER_SIZE> const& in_buffer, size_t in_pointer,
+    std::array<double, PROCESSING_BUFFER_SIZE>& out_buffer, size_t out_pointer,
+    std::array<Complex, WINDOW_SIZE>& fft_buf,
+    std::array<double, WINDOW_SIZE / 2 + 1>& analysis_magnitudes,
+    std::array<double, WINDOW_SIZE / 2 + 1>& analysis_frequencies,
+    std::array<double, WINDOW_SIZE>& last_input_phases,
+    double& frequency)
+{
+    // Copy buffer into FFT input, starting one window ago
+    for (int n = 0; n < WINDOW_SIZE; n++)
+    {
+        // Use modulo arithmetic to calculate the circular buffer index
+        const size_t circular_buffer_index = (in_pointer + n - WINDOW_SIZE + PROCESSING_BUFFER_SIZE) % PROCESSING_BUFFER_SIZE;
+        fft_buf[n] = Complex(in_buffer[circular_buffer_index]);
+    }
+
+    // Analysis window
+    for (int n = 0; n < WINDOW_SIZE; n++)
+    {
+        fft_buf[n] = fft_buf[n] * hann_window[n];
+    }
+
+    // Process the FFT based on the time domain input
+    fft(fft_buf);
+
+    size_t max_bin_index = 0;
+    double max_bin_value = 0;
+
+    for (int n = 0; n < WINDOW_SIZE / 2; n++)
+    {
+        const Complex v = fft_buf[n];
+        const double amplitude = std::sqrt(v.real() * v.real() + v.imag() * v.imag());
+        const double phase = atan2(v.imag(), v.real());
+
+        const double phase_diff_unwrapped = phase - last_input_phases[n];
+        const double bin_centre_frequency = 2.0 * std::numbers::pi / (float)n / (float)WINDOW_SIZE;
+        const double phase_diff = wrap_phase(phase_diff_unwrapped - bin_centre_frequency * HOP_SIZE);
+        const double bin_deviation = phase_diff * (float)WINDOW_SIZE / (float)HOP_SIZE / (2.0 * std::numbers::pi);
+
+        analysis_magnitudes[n] = (double)n + bin_deviation;
+        analysis_frequencies[n] = amplitude;
+        last_input_phases[n] = phase;
+
+        if (amplitude > max_bin_value)
+        {
+            max_bin_value = amplitude;
+            max_bin_index = n;
+        }
+    }
+
+    frequency = max_bin_index * 44100.0 / WINDOW_SIZE;
+
+    // Robotise the output
+    //for(int n = 0; n < WINDOW_SIZE; n++)
+    //{
+    //    const Complex v = fft_buf[n];
+    //    const double amplitude = std::sqrt(v.real() * v.real() + v.imag() * v.imag());
+    //    fft_buf[n] = Complex(amplitude, 0);
+    //}
+
+    // Run the inverse FFT
+    ifft(fft_buf);
+
+    // Synthesis window
+    for (int n = 0; n < WINDOW_SIZE; n++)
+    {
+        fft_buf[n] = fft_buf[n] * hann_window[n];
+    }
+
+    // Add timeDomainOut into the output buffer starting at the write pointer
+    for (int n = 0; n < WINDOW_SIZE; n++)
+    {
+        const size_t circular_buffer_index = (out_pointer + n) % PROCESSING_BUFFER_SIZE;
+        out_buffer[circular_buffer_index] += fft_buf[n].real();
+    }
+}
 
 Track::Track()
 {
@@ -82,6 +155,10 @@ Track::Track()
     output_thread = std::make_unique<std::thread>([&]
     {
         std::array<Complex, WINDOW_SIZE> fft_buf;
+
+        std::array<double, WINDOW_SIZE / 2 + 1> analysis_magnitudes;
+        std::array<double, WINDOW_SIZE / 2 + 1> analysis_frequencies;
+        std::array<double, WINDOW_SIZE> last_input_phases;
 
         while (output_thread_running)
         {
@@ -129,7 +206,11 @@ Track::Track()
                         process_fft(
                             processing_input_buffer, processing_input_buffer_pointer,
                             processing_output_buffer, processing_output_buffer_write_pointer,
-                            fft_buf);
+                            fft_buf,
+                            analysis_magnitudes,
+                            analysis_frequencies,
+                            last_input_phases,
+                            frequency);
 
                         processing_output_buffer_write_pointer =
                             (processing_output_buffer_write_pointer + HOP_SIZE) % PROCESSING_BUFFER_SIZE;
@@ -164,84 +245,4 @@ void Track::SetPaused(bool value)
 void Track::DrawWaveform(const double scale)
 {
     wav_file->Draw(waveform, scale);
-}
-
-void process_fft(
-    std::array<double, PROCESSING_BUFFER_SIZE> const& in_buffer, size_t in_pointer,
-    std::array<double, PROCESSING_BUFFER_SIZE>& out_buffer, size_t out_pointer,
-    std::array<Complex, WINDOW_SIZE>& fft_buf)
-{
-    // Copy buffer into FFT input, starting one window ago
-    for (int n = 0; n < WINDOW_SIZE; n++)
-    {
-        // Use modulo arithmetic to calculate the circular buffer index
-        const size_t circular_buffer_index = (in_pointer + n - WINDOW_SIZE + PROCESSING_BUFFER_SIZE) % PROCESSING_BUFFER_SIZE;
-        fft_buf[n] = Complex(in_buffer[circular_buffer_index]);
-    }
-
-    // Analysis window
-    for (int n = 0; n < WINDOW_SIZE; n++)
-    {
-        fft_buf[n] = fft_buf[n] * hann_window[n];
-    }
-
-    // Process the FFT based on the time domain input
-    fft(fft_buf);
-
-    size_t max_bin_index = 0;
-    double max_bin_value = 0;
-
-    for (int n = 0; n < WINDOW_SIZE / 2; n++)
-    {
-        const Complex v = fft_buf[n];
-        const double amplitude = std::sqrt(v.real() * v.real() + v.imag() * v.imag());
-        const double phase = atan2(v.imag(), v.real());
-
-        const double phase_diff_unwrapped = phase - last_input_phases[n];
-
-        const double bin_centre_frequency = 2.0 * std::numbers::pi / (float)n / (float)WINDOW_SIZE;
-
-        const double phase_diff = wrap_phase(phase_diff_unwrapped - bin_centre_frequency * HOP_SIZE);
-
-        const double bin_deviation = phase_diff * (float)WINDOW_SIZE / (float)HOP_SIZE / (2.0 * std::numbers::pi);
-
-        analysisFrequencies[n] = (double)n + bin_deviation;
-
-        analysisMagnitudes[n] = amplitude;
-
-        last_input_phases[n] = phase;
-
-        if (amplitude > max_bin_value)
-        {
-            max_bin_value = amplitude;
-            max_bin_index = n;
-        }
-    }
-
-    const double max_freq = max_bin_index * 44100.0 / WINDOW_SIZE;
-    std::cout << max_bin_index << " " << max_freq << "\n";
-
-    // Robotise the output
-    //for(int n = 0; n < WINDOW_SIZE; n++)
-    //{
-    //    const Complex v = fft_buf[n];
-    //    const double amplitude = std::sqrt(v.real() * v.real() + v.imag() * v.imag());
-    //    fft_buf[n] = Complex(amplitude, 0);
-    //}
-
-    // Run the inverse FFT
-    ifft(fft_buf);
-
-    // Synthesis window
-    for (int n = 0; n < WINDOW_SIZE; n++)
-    {
-        fft_buf[n] = fft_buf[n] * hann_window[n];
-    }
-
-    // Add timeDomainOut into the output buffer starting at the write pointer
-    for (int n = 0; n < WINDOW_SIZE; n++)
-    {
-        const size_t circular_buffer_index = (out_pointer + n) % PROCESSING_BUFFER_SIZE;
-        out_buffer[circular_buffer_index] += fft_buf[n].real();
-    }
 }

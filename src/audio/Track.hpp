@@ -28,11 +28,6 @@ static_assert(IS_POW_2(HOP_SIZE), "HOP_SIZE must be power of two.");
 static_assert(IS_POW_2(WINDOW_SIZE), "HOP_SIZE must be power of two.");
 static_assert(HOP_SIZE < WINDOW_SIZE, "HOP_SIZE must be less than WINDOW_SIZE");
 
-void process_fft(
-    std::array<double, PROCESSING_BUFFER_SIZE> const& in_buffer, size_t in_pointer,
-    std::array<double, PROCESSING_BUFFER_SIZE>& out_buffer, size_t out_pointer,
-    std::array<Complex, WINDOW_SIZE>& fft_buf);
-
 class Track
 {
 
@@ -49,7 +44,14 @@ public:
 
     void SetPaused(bool value);
 
+    double Frequency()
+    {
+        return frequency;
+    }
+
 protected:
+    double frequency = 0;
+
     std::atomic<bool> paused;
     std::unique_ptr<WAVFile> wav_file;
 
