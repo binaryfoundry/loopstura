@@ -2,6 +2,7 @@
 
 #include <chrono>
 #include <ratio>
+#include <iostream>
 
 #include "../signal/Windowing.hpp"
 
@@ -25,6 +26,19 @@ private:
 };
 
 std::array<double, WINDOW_SIZE> hann_window;
+
+static std::array<double, WINDOW_SIZE / 2 + 1> analysisMagnitudes;
+static std::array<double, WINDOW_SIZE / 2 + 1> analysisFrequencies;
+static std::array<double, WINDOW_SIZE> last_input_phases;
+
+double wrap_phase(double phaseIn)
+{
+    if (phaseIn >= 0)
+        return fmod(phaseIn + std::numbers::pi, 2.0 * std::numbers::pi) - std::numbers::pi;
+    else
+        return fmod(phaseIn - std::numbers::pi, -2.0 * std::numbers::pi) + std::numbers::pi;
+}
+
 
 Track::Track()
 {
@@ -81,6 +95,7 @@ Track::Track()
             {
                 while (!input_buffer.Empty())
                 {
+
                     const double in = static_cast<double>(input_buffer.Read());
 
                     processing_input_buffer[processing_input_buffer_pointer++] = in;
@@ -173,13 +188,46 @@ void process_fft(
     // Process the FFT based on the time domain input
     fft(fft_buf);
 
-    // Robotise the output
-    for(int n = 0; n < WINDOW_SIZE; n++)
+    size_t max_bin_index = 0;
+    double max_bin_value = 0;
+
+    for (int n = 0; n < WINDOW_SIZE / 2; n++)
     {
         const Complex v = fft_buf[n];
         const double amplitude = std::sqrt(v.real() * v.real() + v.imag() * v.imag());
-        fft_buf[n] = Complex(amplitude, 0);
+        const double phase = atan2(v.imag(), v.real());
+
+        const double phase_diff_unwrapped = phase - last_input_phases[n];
+
+        const double bin_centre_frequency = 2.0 * std::numbers::pi / (float)n / (float)WINDOW_SIZE;
+
+        const double phase_diff = wrap_phase(phase_diff_unwrapped - bin_centre_frequency * HOP_SIZE);
+
+        const double bin_deviation = phase_diff * (float)WINDOW_SIZE / (float)HOP_SIZE / (2.0 * std::numbers::pi);
+
+        analysisFrequencies[n] = (double)n + bin_deviation;
+
+        analysisMagnitudes[n] = amplitude;
+
+        last_input_phases[n] = phase;
+
+        if (amplitude > max_bin_value)
+        {
+            max_bin_value = amplitude;
+            max_bin_index = n;
+        }
     }
+
+    const double max_freq = max_bin_index * 44100.0 / WINDOW_SIZE;
+    std::cout << max_bin_index << " " << max_freq << "\n";
+
+    // Robotise the output
+    //for(int n = 0; n < WINDOW_SIZE; n++)
+    //{
+    //    const Complex v = fft_buf[n];
+    //    const double amplitude = std::sqrt(v.real() * v.real() + v.imag() * v.imag());
+    //    fft_buf[n] = Complex(amplitude, 0);
+    //}
 
     // Run the inverse FFT
     ifft(fft_buf);
