@@ -36,8 +36,8 @@ double wrap_phase(double phaseIn)
 
 void process_fft(
     std::shared_ptr<WAVFile> wav_file,
-    std::array<double, PROCESSING_BUFFER_SIZE> const& in_buffer, size_t in_pointer,
-    std::array<double, PROCESSING_BUFFER_SIZE>& out_buffer, size_t out_pointer,
+    std::array<double, PROCESSING_BUFFER_SIZE> const& in_buffer, const size_t in_pointer,
+    std::array<double, PROCESSING_BUFFER_SIZE>& out_buffer, const size_t out_pointer,
     std::array<Complex, WINDOW_SIZE>& fft_buf,
     std::array<double, WINDOW_SIZE / 2 + 1>& analysis_magnitudes,
     std::array<double, WINDOW_SIZE / 2 + 1>& analysis_frequencies,
