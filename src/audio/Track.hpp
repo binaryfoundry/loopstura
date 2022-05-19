@@ -50,10 +50,10 @@ public:
     }
 
 protected:
-    double frequency = 0;
+    std::atomic<double> frequency = 0;
 
     std::atomic<bool> paused;
-    std::unique_ptr<WAVFile> wav_file;
+    std::shared_ptr<WAVFile> wav_file;
 
     std::atomic<bool> input_thread_running;
     std::unique_ptr<std::thread> input_thread;

@@ -2,7 +2,6 @@
 
 #include <chrono>
 #include <ratio>
-#include <iostream>
 
 #include "../signal/Windowing.hpp"
 
@@ -36,13 +35,14 @@ double wrap_phase(double phaseIn)
 }
 
 void process_fft(
+    std::shared_ptr<WAVFile> wav_file,
     std::array<double, PROCESSING_BUFFER_SIZE> const& in_buffer, size_t in_pointer,
     std::array<double, PROCESSING_BUFFER_SIZE>& out_buffer, size_t out_pointer,
     std::array<Complex, WINDOW_SIZE>& fft_buf,
     std::array<double, WINDOW_SIZE / 2 + 1>& analysis_magnitudes,
     std::array<double, WINDOW_SIZE / 2 + 1>& analysis_frequencies,
     std::array<double, WINDOW_SIZE>& last_input_phases,
-    double& frequency)
+    std::atomic<double>& frequency)
 {
     // Copy buffer into FFT input, starting one window ago
     for (int n = 0; n < WINDOW_SIZE; n++)
@@ -86,7 +86,7 @@ void process_fft(
         }
     }
 
-    frequency = max_bin_index * 44100.0 / WINDOW_SIZE;
+    frequency = max_bin_index * wav_file->SampleRate() / WINDOW_SIZE;
 
     // Robotise the output
     //for(int n = 0; n < WINDOW_SIZE; n++)
@@ -122,7 +122,7 @@ Track::Track()
 
     paused = true;
 
-    wav_file = std::make_unique<WAVFile>("D:\\109193__juskiddink__leq-acappella.wav");
+    wav_file = std::make_shared<WAVFile>("D:\\109193__juskiddink__leq-acappella.wav");
 
     waveform = std::make_unique<Waveform>(512);
 
@@ -204,6 +204,7 @@ Track::Track()
                         hop_counter = 0;
 
                         process_fft(
+                            wav_file,
                             processing_input_buffer, processing_input_buffer_pointer,
                             processing_output_buffer, processing_output_buffer_write_pointer,
                             fft_buf,
