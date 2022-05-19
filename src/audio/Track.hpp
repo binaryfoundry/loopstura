@@ -13,7 +13,7 @@
 #include "../signal/FFT.hpp"
 #include "../concurrency/RingBuffer.hpp"
 
-const uint32_t WINDOW_SIZE = 1024;
+const uint32_t FFT_SIZE = 1024;
 const uint32_t INPUT_BUFFER_SIZE = 16384;
 const uint32_t SAMPLE_FREQ = 44100;
 const size_t PROCESSING_BUFFER_SIZE = 16384;
@@ -23,7 +23,7 @@ constexpr bool IS_POW_2(int v)
     return v && ((v & (v - 1)) == 0);
 }
 
-static_assert(IS_POW_2(WINDOW_SIZE), "WINDOW_SIZE must be power of two.");
+static_assert(IS_POW_2(FFT_SIZE), "FFT_SIZE must be power of two.");
 
 class Track
 {

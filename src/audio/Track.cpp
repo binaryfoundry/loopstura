@@ -24,7 +24,7 @@ private:
     std::chrono::time_point<std::chrono::steady_clock, decltype(time_between_frames)> tp;
 };
 
-static std::array<double, WINDOW_SIZE> hann_window;
+static std::array<double, FFT_SIZE> hann_window;
 
 double wrap_phase(double phaseIn)
 {
@@ -38,23 +38,23 @@ void process_fft(
     std::shared_ptr<WAVFile> wav_file,
     std::array<double, PROCESSING_BUFFER_SIZE> const& in_buffer, const size_t in_pointer,
     std::array<double, PROCESSING_BUFFER_SIZE>& out_buffer, const size_t out_pointer,
-    std::array<Complex, WINDOW_SIZE>& fft_buf,
-    std::array<double, WINDOW_SIZE / 2 + 1>& analysis_magnitudes,
-    std::array<double, WINDOW_SIZE / 2 + 1>& analysis_frequencies,
-    std::array<double, WINDOW_SIZE>& last_input_phases,
+    std::array<Complex, FFT_SIZE>& fft_buf,
+    std::array<double, FFT_SIZE / 2 + 1>& analysis_magnitudes,
+    std::array<double, FFT_SIZE / 2 + 1>& analysis_frequencies,
+    std::array<double, FFT_SIZE>& last_input_phases,
     std::atomic<double>& frequency,
     const int hop_size)
 {
     // Copy buffer into FFT input, starting one window ago
-    for (int n = 0; n < WINDOW_SIZE; n++)
+    for (int n = 0; n < FFT_SIZE; n++)
     {
         // Use modulo arithmetic to calculate the circular buffer index
-        const size_t circular_buffer_index = (in_pointer + n - WINDOW_SIZE + PROCESSING_BUFFER_SIZE) % PROCESSING_BUFFER_SIZE;
+        const size_t circular_buffer_index = (in_pointer + n - FFT_SIZE + PROCESSING_BUFFER_SIZE) % PROCESSING_BUFFER_SIZE;
         fft_buf[n] = Complex(in_buffer[circular_buffer_index]);
     }
 
     // Analysis window
-    for (int n = 0; n < WINDOW_SIZE; n++)
+    for (int n = 0; n < FFT_SIZE; n++)
     {
         fft_buf[n] = fft_buf[n] * hann_window[n];
     }
@@ -65,16 +65,16 @@ void process_fft(
     size_t max_bin_index = 0;
     double max_bin_value = 0;
 
-    for (int n = 0; n < WINDOW_SIZE / 2; n++)
+    for (int n = 0; n < FFT_SIZE / 2; n++)
     {
         const Complex v = fft_buf[n];
         const double amplitude = std::sqrt(v.real() * v.real() + v.imag() * v.imag());
         const double phase = atan2(v.imag(), v.real());
 
         const double phase_diff_unwrapped = phase - last_input_phases[n];
-        const double bin_centre_frequency = 2.0 * std::numbers::pi / (float)n / (float)WINDOW_SIZE;
+        const double bin_centre_frequency = 2.0 * std::numbers::pi / (float)n / (float)FFT_SIZE;
         const double phase_diff = wrap_phase(phase_diff_unwrapped - bin_centre_frequency * hop_size);
-        const double bin_deviation = phase_diff * (float)WINDOW_SIZE / (float)hop_size / (2.0 * std::numbers::pi);
+        const double bin_deviation = phase_diff * (float)FFT_SIZE / (float)hop_size / (2.0 * std::numbers::pi);
 
         analysis_magnitudes[n] = (double)n + bin_deviation;
         analysis_frequencies[n] = amplitude;
@@ -87,10 +87,10 @@ void process_fft(
         }
     }
 
-    frequency = max_bin_index * wav_file->SampleRate() / WINDOW_SIZE;
+    frequency = max_bin_index * wav_file->SampleRate() / FFT_SIZE;
 
     // Robotise the output
-    for(int n = 0; n < WINDOW_SIZE; n++)
+    for(int n = 0; n < FFT_SIZE; n++)
     {
         const Complex v = fft_buf[n];
         const double amplitude = std::sqrt(v.real() * v.real() + v.imag() * v.imag());
@@ -101,13 +101,13 @@ void process_fft(
     ifft(fft_buf);
 
     // Synthesis window
-    for (int n = 0; n < WINDOW_SIZE; n++)
+    for (int n = 0; n < FFT_SIZE; n++)
     {
         fft_buf[n] = fft_buf[n] * hann_window[n];
     }
 
     // Add timeDomainOut into the output buffer starting at the write pointer
-    for (int n = 0; n < WINDOW_SIZE; n++)
+    for (int n = 0; n < FFT_SIZE; n++)
     {
         const size_t circular_buffer_index = (out_pointer + n) % PROCESSING_BUFFER_SIZE;
         out_buffer[circular_buffer_index] += fft_buf[n].real();
@@ -116,9 +116,9 @@ void process_fft(
 
 Track::Track()
 {
-    for (size_t i = 0; i < WINDOW_SIZE; i++)
+    for (size_t i = 0; i < FFT_SIZE; i++)
     {
-        hann_window[i] = 0.5 * (1.0 - cos(2.0 * std::numbers::pi * i / (WINDOW_SIZE - 1)));
+        hann_window[i] = 0.5 * (1.0 - cos(2.0 * std::numbers::pi * i / (FFT_SIZE - 1)));
     }
 
     processing_output_buffer_write_pointer = hop_size;
@@ -132,12 +132,12 @@ Track::Track()
 
     input_thread = std::make_unique<std::thread>([&]
     {
-        UpdateLimiter<WINDOW_SIZE, SAMPLE_FREQ> limiter;
+        UpdateLimiter<FFT_SIZE, SAMPLE_FREQ> limiter;
         while (input_thread_running)
         {
             if (!paused)
             {
-                for (int i = 0; i < WINDOW_SIZE; i++)
+                for (int i = 0; i < FFT_SIZE; i++)
                 {
                     const int16_t sample = wav_file->ReadSample<int16_t>();
                     input_buffer.Write(sample);
@@ -156,11 +156,11 @@ Track::Track()
 
     output_thread = std::make_unique<std::thread>([&]
     {
-        std::array<Complex, WINDOW_SIZE> fft_buf;
+        std::array<Complex, FFT_SIZE> fft_buf;
 
-        std::array<double, WINDOW_SIZE / 2 + 1> analysis_magnitudes;
-        std::array<double, WINDOW_SIZE / 2 + 1> analysis_frequencies;
-        std::array<double, WINDOW_SIZE> last_input_phases;
+        std::array<double, FFT_SIZE / 2 + 1> analysis_magnitudes;
+        std::array<double, FFT_SIZE / 2 + 1> analysis_frequencies;
+        std::array<double, FFT_SIZE> last_input_phases;
 
         while (output_thread_running)
         {
@@ -188,7 +188,7 @@ Track::Track()
                     //get the output sample from the output buffer
                     // Scale the output down by the overlap factor (e.g. how many windows overlap per sample?)
                     double out = processing_output_buffer[processing_output_buffer_read_pointer] *
-                        (static_cast<double>(hop_size) / WINDOW_SIZE);
+                        (static_cast<double>(hop_size) / FFT_SIZE);
 
                     // then clear the output sample in the buffer so it is ready for the next overlap-add
                     processing_output_buffer[processing_output_buffer_read_pointer] = 0;
