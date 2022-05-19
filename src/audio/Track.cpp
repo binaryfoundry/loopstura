@@ -88,6 +88,7 @@ void process_fft(
 
     frequency = max_bin_index * wav_file->SampleRate() / FFT_SIZE;
 
+#if false
     // Robotise the output
     for(int n = 0; n < FFT_SIZE; n++)
     {
@@ -95,6 +96,18 @@ void process_fft(
         const double amplitude = std::sqrt(v.real() * v.real() + v.imag() * v.imag());
         fft_buf[n] = Complex(amplitude, 0);
     }
+#else
+    // Whisperise the output
+    for (int n = 0; n < FFT_SIZE; n++)
+    {
+        const Complex v = fft_buf[n];
+        const double amplitude = std::sqrt(v.real() * v.real() + v.imag() * v.imag());
+        const double phase = 2.0 * std::numbers::pi * (float)rand() / (float)RAND_MAX;
+        const double real = amplitude * cos(phase);
+        const double imag = amplitude * sin(phase);
+        fft_buf[n] = Complex(real, imag);
+    }
+#endif
 
     // Run the inverse FFT
     ifft(fft_buf);
