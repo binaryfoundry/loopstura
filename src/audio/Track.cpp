@@ -42,7 +42,8 @@ void process_fft(
     std::array<double, WINDOW_SIZE / 2 + 1>& analysis_magnitudes,
     std::array<double, WINDOW_SIZE / 2 + 1>& analysis_frequencies,
     std::array<double, WINDOW_SIZE>& last_input_phases,
-    std::atomic<double>& frequency)
+    std::atomic<double>& frequency,
+    const int hop_size)
 {
     // Copy buffer into FFT input, starting one window ago
     for (int n = 0; n < WINDOW_SIZE; n++)
@@ -72,8 +73,8 @@ void process_fft(
 
         const double phase_diff_unwrapped = phase - last_input_phases[n];
         const double bin_centre_frequency = 2.0 * std::numbers::pi / (float)n / (float)WINDOW_SIZE;
-        const double phase_diff = wrap_phase(phase_diff_unwrapped - bin_centre_frequency * HOP_SIZE);
-        const double bin_deviation = phase_diff * (float)WINDOW_SIZE / (float)HOP_SIZE / (2.0 * std::numbers::pi);
+        const double phase_diff = wrap_phase(phase_diff_unwrapped - bin_centre_frequency * hop_size);
+        const double bin_deviation = phase_diff * (float)WINDOW_SIZE / (float)hop_size / (2.0 * std::numbers::pi);
 
         analysis_magnitudes[n] = (double)n + bin_deviation;
         analysis_frequencies[n] = amplitude;
@@ -89,12 +90,12 @@ void process_fft(
     frequency = max_bin_index * wav_file->SampleRate() / WINDOW_SIZE;
 
     // Robotise the output
-    //for(int n = 0; n < WINDOW_SIZE; n++)
-    //{
-    //    const Complex v = fft_buf[n];
-    //    const double amplitude = std::sqrt(v.real() * v.real() + v.imag() * v.imag());
-    //    fft_buf[n] = Complex(amplitude, 0);
-    //}
+    for(int n = 0; n < WINDOW_SIZE; n++)
+    {
+        const Complex v = fft_buf[n];
+        const double amplitude = std::sqrt(v.real() * v.real() + v.imag() * v.imag());
+        fft_buf[n] = Complex(amplitude, 0);
+    }
 
     // Run the inverse FFT
     ifft(fft_buf);
@@ -120,6 +121,7 @@ Track::Track()
         hann_window[i] = 0.5 * (1.0 - cos(2.0 * std::numbers::pi * i / (WINDOW_SIZE - 1)));
     }
 
+    processing_output_buffer_write_pointer = hop_size;
     paused = true;
 
     wav_file = std::make_shared<WAVFile>("D:\\109193__juskiddink__leq-acappella.wav");
@@ -186,7 +188,7 @@ Track::Track()
                     //get the output sample from the output buffer
                     // Scale the output down by the overlap factor (e.g. how many windows overlap per sample?)
                     double out = processing_output_buffer[processing_output_buffer_read_pointer] *
-                        (static_cast<double>(HOP_SIZE) / WINDOW_SIZE);
+                        (static_cast<double>(hop_size) / WINDOW_SIZE);
 
                     // then clear the output sample in the buffer so it is ready for the next overlap-add
                     processing_output_buffer[processing_output_buffer_read_pointer] = 0;
@@ -199,7 +201,7 @@ Track::Track()
                     }
 
                     // increment the hop counter and start a new FFT if we've reached the hop size
-                    if (++hop_counter >= HOP_SIZE)
+                    if (++hop_counter >= hop_size)
                     {
                         hop_counter = 0;
 
@@ -211,10 +213,11 @@ Track::Track()
                             analysis_magnitudes,
                             analysis_frequencies,
                             last_input_phases,
-                            frequency);
+                            frequency,
+                            hop_size);
 
                         processing_output_buffer_write_pointer =
-                            (processing_output_buffer_write_pointer + HOP_SIZE) % PROCESSING_BUFFER_SIZE;
+                            (processing_output_buffer_write_pointer + hop_size) % PROCESSING_BUFFER_SIZE;
                     }
 
                     const uint16_t sample = static_cast<uint16_t>(out);

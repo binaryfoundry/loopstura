@@ -14,7 +14,6 @@
 #include "../concurrency/RingBuffer.hpp"
 
 const uint32_t WINDOW_SIZE = 1024;
-const uint32_t HOP_SIZE = 256;
 const uint32_t INPUT_BUFFER_SIZE = 16384;
 const uint32_t SAMPLE_FREQ = 44100;
 const size_t PROCESSING_BUFFER_SIZE = 16384;
@@ -24,9 +23,7 @@ constexpr bool IS_POW_2(int v)
     return v && ((v & (v - 1)) == 0);
 }
 
-static_assert(IS_POW_2(HOP_SIZE), "HOP_SIZE must be power of two.");
-static_assert(IS_POW_2(WINDOW_SIZE), "HOP_SIZE must be power of two.");
-static_assert(HOP_SIZE < WINDOW_SIZE, "HOP_SIZE must be less than WINDOW_SIZE");
+static_assert(IS_POW_2(WINDOW_SIZE), "WINDOW_SIZE must be power of two.");
 
 class Track
 {
@@ -38,6 +35,7 @@ public:
     virtual void InitComplete() = 0;
 
     float speed_scale = 1.0;
+    int hop_size = 256;
 
     std::shared_ptr<Waveform> waveform;
     void DrawWaveform(const double scale);
@@ -75,6 +73,6 @@ protected:
 
     // Circular buffer for collecting the output of the overlap-add process
     std::array<double, PROCESSING_BUFFER_SIZE> processing_output_buffer {};
-    std::atomic<uint32_t> processing_output_buffer_write_pointer = HOP_SIZE;        // At minimum, write pointer stays one hop ahead of read pointer
+    std::atomic<uint32_t> processing_output_buffer_write_pointer = 0;        // At minimum, write pointer stays one hop ahead of read pointer
     std::atomic<uint32_t> processing_output_buffer_read_pointer = 0;
 };
