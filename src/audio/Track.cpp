@@ -117,7 +117,7 @@ Track::Track()
 {
     for (size_t i = 0; i < WINDOW_SIZE; i++)
     {
-        hann_window[i] = 0.5 * (1.0 - cos(2.0 * 3.14159265358979323846 * i / (WINDOW_SIZE - 1)));
+        hann_window[i] = 0.5 * (1.0 - cos(2.0 * std::numbers::pi * i / (WINDOW_SIZE - 1)));
     }
 
     paused = true;
