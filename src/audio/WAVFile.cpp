@@ -16,6 +16,13 @@ WAVFile::WAVFile(const std::string path)
     file = std::make_unique<MappedFile>(path);
 
     ReadHeader();
+
+    const size_t waveform_samples = static_cast<size_t>(
+        (channel_size / 2000.0) * (44100.0 / sample_rate));
+
+    waveform = std::make_unique<Waveform>(waveform_samples);
+
+    DrawWaveform();
 }
 
 WAVFile::~WAVFile()
@@ -58,31 +65,23 @@ void WAVFile::ReadHeader()
     file->Read<uint8_t, 4>(&subchunk2_id[0]);
     subchunk2_size = file->Read<uint32_t>();
 
+    channel_size = subchunk2_size / (num_channels * (bits_per_sample / 8));
+
     data = file->CurrentPointer();
 
     return;
 }
 
-void WAVFile::Draw(std::shared_ptr<Waveform> waveform, const double scale)
+void WAVFile::DrawWaveform()
 {
-
-    for (size_t i = 0; i < waveform->Size(); ++i)
-    {
-        const float t = static_cast<float>(i) / sample_rate;
-        waveform->x_data[i] = t;
-        waveform->min_data[i] = 0;
-        waveform->max_data[i] = 0;
-    }
-
-    const size_t count = static_cast<size_t>(waveform->Size() * scale);
-    const double start = scale * static_cast<int64_t>(position / scale);
+    const double scale = static_cast<double>(waveform->Size()) / channel_size;
 
     constexpr int16_t max_int16_t = std::numeric_limits<int16_t>::max();
 
-    for (size_t i = 0; i < count; ++i)
+    for (size_t i = 0; i < channel_size; i += (bits_per_sample / 8))
     {
-        size_t j = static_cast<size_t>(i / scale);
-        float sample = static_cast<float>(ReadSample<int16_t>(start + i)) / max_int16_t;
+        const size_t j = static_cast<size_t>(scale * i);
+        const float sample = static_cast<float>(ReadSample<int16_t>(i)) / max_int16_t;
         waveform->max_data[j] = std::max(sample, waveform->max_data[j]);
         waveform->min_data[j] = std::min(sample, waveform->min_data[j]);
     }

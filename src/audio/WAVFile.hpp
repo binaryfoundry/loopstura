@@ -39,7 +39,7 @@ public:
         return num_channels;
     }
 
-    void Draw(std::shared_ptr<Waveform> waveform, const double scale);
+    std::shared_ptr<Waveform> waveform;
 
 private:
     inline size_t position_to_index(double pos)
@@ -47,6 +47,8 @@ private:
         return (static_cast<size_t>(pos) * num_channels *
             (bits_per_sample / 8)) % subchunk2_size;
     }
+
+    void DrawWaveform();
 
     uint8_t  chunk_id[4] = { 0, 0, 0, 0 };
     uint32_t chunk_size = 0;
@@ -61,6 +63,7 @@ private:
     uint16_t bits_per_sample = 0;
     uint8_t  subchunk2_id[4] = { 0, 0, 0, 0 };
     uint32_t subchunk2_size = 0;
+    size_t   channel_size;
 
     void ReadHeader();
     std::unique_ptr<MappedFile> file;

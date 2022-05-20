@@ -52,9 +52,7 @@ Track::Track()
     processing_output_buffer_write_pointer = hop_size;
     paused = true;
 
-    wav_file = std::make_shared<WAVFile>("D:\\109193__juskiddink__leq-acappella.wav");
-
-    waveform = std::make_unique<Waveform>(512);
+    wav_file = std::make_shared<WAVFile>("D:\\file_example_WAV_10MG.wav");
 
     input_thread_running = true;
 
@@ -301,9 +299,4 @@ Track::~Track()
 void Track::SetPaused(bool value)
 {
     paused = value;
-}
-
-void Track::DrawWaveform(const double scale)
-{
-    wav_file->Draw(waveform, scale);
 }

@@ -38,14 +38,16 @@ public:
     int hop_size = 256;
     float pitch_shift_semitones = 0.0;
 
-    std::shared_ptr<Waveform> waveform;
-    void DrawWaveform(const double scale);
-
     void SetPaused(bool value);
 
     double Frequency()
     {
         return frequency;
+    }
+
+    std::shared_ptr<Waveform> Waveform()
+    {
+        return wav_file->waveform;
     }
 
 protected:

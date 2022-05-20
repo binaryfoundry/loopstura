@@ -135,15 +135,15 @@ namespace Application
 
     void Client::DrawPlot()
     {
-        track->DrawWaveform(200);
+        const std::shared_ptr<Waveform> waveform = track->Waveform();
 
-        static const float* y_data[] = { &track->waveform->min_data[0], &track->waveform->max_data[0] };
+        static const float* y_data[] = { &waveform->min_data[0], &waveform->max_data[0] };
         static ImU32 colors[2] = { ImColor(255, 255, 0), ImColor(255, 255, 0) };
         static uint32_t selection_start = 0, selection_length = 0;
 
         ImGui::PlotConfig conf;
-        conf.values.xs = &track->waveform->x_data[0];
-        conf.values.count = track->waveform->Size();
+        conf.values.xs = &waveform->x_data[0];
+        conf.values.count = 512;
         conf.values.ys_list = y_data;
         conf.values.ys_count = 2;
         conf.values.colors = colors;
@@ -159,12 +159,12 @@ namespace Application
         conf.selection.show = true;
         conf.selection.start = &selection_start;
         conf.selection.length = &selection_length;
-        conf.frame_size = ImVec2((float)track->waveform->Size(), 200);
+        conf.frame_size = ImVec2(512, 200);
         ImGui::Plot("plot1", conf);
 
         conf.values.ys_list = nullptr;
         conf.selection.show = false;
-        conf.values.ys = &track->waveform->max_data[0];
+        conf.values.ys = &waveform->max_data[0];
         conf.values.offset = selection_start;
         conf.values.count = selection_length;
         conf.line_thickness = 1.f;
