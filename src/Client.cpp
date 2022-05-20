@@ -135,15 +135,35 @@ namespace Application
 
     void Client::DrawPlot()
     {
-        const std::shared_ptr<Waveform> waveform = track->Waveform();
+        const size_t WAVEFORM_WINDOW_SIZE = 512;
 
-        static const float* y_data[] = { &waveform->min_data[0], &waveform->max_data[0] };
-        static ImU32 colors[2] = { ImColor(255, 255, 0), ImColor(255, 255, 0) };
+        static std::vector<float> waveform_window_x(WAVEFORM_WINDOW_SIZE);
+        static std::vector<float> waveform_window_y_max(WAVEFORM_WINDOW_SIZE);
+        static std::vector<float> waveform_window_y_min(WAVEFORM_WINDOW_SIZE);
+
+        static const float* y_data[] =
+        {
+            &waveform_window_y_min[0],
+            &waveform_window_y_max[0]
+        };
+
+        static ImU32 colors[2] =
+        {
+            ImColor(255, 255, 0),
+            ImColor(255, 255, 0)
+        };
+
+        const double waveform_position = track->PositionNormalized();
+        const std::shared_ptr<Waveform> waveform = track->Waveform();
+        waveform->FillX(waveform_position, waveform_window_x);
+        waveform->FillYMax(waveform_position, waveform_window_y_max);
+        waveform->FillYMin(waveform_position, waveform_window_y_min);
+
         static uint32_t selection_start = 0, selection_length = 0;
 
         ImGui::PlotConfig conf;
-        conf.values.xs = &waveform->x_data[0];
-        conf.values.count = 512;
+        conf.values.xs = &waveform_window_x[0];
+        conf.values.count = WAVEFORM_WINDOW_SIZE;
         conf.values.ys_list = y_data;
         conf.values.ys_count = 2;
         conf.values.colors = colors;
@@ -159,12 +179,12 @@ namespace Application
         conf.selection.show = true;
         conf.selection.start = &selection_start;
         conf.selection.length = &selection_length;
-        conf.frame_size = ImVec2(512, 200);
+        conf.frame_size = ImVec2(WAVEFORM_WINDOW_SIZE, 200);
         ImGui::Plot("plot1", conf);
 
         conf.values.ys_list = nullptr;
         conf.selection.show = false;
-        conf.values.ys = &waveform->max_data[0];
+        conf.values.ys = &waveform_window_y_max[0];
         conf.values.offset = selection_start;
         conf.values.count = selection_length;
         conf.line_thickness = 1.f;

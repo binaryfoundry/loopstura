@@ -39,6 +39,11 @@ public:
         return num_channels;
     }
 
+    size_t const ChannelSize() const
+    {
+        return channel_size;
+    }
+
     std::shared_ptr<Waveform> waveform;
 
 private:

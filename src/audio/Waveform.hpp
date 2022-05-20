@@ -8,6 +8,7 @@ class Waveform
 private:
     size_t size;
 
+    void Slice(double position, std::vector<float>& data, std::vector<float>& window);
 
 public:
     Waveform(
@@ -22,4 +23,8 @@ public:
     }
 
     void Resize(const size_t size);
+
+    void FillX(double position, std::vector<float>& window_x);
+    void FillYMax(double position, std::vector<float>& window_y_max);
+    void FillYMin(double position, std::vector<float>& window_y_min);
 };

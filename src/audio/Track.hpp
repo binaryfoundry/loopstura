@@ -50,6 +50,11 @@ public:
         return wav_file->waveform;
     }
 
+    double PositionNormalized()
+    {
+        return wav_file->position / wav_file->ChannelSize();
+    }
+
 protected:
     int hop_size_last = -1;
 
