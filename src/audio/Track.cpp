@@ -84,66 +84,63 @@ Track::Track()
     {
         while (output_thread_running)
         {
-            std::unique_lock<std::mutex> lk(input_mutex);
+            std::unique_lock<AudioSpinMutex> lk(input_mutex);
 
             input_cond_var.wait(lk, [&] {
                 return !input_buffer.Empty() || !output_thread_running;
             });
 
-            if (output_thread_running)
+            while (!input_buffer.Empty())
             {
-                while (!input_buffer.Empty())
+                const double in = static_cast<double>(input_buffer.Read());
+
+                processing_input_buffer[processing_input_buffer_pointer++] = in;
+                if (processing_input_buffer_pointer >= PROCESSING_BUFFER_SIZE)
                 {
-                    const double in = static_cast<double>(input_buffer.Read());
-
-                    processing_input_buffer[processing_input_buffer_pointer++] = in;
-                    if (processing_input_buffer_pointer >= PROCESSING_BUFFER_SIZE)
-                    {
-                        // Wrap the circular buffer
-                        // Notice: this is not the condition for starting a new FFT
-                        processing_input_buffer_pointer = 0;
-                    }
-
-                    //get the output sample from the output buffer
-                    // Scale the output down by the overlap factor (e.g. how many windows overlap per sample?)
-                    double out = processing_output_buffer[processing_output_buffer_read_pointer] *
-                        (static_cast<double>(hop_size) / FFT_SIZE);
-
-                    // then clear the output sample in the buffer so it is ready for the next overlap-add
-                    processing_output_buffer[processing_output_buffer_read_pointer] = 0;
-
-                    // increment the read pointer in the output cicular buffer
-                    processing_output_buffer_read_pointer++;
-                    if (processing_output_buffer_read_pointer >= PROCESSING_BUFFER_SIZE)
-                    {
-                        processing_output_buffer_read_pointer = 0;
-                    }
-
-                    if (hop_size != hop_size_last)
-                    {
-                        calculate_window(window, hop_size);
-                    }
-
-                    // increment the hop counter and start a new FFT if we've reached the hop size
-                    if (++hop_counter >= hop_size)
-                    {
-                        hop_size_last = hop_size;
-                        hop_counter = 0;
-
-                        ProcessFFT(
-                            processing_input_buffer, processing_input_buffer_pointer,
-                            processing_output_buffer, processing_output_buffer_write_pointer);
-
-                        processing_output_buffer_write_pointer =
-                            (processing_output_buffer_write_pointer + hop_size) % PROCESSING_BUFFER_SIZE;
-                    }
-
-                    const uint16_t sample = static_cast<uint16_t>(out);
-
-                    Queue(
-                        &sample,
-                        sizeof(uint16_t));
+                    // Wrap the circular buffer
+                    // Notice: this is not the condition for starting a new FFT
+                    processing_input_buffer_pointer = 0;
                 }
+
+                //get the output sample from the output buffer
+                // Scale the output down by the overlap factor (e.g. how many windows overlap per sample?)
+                double out = processing_output_buffer[processing_output_buffer_read_pointer] *
+                    (static_cast<double>(hop_size) / FFT_SIZE);
+
+                // then clear the output sample in the buffer so it is ready for the next overlap-add
+                processing_output_buffer[processing_output_buffer_read_pointer] = 0;
+
+                // increment the read pointer in the output cicular buffer
+                processing_output_buffer_read_pointer++;
+                if (processing_output_buffer_read_pointer >= PROCESSING_BUFFER_SIZE)
+                {
+                    processing_output_buffer_read_pointer = 0;
+                }
+
+                if (hop_size != hop_size_last)
+                {
+                    calculate_window(window, hop_size);
+                }
+
+                // increment the hop counter and start a new FFT if we've reached the hop size
+                if (++hop_counter >= hop_size)
+                {
+                    hop_size_last = hop_size;
+                    hop_counter = 0;
+
+                    ProcessFFT(
+                        processing_input_buffer, processing_input_buffer_pointer,
+                        processing_output_buffer, processing_output_buffer_write_pointer);
+
+                    processing_output_buffer_write_pointer =
+                        (processing_output_buffer_write_pointer + hop_size) % PROCESSING_BUFFER_SIZE;
+                }
+
+                const uint16_t sample = static_cast<uint16_t>(out);
+
+                Queue(
+                    &sample,
+                    sizeof(uint16_t));
             }
         }
     });

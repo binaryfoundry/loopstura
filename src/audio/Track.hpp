@@ -3,7 +3,6 @@
 #include <array>
 #include <thread>
 #include <memory>
-#include <mutex>
 #include <condition_variable>
 
 #include "Waveform.hpp"
@@ -12,6 +11,7 @@
 
 #include "../signal/FFT.hpp"
 #include "../concurrency/RingBuffer.hpp"
+#include "../concurrency/SpinLock.hpp"
 
 const uint32_t FFT_SIZE = 1024;
 const uint32_t INPUT_BUFFER_SIZE = 16384;
@@ -66,8 +66,8 @@ protected:
     std::atomic<bool> input_thread_running;
     std::unique_ptr<std::thread> input_thread;
 
-    std::mutex input_mutex;
-    std::condition_variable input_cond_var;
+    AudioSpinMutex input_mutex;
+    std::condition_variable_any input_cond_var;
 
     RingBuffer<int16_t, INPUT_BUFFER_SIZE> input_buffer;
 
