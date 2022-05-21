@@ -70,11 +70,13 @@ set(HEADERS_FILE
 
 set(SOURCES_CONCURRENCY
     src/concurrency/Worker.cpp
-    src/concurrency/RingBuffer.cpp)
+    src/concurrency/RingBuffer.cpp
+    src/concurrency/SpinLock.cpp)
 
 set(HEADERS_CONCURRENCY
     src/concurrency/Worker.hpp
-    src/concurrency/RingBuffer.hpp)
+    src/concurrency/RingBuffer.hpp#
+    src/concurrency/SpinLock.hpp)
 
 set(SOURCES_SIGNAL
     src/signal/DFT.cpp
