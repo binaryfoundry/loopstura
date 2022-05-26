@@ -52,7 +52,7 @@ Track::Track()
     processing_output_buffer_write_pointer = hop_size;
     paused = true;
 
-    wav_file = std::make_shared<WAVFile>("D:\\file_example_WAV_10MG.wav");
+    wav_file = std::make_shared<WAVFile>("D:\\ice.wav");
 
     input_thread_running = true;
 
@@ -167,9 +167,6 @@ void Track::ProcessFFT(
     // Process the FFT based on the time domain input
     fft(fft_buf);
 
-    size_t max_bin_index = 0;
-    double max_bin_value = 0;
-
     for (int n = 0; n <= FFT_SIZE / 2; n++)
     {
         const Complex v = fft_buf[n];
@@ -184,15 +181,7 @@ void Track::ProcessFFT(
         analysis_magnitudes[n] = amplitude;
         analysis_frequencies[n] = (double)n + bin_deviation;
         last_input_phases[n] = phase;
-
-        if (amplitude > max_bin_value)
-        {
-            max_bin_value = amplitude;
-            max_bin_index = n;
-        }
     }
-
-    frequency = max_bin_index * wav_file->SampleRate() / FFT_SIZE;
 
     for (int n = 0; n <= FFT_SIZE / 2; n++)
     {

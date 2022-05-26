@@ -212,8 +212,6 @@ namespace Application
 
         DrawPlot();
 
-        ImGui::Text("Estimated Frequency: %f", track->Frequency());
-
         ImGui::End();
 
         context->Update();
