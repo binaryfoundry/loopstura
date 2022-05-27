@@ -1,9 +1,7 @@
 #pragma once
 
 #include <array>
-#include <thread>
 #include <memory>
-#include <condition_variable>
 
 #include "Waveform.hpp"
 #include "Track.hpp"
@@ -11,8 +9,8 @@
 
 #include "../signal/FFT.hpp"
 #include "../concurrency/RingBuffer.hpp"
-#include "../concurrency/SpinLock.hpp"
 
+const uint8_t NUM_CHANNELS = 1;
 const uint32_t FFT_SIZE = 1024;
 const uint32_t INPUT_BUFFER_SIZE = 16384;
 const uint32_t SAMPLE_FREQ = 44100;
@@ -38,12 +36,9 @@ public:
     int hop_size = 256;
     float pitch_shift_semitones = 0.0;
 
-    void SetPaused(bool value);
+    void Generate(uint16_t* buffer, int length);
 
-    double Frequency()
-    {
-        return frequency;
-    }
+    void SetPaused(bool value);
 
     std::shared_ptr<Waveform> Waveform()
     {
@@ -58,23 +53,8 @@ public:
 protected:
     int hop_size_last = -1;
 
-    std::atomic<double> frequency = 0;
-
     std::atomic<bool> paused;
     std::shared_ptr<WAVFile> wav_file;
-
-    std::atomic<bool> input_thread_running;
-    std::unique_ptr<std::thread> input_thread;
-
-    AudioSpinMutex input_mutex;
-    std::condition_variable_any input_cond_var;
-
-    RingBuffer<int16_t, INPUT_BUFFER_SIZE> input_buffer;
-
-    std::atomic<bool> output_thread_running;
-    std::unique_ptr<std::thread> output_thread;
-
-    virtual void Queue(const void* data, uint32_t len) = 0;
 
     // Circular buffer and pointer for assembling a window of samples
     std::array<double, PROCESSING_BUFFER_SIZE> processing_input_buffer {};
