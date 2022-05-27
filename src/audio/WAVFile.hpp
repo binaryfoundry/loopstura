@@ -10,17 +10,8 @@
 class WAVFile
 {
 public:
-    std::atomic<double> position = 0;
-
     WAVFile(const std::string path);
     virtual ~WAVFile();
-
-    template<typename T>
-    T const ReadSample()
-    {
-        const T* val = (T*)(data + position_to_index(position));
-        return *val;
-    }
 
     template<typename T>
     T const ReadSample(const double pos)

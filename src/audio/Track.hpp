@@ -47,10 +47,12 @@ public:
 
     double PositionNormalized()
     {
-        return wav_file->position / wav_file->ChannelSize();
+        return position / wav_file->ChannelSize();
     }
 
 protected:
+    double position = 0;
+
     int hop_size_last = -1;
 
     std::atomic<bool> paused;

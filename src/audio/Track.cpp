@@ -3,6 +3,7 @@
 #include <chrono>
 #include <ratio>
 
+#include "../Math.hpp"
 #include "../signal/Windowing.hpp"
 
 double wrap_phase(double phaseIn)
@@ -40,9 +41,21 @@ void Track::Generate(uint16_t* buffer, int length)
 {
     for (int32_t i = 0; i < length; i++)
     {
-        const int16_t in_sample = wav_file->ReadSample<int16_t>();
-        wav_file->ReadSample<int16_t>();
-        wav_file->position += speed_scale;
+        double position_whole;
+        const double position_frac = modf(position, &position_whole);
+
+        const uint32_t position_int = static_cast<uint32_t>(position_whole);
+
+        const int16_t samp0 = wav_file->ReadSample<int16_t>(position_int - 1);
+        const int16_t samp1 = wav_file->ReadSample<int16_t>(position_int + 0);
+        const int16_t samp2 = wav_file->ReadSample<int16_t>(position_int + 1);
+        const int16_t samp3 = wav_file->ReadSample<int16_t>(position_int + 2);
+
+        const int16_t in_sample = static_cast<int16_t>(CatmullRomInterpolate(
+            samp0, samp1, samp2, samp3,
+            position_frac));
+
+        position += speed_scale;
 
         processing_input_buffer[processing_input_buffer_pointer++] = static_cast<double>(in_sample);
         if (processing_input_buffer_pointer >= PROCESSING_BUFFER_SIZE)

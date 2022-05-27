@@ -1,5 +1,8 @@
 #pragma once
 
+#include <math.h>
+#include <numbers>
+
 #define GLM_FORCE_DEFAULT_ALIGNED_GENTYPES
 #define GLM_ENABLE_EXPERIMENTAL
 #define GLM_FORCE_RADIANS
@@ -27,7 +30,7 @@ using glm::quat;
 
 // http://paulbourke.net/miscellaneous/interpolation/
 
-double CosineInterpolate(
+static double CosineInterpolate(
     double y1, double y2,
     double mu)
 {
@@ -37,7 +40,7 @@ double CosineInterpolate(
     return(y1 * (1 - mu2) + y2 * mu2);
 }
 
-double CubicInterpolate(
+static double CubicInterpolate(
     double y0, double y1,
     double y2, double y3,
     double mu)
@@ -53,7 +56,7 @@ double CubicInterpolate(
     return(a0 * mu * mu2 + a1 * mu2 + a2 * mu + a3);
 }
 
-double CatmullRomInterpolate(
+static double CatmullRomInterpolate(
     double y0, double y1,
     double y2, double y3,
     double mu)
