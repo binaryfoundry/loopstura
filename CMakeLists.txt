@@ -18,13 +18,17 @@ set(SOURCES
     src/Platform.cpp
     src/Math.cpp
     src/Client.cpp
-    src/Context.cpp)
+    src/Context.cpp
+    src/Renderer.cpp
+    src/Texture.cpp)
 
 set(HEADERS
     src/Platform.hpp
     src/Math.hpp
     src/Client.hpp
-    src/Context.hpp)
+    src/Context.hpp
+    src/Renderer.hpp
+    src/Texture.hpp)
 
 set(SOURCES_MAIN
     src/sdl/SDL.cpp
@@ -89,14 +93,6 @@ set(HEADERS_SIGNAL
     src/signal/FFT.hpp
     src/signal/Wavelets.hpp
     src/signal/Windowing.hpp)
-
-set(SOURCES_RENDERING
-    src/rendering/Renderer.cpp
-    src/rendering/Texture.cpp)
-
-set(HEADERS_RENDERING
-    src/rendering/Renderer.hpp
-    src/rendering/Texture.hpp)
 
 set(SOURCES_OPENGL
     src/opengl/GL.cpp
@@ -214,12 +210,8 @@ add_executable(
     ${HEADERS_CONCURRENCY}
     ${SOURCES_SIGNAL}
     ${HEADERS_SIGNAL}
-    ${SOURCES_RENDERING}
-    ${HEADERS_RENDERING}
     ${SOURCES_OPENGL}
     ${HEADERS_OPENGL}
-    ${SOURCES_OPENGL_RENDERING}
-    ${HEADERS_OPENGL_RENDERING}
     ${SOURCES_IMGUI}
     ${HEADERS_IMGUI})
 

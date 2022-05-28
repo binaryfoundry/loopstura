@@ -3,7 +3,7 @@
 #include "GL.hpp"
 #include "GLTexture.hpp"
 
-#include "../rendering/Renderer.hpp"
+#include "../Renderer.hpp"
 
 namespace Application
 {

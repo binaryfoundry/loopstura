@@ -1,13 +1,12 @@
 #pragma once
 
-#include "GLStream.hpp"
-#include "../Context.hpp"
-#include "../rendering/Renderer.hpp"
-#include "../rendering/Texture.hpp"
-
 #include "GL.hpp"
-
+#include "GLStream.hpp"
 #include "GLImgui.hpp"
+
+#include "../Context.hpp"
+#include "../Renderer.hpp"
+#include "../Texture.hpp"
 
 #include <functional>
 #include <stdint.h>

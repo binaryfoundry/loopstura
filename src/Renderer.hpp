@@ -6,7 +6,7 @@
 #include <functional>
 #include <string>
 
-#include "../Context.hpp"
+#include "Context.hpp"
 #include "Texture.hpp"
 
 namespace Application

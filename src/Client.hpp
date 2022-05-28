@@ -5,7 +5,7 @@
 
 #include "Context.hpp"
 
-#include "rendering/Renderer.hpp"
+#include "Renderer.hpp"
 
 #include "audio/Track.hpp"
 
