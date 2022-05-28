@@ -111,21 +111,17 @@ set(SOURCES_OPENGL
     src/opengl/GL.cpp
     src/opengl/GLRenderer.cpp
     src/opengl/GLTexture.cpp
-    src/opengl/GLStream.cpp)
+    src/opengl/GLStream.cpp
+    src/opengl/GLInstanceUI.hpp
+    src/opengl/GLInstanceImgui.hpp)
 
 set(HEADERS_OPENGL
     src/opengl/GL.hpp
     src/opengl/GLRenderer.hpp
     src/opengl/GLTexture.hpp
-    src/opengl/GLStream.hpp)
-
-set(SOURCES_OPENGL_RENDERING
-    src/opengl/rendering/GLInstanceUI.cpp
-    src/opengl/rendering/GLInstanceImgui.cpp)
-
-set(HEADERS_OPENGL_RENDERING
-    src/opengl/rendering/GLInstanceUI.hpp
-    src/opengl/rendering/GLInstanceImgui.hpp)
+    src/opengl/GLStream.hpp
+    src/opengl/GLInstanceUI.hpp
+    src/opengl/GLInstanceImgui.hpp)
 
 set(SOURCES_IMGUI
     lib/imgui/imgui/imgui.cpp
@@ -172,9 +168,6 @@ SOURCE_GROUP("src\\sdl" FILES ${HEADERS_MAIN})
 
 SOURCE_GROUP("src\\opengl" FILES ${SOURCES_OPENGL})
 SOURCE_GROUP("src\\opengl" FILES ${HEADERS_OPENGL})
-
-SOURCE_GROUP("src\\opengl\\rendering" FILES ${SOURCES_OPENGL_RENDERING})
-SOURCE_GROUP("src\\opengl\\rendering" FILES ${HEADERS_OPENGL_RENDERING})
 
 SOURCE_GROUP("src\\imgui" FILES ${SOURCES_IMGUI})
 SOURCE_GROUP("src\\imgui" FILES ${HEADERS_IMGUI})
