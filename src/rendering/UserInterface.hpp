@@ -14,10 +14,10 @@ namespace Application
 {
 namespace Rendering
 {
-    class InstanceUI : public Instance
+    class UserInterface : public Instance
     {
     protected:
-        InstanceUI(
+        UserInterface(
             ContextPtr context,
             VertexStreamPtr vertices,
             IndexStreamPtr indices,
@@ -34,7 +34,7 @@ namespace Rendering
         std::shared_ptr<Property<vec3>> gradient_0;
         std::shared_ptr<Property<vec3>> gradient_1;
 
-        virtual ~InstanceUI();
+        virtual ~UserInterface();
     };
 }
 }

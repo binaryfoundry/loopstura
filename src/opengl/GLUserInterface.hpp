@@ -1,16 +1,18 @@
 #pragma once
 
-#include "../GL.hpp"
-#include "../GLTexture.hpp"
+#include "GL.hpp"
+#include "GLTexture.hpp"
 
-#include "../../rendering/Renderer.hpp"
-#include "../../rendering/InstanceUI.hpp"
+#include "../rendering/Renderer.hpp"
+#include "../rendering/UserInterface.hpp"
 
 namespace Application
 {
+namespace Rendering
+{
 namespace OpenGL
 {
-    class GLInstanceUI : public Rendering::InstanceUI
+    class GLUserInterface : public UserInterface
     {
         class GLRenderer;
         friend class GLRenderer;
@@ -30,17 +32,18 @@ namespace OpenGL
         GLuint gl_sampler_state = 0;
 
     public:
-        GLInstanceUI(
+        GLUserInterface(
             ContextPtr context,
             VertexStreamPtr vertices,
             IndexStreamPtr indices,
             TextureRGBA8Ptr texture);
-        virtual ~GLInstanceUI();
+        virtual ~GLUserInterface();
 
         static void Initialise();
         static void Destroy();
 
         void Draw(RenderState state);
     };
+}
 }
 }

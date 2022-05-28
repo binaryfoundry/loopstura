@@ -95,8 +95,8 @@ set(SOURCES_RENDERING
     src/rendering/Renderer.cpp
     src/rendering/Stream.cpp
     src/rendering/Texture.cpp
-    src/rendering/InstanceUI.cpp
-    src/rendering/InstanceImgui.cpp)
+    src/rendering/UserInterface.cpp
+    src/rendering/Imgui.cpp)
 
 set(HEADERS_RENDERING
     src/rendering/Instance.hpp
@@ -104,24 +104,24 @@ set(HEADERS_RENDERING
     src/rendering/Stream.hpp
     src/rendering/Texture.hpp
     src/rendering/Instance.hpp
-    src/rendering/InstanceUI.hpp
-    src/rendering/InstanceImgui.hpp)
+    src/rendering/UserInterface.hpp
+    src/rendering/Imgui.hpp)
 
 set(SOURCES_OPENGL
     src/opengl/GL.cpp
     src/opengl/GLRenderer.cpp
     src/opengl/GLTexture.cpp
     src/opengl/GLStream.cpp
-    src/opengl/GLInstanceUI.hpp
-    src/opengl/GLInstanceImgui.hpp)
+    src/opengl/GLUserInterface.cpp
+    src/opengl/GLImgui.cpp)
 
 set(HEADERS_OPENGL
     src/opengl/GL.hpp
     src/opengl/GLRenderer.hpp
     src/opengl/GLTexture.hpp
     src/opengl/GLStream.hpp
-    src/opengl/GLInstanceUI.hpp
-    src/opengl/GLInstanceImgui.hpp)
+    src/opengl/GLUserInterface.hpp
+    src/opengl/GLImgui.hpp)
 
 set(SOURCES_IMGUI
     lib/imgui/imgui/imgui.cpp

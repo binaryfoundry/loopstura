@@ -10,6 +10,8 @@
 
 namespace Application
 {
+namespace Rendering
+{
 namespace OpenGL
 {
     class GLBufferHandle
@@ -36,5 +38,6 @@ namespace OpenGL
 
         void Update() override;
     };
+}
 }
 }

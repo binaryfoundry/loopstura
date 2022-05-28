@@ -10,6 +10,8 @@
 
 namespace Application
 {
+namespace Rendering
+{
 namespace OpenGL
 {
     class GLTextureHandle
@@ -40,5 +42,6 @@ namespace OpenGL
 
         void Update() override;
     };
+}
 }
 }

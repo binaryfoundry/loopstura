@@ -2,6 +2,8 @@
 
 namespace Application
 {
+namespace Rendering
+{
     template <>
     Texture<TextureDataByte>::Texture(
         uint32_t width,
@@ -40,4 +42,4 @@ namespace Application
     template class Texture<TextureDataByte>;
     template class Texture<TextureDataFloat>;
 }
-
+}

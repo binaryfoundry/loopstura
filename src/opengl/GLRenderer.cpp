@@ -9,6 +9,8 @@
 
 namespace Application
 {
+namespace Rendering
+{
 namespace OpenGL
 {
     GLRenderer::GLRenderer(
@@ -16,21 +18,21 @@ namespace OpenGL
         std::function<void()> swap_buffers,
         uint32_t width,
         uint32_t height) :
-        Application::Renderer(
+        Renderer(
             context,
             swap_buffers,
             width,
             height),
         context(context)
     {
-        GLInstanceUI::Initialise();
-        GLInstanceImgui::Initialise();
+        GLUserInterface::Initialise();
+        GLImgui::Initialise();
     }
 
     GLRenderer::~GLRenderer()
     {
-        GLInstanceUI::Destroy();
-        GLInstanceImgui::Destroy();
+        GLUserInterface::Destroy();
+        GLImgui::Destroy();
     }
 
     TextureRGBA8Ptr GLRenderer::MakeTexture(
@@ -89,23 +91,23 @@ namespace OpenGL
             list);
     }
 
-    std::shared_ptr<Rendering::InstanceUI> GLRenderer::MakeInstanceUI(
+    std::shared_ptr<UserInterface> GLRenderer::MakeUserInterface(
         ContextPtr context,
         VertexStreamPtr vertices,
         IndexStreamPtr indices,
         TextureRGBA8Ptr texture)
     {
-        return std::make_shared<GLInstanceUI>(
+        return std::make_shared<GLUserInterface>(
             context,
             vertices,
             indices,
             texture);
     }
 
-    std::shared_ptr<Rendering::InstanceImgui> GLRenderer::MakeInstanceImgui(
+    std::shared_ptr<Imgui> GLRenderer::MakeImgui(
         ContextPtr context)
     {
-        return std::make_shared<GLInstanceImgui>(
+        return std::make_shared<GLImgui>(
             context);
     }
 
@@ -133,5 +135,6 @@ namespace OpenGL
     {
         swap_buffers();
     }
+}
 }
 }

@@ -6,8 +6,8 @@
 
 #include "GL.hpp"
 
-#include "rendering/GLInstanceUI.hpp"
-#include "rendering/GLInstanceImgui.hpp"
+#include "GLUserInterface.hpp"
+#include "GLImgui.hpp"
 
 #include <functional>
 #include <stdint.h>
@@ -17,9 +17,11 @@
 
 namespace Application
 {
+namespace Rendering
+{
 namespace OpenGL
 {
-    class GLRenderer : public Application::Renderer
+    class GLRenderer : public Renderer
     {
     protected:
         ContextPtr context;
@@ -39,13 +41,13 @@ namespace OpenGL
             StreamUsage usage,
             std::initializer_list<uint32_t>& list) override;
 
-        std::shared_ptr<Rendering::InstanceUI> MakeInstanceUI(
+        std::shared_ptr<UserInterface> MakeUserInterface(
             ContextPtr context,
             VertexStreamPtr vertices,
             IndexStreamPtr indices,
             TextureRGBA8Ptr texture) override;
 
-        std::shared_ptr<Rendering::InstanceImgui> MakeInstanceImgui(
+        std::shared_ptr<Imgui> MakeImgui(
             ContextPtr context) override;
 
     public:
@@ -59,5 +61,6 @@ namespace OpenGL
         void Begin() override;
         void End() override;
     };
+}
 }
 }

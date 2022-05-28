@@ -2,6 +2,8 @@
 
 namespace Application
 {
+namespace Rendering
+{
 namespace OpenGL
 {
     template<typename T>
@@ -102,5 +104,6 @@ namespace OpenGL
 
     template class GLStream<float>;
     template class GLStream<uint32_t>;
+}
 }
 }

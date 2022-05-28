@@ -2,6 +2,8 @@
 
 namespace Application
 {
+namespace Rendering
+{
     Renderer::Renderer(
         ContextPtr context,
         std::function<void()> swap_buffers,
@@ -35,4 +37,5 @@ namespace Application
         state.viewport = vec4(
             0, 0, width, height);
     }
+}
 }

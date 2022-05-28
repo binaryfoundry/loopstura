@@ -1,13 +1,15 @@
-#include "GLInstanceImgui.hpp"
+#include "GLImgui.hpp"
 
 #include <string>
 #include <iostream>
 
-#include "../GLStream.hpp"
+#include "GLStream.hpp"
 
 #include "imgui/imgui.h"
 
 namespace Application
+{
+namespace Rendering
 {
 namespace OpenGL
 {
@@ -43,24 +45,24 @@ namespace OpenGL
             Out_Color = Frag_Color * texture(Texture, Frag_UV.st);
         })";
 
-    GLuint GLInstanceImgui::gl_shader_program = 0;
+    GLuint GLImgui::gl_shader_program = 0;
 
-    void GLInstanceImgui::Initialise()
+    void GLImgui::Initialise()
     {
         gl_shader_program = LinkShader(
             vertex_shader_string,
             fragment_shader_string);
     }
 
-    void GLInstanceImgui::Destroy()
+    void GLImgui::Destroy()
     {
         glDeleteProgram(
             gl_shader_program);
     }
 
-    GLInstanceImgui::GLInstanceImgui(
+    GLImgui::GLImgui(
         ContextPtr context) :
-        InstanceImgui(
+        Imgui(
             context)
     {
         g_AttribLocationTex = glGetUniformLocation(gl_shader_program, "Texture");
@@ -144,7 +146,7 @@ namespace OpenGL
             GL_NEAREST);
     }
 
-    GLInstanceImgui::~GLInstanceImgui()
+    GLImgui::~GLImgui()
     {
         ImGui::DestroyContext();
 
@@ -157,7 +159,7 @@ namespace OpenGL
             &gl_sampler_state);
     }
 
-    void GLInstanceImgui::Draw(RenderState state)
+    void GLImgui::Draw(RenderState state)
     {
         glEnable(GL_BLEND);
         glBlendEquation(GL_FUNC_ADD);
@@ -286,5 +288,6 @@ namespace OpenGL
         glDisable(GL_BLEND);
         glDisable(GL_SCISSOR_TEST);
     }
+}
 }
 }

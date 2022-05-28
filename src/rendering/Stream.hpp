@@ -6,6 +6,8 @@
 
 namespace Application
 {
+namespace Rendering
+{
     enum class StreamUsage
     {
         STATIC,
@@ -39,4 +41,5 @@ namespace Application
 
     using VertexStreamPtr = std::shared_ptr<VertexStream>;
     using IndexStreamPtr = std::shared_ptr<IndexStream>;
+}
 }

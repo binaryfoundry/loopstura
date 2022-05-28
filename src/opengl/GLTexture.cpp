@@ -2,6 +2,8 @@
 
 namespace Application
 {
+namespace Rendering
+{
 namespace OpenGL
 {
     template <>
@@ -115,5 +117,6 @@ namespace OpenGL
 
     template class GLTexture<TextureDataByte>;
     template class GLTexture<TextureDataFloat>;
+}
 }
 }

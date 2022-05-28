@@ -5,6 +5,8 @@
 
 namespace Application
 {
+namespace Rendering
+{
 
     struct RenderState
     {
@@ -21,4 +23,5 @@ namespace Application
     public:
         virtual void Draw(RenderState state) = 0;
     };
+}
 }

@@ -10,10 +10,12 @@
 #include "Texture.hpp"
 #include "Instance.hpp"
 
-#include "InstanceUI.hpp"
-#include "InstanceImgui.hpp"
+#include "UserInterface.hpp"
+#include "Imgui.hpp"
 
 namespace Application
+{
+namespace Rendering
 {
     class Renderer
     {
@@ -58,13 +60,14 @@ namespace Application
             StreamUsage usage,
             std::initializer_list<uint32_t>& list) = 0;
 
-        virtual std::shared_ptr<Rendering::InstanceUI> MakeInstanceUI(
+        virtual std::shared_ptr<Rendering::UserInterface> MakeUserInterface(
             ContextPtr context,
             VertexStreamPtr vertices,
             IndexStreamPtr indices,
             TextureRGBA8Ptr texture) = 0;
 
-        virtual std::shared_ptr<Rendering::InstanceImgui> MakeInstanceImgui(
+        virtual std::shared_ptr<Rendering::Imgui> MakeImgui(
             ContextPtr context) = 0;
     };
+}
 }

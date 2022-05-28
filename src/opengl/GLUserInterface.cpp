@@ -1,11 +1,14 @@
-#include "GLInstanceUI.hpp"
+#include "GLUserInterface.hpp"
 
 #include <string>
 #include <iostream>
 
-#include "../GLStream.hpp"
+#include "GL.hpp"
+#include "GLStream.hpp"
 
 namespace Application
+{
+namespace Rendering
 {
 namespace OpenGL
 {
@@ -49,27 +52,27 @@ namespace OpenGL
             out_color = vec4(gamma(c), 1.0);
         })";
 
-    GLuint GLInstanceUI::gl_shader_program = 0;
+    GLuint GLUserInterface::gl_shader_program = 0;
 
-    void GLInstanceUI::Initialise()
+    void GLUserInterface::Initialise()
     {
         gl_shader_program = LinkShader(
             vertex_shader_string,
             fragment_shader_string);
     }
 
-    void GLInstanceUI::Destroy()
+    void GLUserInterface::Destroy()
     {
         glDeleteProgram(
             gl_shader_program);
     }
 
-    GLInstanceUI::GLInstanceUI(
+    GLUserInterface::GLUserInterface(
         ContextPtr context,
         VertexStreamPtr vertices,
         IndexStreamPtr indices,
         TextureRGBA8Ptr texture) :
-        InstanceUI(
+        UserInterface(
             context,
             vertices,
             indices,
@@ -134,14 +137,14 @@ namespace OpenGL
             GL_LINEAR_MIPMAP_LINEAR);
     }
 
-    GLInstanceUI::~GLInstanceUI()
+    GLUserInterface::~GLUserInterface()
     {
         glDeleteSamplers(
             1,
             &gl_sampler_state);
     }
 
-    void GLInstanceUI::Draw(RenderState state)
+    void GLUserInterface::Draw(RenderState state)
     {
         glUseProgram(
             gl_shader_program);
@@ -248,5 +251,6 @@ namespace OpenGL
             GL_TEXTURE_2D,
             NULL);
     }
+}
 }
 }

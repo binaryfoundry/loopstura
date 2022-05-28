@@ -1,10 +1,10 @@
-#include "InstanceUI.hpp"
+#include "UserInterface.hpp"
 
 namespace Application
 {
 namespace Rendering
 {
-    InstanceUI::InstanceUI(
+    UserInterface::UserInterface(
         ContextPtr context,
         VertexStreamPtr vertices,
         IndexStreamPtr indices,
@@ -19,7 +19,7 @@ namespace Rendering
     {
     }
 
-    InstanceUI::~InstanceUI()
+    UserInterface::~UserInterface()
     {
     }
 }

@@ -1,15 +1,15 @@
-#include "InstanceImgui.hpp"
+#include "Imgui.hpp"
 
 namespace Application
 {
 namespace Rendering
 {
-    InstanceImgui::InstanceImgui(
+    Imgui::Imgui(
         ContextPtr context)
     {
     }
 
-    InstanceImgui::~InstanceImgui()
+    Imgui::~Imgui()
     {
     }
 }

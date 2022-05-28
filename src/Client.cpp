@@ -48,7 +48,7 @@ namespace Application
         quad_texture = renderer->MakeTexture(
             "test.png");
 
-        quad_instance = renderer->MakeInstanceUI(
+        quad_instance = renderer->MakeUserInterface(
             context,
             quad_vertices,
             quad_indices,
@@ -72,7 +72,7 @@ namespace Application
             1.0f,
             EasingFunction::EaseOutCubic);
 
-        imgui_instance = renderer->MakeInstanceImgui(
+        imgui_instance = renderer->MakeImgui(
             context);
     }
 

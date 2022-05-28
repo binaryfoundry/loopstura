@@ -45,7 +45,7 @@ static int window_width = 1280;
 static int window_height = 720;
 
 static std::shared_ptr<Application::Client> client;
-static std::shared_ptr<Application::OpenGL::GLRenderer> gl_renderer;
+static std::shared_ptr<Application::Rendering::OpenGL::GLRenderer> gl_renderer;
 
 int main(int argc, char *argv[])
 {
@@ -102,7 +102,7 @@ int main(int argc, char *argv[])
         swap_buffers();
     };
 
-    gl_renderer = std::make_shared<Application::OpenGL::GLRenderer>(
+    gl_renderer = std::make_shared<Application::Rendering::OpenGL::GLRenderer>(
         context,
         swap,
         window_width,

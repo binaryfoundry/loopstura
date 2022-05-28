@@ -1,16 +1,19 @@
 #pragma once
 
-#include "../GL.hpp"
-#include "../GLTexture.hpp"
+#include "GL.hpp"
+#include "GLTexture.hpp"
 
-#include "../../rendering/Renderer.hpp"
-#include "../../rendering/InstanceImgui.hpp"
+#include "../rendering/Renderer.hpp"
+#include "../rendering/Imgui.hpp"
+#include "../rendering/Instance.hpp"
 
 namespace Application
 {
+namespace Rendering
+{
 namespace OpenGL
 {
-    class GLInstanceImgui : public Rendering::InstanceImgui
+    class GLImgui : public Imgui
     {
         class GLRenderer;
         friend class GLRenderer;
@@ -31,14 +34,15 @@ namespace OpenGL
         GLuint g_FontTexture = 0;
 
     public:
-        GLInstanceImgui(
+        GLImgui(
             ContextPtr context);
-        virtual ~GLInstanceImgui();
+        virtual ~GLImgui();
 
         static void Initialise();
         static void Destroy();
 
         void Draw(RenderState state);
     };
+}
 }
 }

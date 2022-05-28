@@ -2,6 +2,8 @@
 
 namespace Application
 {
+namespace Rendering
+{
 namespace OpenGL
 {
     GLuint LoadShader(
@@ -125,5 +127,6 @@ namespace OpenGL
 
         return shader;
     }
+}
 }
 }

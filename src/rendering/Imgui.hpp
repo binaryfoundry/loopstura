@@ -14,15 +14,15 @@ namespace Application
 {
 namespace Rendering
 {
-    class InstanceImgui : public Instance
+    class Imgui : public Instance
     {
     protected:
-        InstanceImgui(
+        Imgui(
             ContextPtr context);
 
     public:
 
-        virtual ~InstanceImgui();
+        virtual ~Imgui();
     };
 }
 }

@@ -6,6 +6,8 @@
 
 namespace Application
 {
+namespace Rendering
+{
     using TextureDataByte = uint8_t;
     using TextureDataFloat = float;
 
@@ -39,4 +41,5 @@ namespace Application
 
     using TextureRGBA8Ptr = std::shared_ptr<Texture<TextureDataByte>>;
     using TextureRGBA32FPtr = std::shared_ptr<Texture<TextureDataFloat>>;
+}
 }

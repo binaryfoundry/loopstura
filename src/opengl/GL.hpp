@@ -25,6 +25,8 @@
 
 namespace Application
 {
+namespace Rendering
+{
 namespace OpenGL
 {
     static void GLCheckError()
@@ -44,5 +46,6 @@ namespace OpenGL
     GLuint LinkShader(
         std::string vertex_shader_string,
         std::string fragment_shader_string);
+}
 }
 }
