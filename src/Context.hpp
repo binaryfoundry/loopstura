@@ -8,6 +8,13 @@
 
 namespace Application
 {
+    struct RenderState
+    {
+        glm::mat4 view = mat4();
+        glm::mat4 projection = mat4();
+        glm::vec4 viewport = vec4();
+    };
+
     using Texure2DLoadCallback = std::function<void(
         std::string file,
         uint8_t& pitch,

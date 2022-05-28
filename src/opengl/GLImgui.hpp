@@ -4,8 +4,6 @@
 #include "GLTexture.hpp"
 
 #include "../rendering/Renderer.hpp"
-#include "../rendering/Imgui.hpp"
-#include "../rendering/Instance.hpp"
 
 namespace Application
 {
@@ -13,7 +11,7 @@ namespace Rendering
 {
 namespace OpenGL
 {
-    class GLImgui : public Imgui
+    class GLImgui
     {
         class GLRenderer;
         friend class GLRenderer;

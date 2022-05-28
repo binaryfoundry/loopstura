@@ -8,10 +8,6 @@
 
 #include "../Context.hpp"
 #include "Texture.hpp"
-#include "Instance.hpp"
-
-#include "UserInterface.hpp"
-#include "Imgui.hpp"
 
 namespace Application
 {
@@ -42,8 +38,7 @@ namespace Rendering
             uint32_t width,
             uint32_t height);
 
-        virtual void Begin() = 0;
-        virtual void End() = 0;
+        virtual void Draw(RenderState state) = 0;
 
         virtual TextureRGBA8Ptr MakeTexture(
             uint32_t width,
@@ -51,23 +46,6 @@ namespace Rendering
 
         virtual TextureRGBA8Ptr MakeTexture(
             std::string file) = 0;
-
-        virtual VertexStreamPtr MakeVertexStream(
-            StreamUsage usage,
-            std::initializer_list<float>& list) = 0;
-
-        virtual IndexStreamPtr MakeIndexStream(
-            StreamUsage usage,
-            std::initializer_list<uint32_t>& list) = 0;
-
-        virtual std::shared_ptr<Rendering::UserInterface> MakeUserInterface(
-            ContextPtr context,
-            VertexStreamPtr vertices,
-            IndexStreamPtr indices,
-            TextureRGBA8Ptr texture) = 0;
-
-        virtual std::shared_ptr<Rendering::Imgui> MakeImgui(
-            ContextPtr context) = 0;
     };
 }
 }

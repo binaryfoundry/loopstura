@@ -61,9 +61,7 @@ namespace OpenGL
     }
 
     GLImgui::GLImgui(
-        ContextPtr context) :
-        Imgui(
-            context)
+        ContextPtr context)
     {
         g_AttribLocationTex = glGetUniformLocation(gl_shader_program, "Texture");
         g_AttribLocationProjMtx = glGetUniformLocation(gl_shader_program, "ProjMtx");

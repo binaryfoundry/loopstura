@@ -91,28 +91,20 @@ set(HEADERS_SIGNAL
     src/signal/Windowing.hpp)
 
 set(SOURCES_RENDERING
-    src/rendering/Instance.cpp
     src/rendering/Renderer.cpp
     src/rendering/Stream.cpp
-    src/rendering/Texture.cpp
-    src/rendering/UserInterface.cpp
-    src/rendering/Imgui.cpp)
+    src/rendering/Texture.cpp)
 
 set(HEADERS_RENDERING
-    src/rendering/Instance.hpp
     src/rendering/Renderer.hpp
     src/rendering/Stream.hpp
-    src/rendering/Texture.hpp
-    src/rendering/Instance.hpp
-    src/rendering/UserInterface.hpp
-    src/rendering/Imgui.hpp)
+    src/rendering/Texture.hpp)
 
 set(SOURCES_OPENGL
     src/opengl/GL.cpp
     src/opengl/GLRenderer.cpp
     src/opengl/GLTexture.cpp
     src/opengl/GLStream.cpp
-    src/opengl/GLUserInterface.cpp
     src/opengl/GLImgui.cpp)
 
 set(HEADERS_OPENGL
@@ -120,7 +112,6 @@ set(HEADERS_OPENGL
     src/opengl/GLRenderer.hpp
     src/opengl/GLTexture.hpp
     src/opengl/GLStream.hpp
-    src/opengl/GLUserInterface.hpp
     src/opengl/GLImgui.hpp)
 
 set(SOURCES_IMGUI

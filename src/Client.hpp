@@ -7,8 +7,6 @@
 
 #include "rendering/Renderer.hpp"
 #include "rendering/Stream.hpp"
-#include "rendering/UserInterface.hpp"
-#include "rendering/Imgui.hpp"
 
 #include "audio/Track.hpp"
 
@@ -21,13 +19,6 @@ namespace Application
     private:
         const std::shared_ptr<Context> context;
         const std::shared_ptr<Renderer> renderer;
-
-        std::shared_ptr<UserInterface> quad_instance;
-        TextureRGBA8Ptr quad_texture;
-        VertexStreamPtr quad_vertices;
-        IndexStreamPtr quad_indices;
-
-        std::shared_ptr<Imgui> imgui_instance;
 
         std::unique_ptr<Track> track;
 

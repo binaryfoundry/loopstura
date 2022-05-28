@@ -25,13 +25,12 @@ namespace OpenGL
             height),
         context(context)
     {
-        GLUserInterface::Initialise();
         GLImgui::Initialise();
+        imgui = std::make_unique<GLImgui>(context);
     }
 
     GLRenderer::~GLRenderer()
     {
-        GLUserInterface::Destroy();
         GLImgui::Destroy();
     }
 
@@ -73,45 +72,7 @@ namespace OpenGL
         return new_texture;
     }
 
-    VertexStreamPtr GLRenderer::MakeVertexStream(
-        StreamUsage usage,
-        std::initializer_list<float>& list)
-    {
-        return std::make_shared<GLStream<float>>(
-            usage,
-            list);
-    }
-
-    IndexStreamPtr GLRenderer::MakeIndexStream(
-        StreamUsage usage,
-        std::initializer_list<uint32_t>& list)
-    {
-        return std::make_shared<GLStream<uint32_t>>(
-            usage,
-            list);
-    }
-
-    std::shared_ptr<UserInterface> GLRenderer::MakeUserInterface(
-        ContextPtr context,
-        VertexStreamPtr vertices,
-        IndexStreamPtr indices,
-        TextureRGBA8Ptr texture)
-    {
-        return std::make_shared<GLUserInterface>(
-            context,
-            vertices,
-            indices,
-            texture);
-    }
-
-    std::shared_ptr<Imgui> GLRenderer::MakeImgui(
-        ContextPtr context)
-    {
-        return std::make_shared<GLImgui>(
-            context);
-    }
-
-    void GLRenderer::Begin()
+    void GLRenderer::Draw(RenderState state)
     {
         glDisable(GL_CULL_FACE);
         glCullFace(GL_BACK);
@@ -129,10 +90,9 @@ namespace OpenGL
             GL_COLOR_BUFFER_BIT |
             GL_DEPTH_BUFFER_BIT |
             GL_STENCIL_BUFFER_BIT);
-    }
 
-    void GLRenderer::End()
-    {
+        imgui->Draw(state);
+
         swap_buffers();
     }
 }

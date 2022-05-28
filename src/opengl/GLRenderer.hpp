@@ -6,7 +6,6 @@
 
 #include "GL.hpp"
 
-#include "GLUserInterface.hpp"
 #include "GLImgui.hpp"
 
 #include <functional>
@@ -33,22 +32,7 @@ namespace OpenGL
         TextureRGBA8Ptr MakeTexture(
             std::string file) override;
 
-        VertexStreamPtr MakeVertexStream(
-            StreamUsage usage,
-            std::initializer_list<float>& list) override;
-
-        IndexStreamPtr MakeIndexStream(
-            StreamUsage usage,
-            std::initializer_list<uint32_t>& list) override;
-
-        std::shared_ptr<UserInterface> MakeUserInterface(
-            ContextPtr context,
-            VertexStreamPtr vertices,
-            IndexStreamPtr indices,
-            TextureRGBA8Ptr texture) override;
-
-        std::shared_ptr<Imgui> MakeImgui(
-            ContextPtr context) override;
+        std::unique_ptr<GLImgui> imgui;
 
     public:
         GLRenderer(
@@ -58,8 +42,7 @@ namespace OpenGL
             uint32_t height);
         virtual ~GLRenderer();
 
-        void Begin() override;
-        void End() override;
+        void Draw(RenderState state) override;
     };
 }
 }
