@@ -34,8 +34,6 @@ namespace OpenGL
         const GLenum gl_target = GL_ARRAY_BUFFER;
         GLenum gl_usage = GL_STATIC_DRAW;
 
-        const std::shared_ptr<std::vector<T>> data;
-
         bool invalidated = true;
 
         void Invalidate()
@@ -50,6 +48,8 @@ namespace OpenGL
         virtual ~GLStream();
 
         void Update();
+
+        const std::unique_ptr<std::vector<T>> data;
     };
 }
 }

@@ -20,6 +20,7 @@ namespace OpenGL
     GLStream<float>::GLStream(
         StreamUsage usage,
         std::initializer_list<float>& list) :
+        data(std::make_unique<std::vector<float>>(list)),
         gl_target(GL_ARRAY_BUFFER)
     {
         Initialise(usage);
@@ -29,6 +30,7 @@ namespace OpenGL
     GLStream<uint32_t>::GLStream(
         StreamUsage usage,
         std::initializer_list<uint32_t>& list) :
+        data(std::make_unique<std::vector<uint32_t>>(list)),
         gl_target(GL_ELEMENT_ARRAY_BUFFER)
     {
         Initialise(usage);
