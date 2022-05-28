@@ -2,8 +2,6 @@
 
 #include "GL.hpp"
 
-#include "../rendering/Stream.hpp"
-
 #include <stdint.h>
 #include <vector>
 #include <memory>
@@ -14,6 +12,12 @@ namespace Rendering
 {
 namespace OpenGL
 {
+    enum class StreamUsage
+    {
+        STATIC,
+        DYNAMIC
+    };
+
     class GLBufferHandle
     {
     public:
@@ -21,7 +25,7 @@ namespace OpenGL
     };
 
     template <typename T>
-    class GLStream : public Stream<T>, public GLBufferHandle
+    class GLStream : public GLBufferHandle
     {
     protected:
         void Initialise(
@@ -30,13 +34,22 @@ namespace OpenGL
         const GLenum gl_target = GL_ARRAY_BUFFER;
         GLenum gl_usage = GL_STATIC_DRAW;
 
+        const std::shared_ptr<std::vector<T>> data;
+
+        bool invalidated = true;
+
+        void Invalidate()
+        {
+            invalidated = true;
+        }
+
     public:
         GLStream(
             StreamUsage usage,
             std::initializer_list<T>& list);
         virtual ~GLStream();
 
-        void Update() override;
+        void Update();
     };
 }
 }

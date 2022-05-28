@@ -92,12 +92,10 @@ set(HEADERS_SIGNAL
 
 set(SOURCES_RENDERING
     src/rendering/Renderer.cpp
-    src/rendering/Stream.cpp
     src/rendering/Texture.cpp)
 
 set(HEADERS_RENDERING
     src/rendering/Renderer.hpp
-    src/rendering/Stream.hpp
     src/rendering/Texture.hpp)
 
 set(SOURCES_OPENGL

@@ -6,7 +6,6 @@
 #include "Context.hpp"
 
 #include "rendering/Renderer.hpp"
-#include "rendering/Stream.hpp"
 
 #include "audio/Track.hpp"
 

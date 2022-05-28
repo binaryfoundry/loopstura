@@ -18,9 +18,8 @@ namespace OpenGL
 
     template<>
     GLStream<float>::GLStream(
-       StreamUsage usage,
-       std::initializer_list<float>& list) :
-       Stream<float>(list),
+        StreamUsage usage,
+        std::initializer_list<float>& list) :
         gl_target(GL_ARRAY_BUFFER)
     {
         Initialise(usage);
@@ -30,7 +29,6 @@ namespace OpenGL
     GLStream<uint32_t>::GLStream(
         StreamUsage usage,
         std::initializer_list<uint32_t>& list) :
-        Stream<uint32_t>(list),
         gl_target(GL_ELEMENT_ARRAY_BUFFER)
     {
         Initialise(usage);
@@ -68,21 +66,21 @@ namespace OpenGL
 
         glBufferData(
             gl_target,
-            sizeof(T) * Stream<T>::data->size(),
-            &(*Stream<T>::data)[0],
+            sizeof(T) * data->size(),
+            &(*data)[0],
             gl_usage);
 
         glBindBuffer(
             gl_target,
             NULL);
 
-        Stream<T>::invalidated = false;
+        invalidated = false;
     }
 
     template <typename T>
     void GLStream<T>::Update()
     {
-        if (Stream<T>::invalidated)
+        if (invalidated)
         {
             glBindBuffer(
                 gl_target,
@@ -91,14 +89,14 @@ namespace OpenGL
             glBufferSubData(
                 gl_target,
                 0,
-                sizeof(T) * Stream<T>::data->size(),
-                &(*Stream<T>::data)[0]);
+                sizeof(T) * data->size(),
+                &(*data)[0]);
 
             glBindBuffer(
                 gl_target,
                 NULL);
 
-            Stream<T>::invalidated = false;
+           invalidated = false;
         }
     }
 
