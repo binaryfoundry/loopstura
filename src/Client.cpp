@@ -19,11 +19,14 @@ namespace Application
         track = std::make_unique<SDLTrack>();
         track->InitComplete();
 
+        display_root = std::make_shared<Quad>();
+
         TextureRGBA8Ptr background_texture = renderer->MakeTexture(
             "test.png");
 
         background_quad = std::make_shared<Quad>(
             context,
+            display_root,
             background_texture);
 
         renderer->RegisterQuad(background_quad);

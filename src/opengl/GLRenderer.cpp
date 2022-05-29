@@ -300,6 +300,9 @@ namespace OpenGL
 
         for (QuadPtr quad : quads)
         {
+            if (quad->Passthrough())
+                continue;
+
             if (quad->Texture() != nullptr)
             {
                 quad->Texture()->Update();

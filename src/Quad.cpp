@@ -2,19 +2,22 @@
 
 namespace Application
 {
+    Quad::Quad()
+    {
+        Init();
+
+        passthrough = true;
+    }
+
     Quad::Quad(
         ContextPtr context,
+        std::shared_ptr<Quad> parent,
         TextureRGBA8Ptr texture) :
         context(context),
+        parent(parent),
         texture(texture)
     {
-        position = std::make_shared<Property<vec2>>(
-            vec2(),
-            &dirty_flag);
-
-        scale = std::make_shared<Property<vec2>>(
-            vec2(),
-            &dirty_flag);
+        Init();
 
         brightness = std::make_shared<Property<float>>(0.0f);
         gradient = std::make_shared<Property<float>>(0.0f);
@@ -34,14 +37,35 @@ namespace Application
             vec3(0.16, 0.27, 0.63));
     }
 
+    void Quad::Init()
+    {
+        position = std::make_shared<Property<vec2>>(
+            vec2(),
+            &dirty_flag);
+
+        scale = std::make_shared<Property<vec2>>(
+            vec2(1.0, 1.0),
+            &dirty_flag);
+    }
+
     void Quad::Validate()
     {
+        if (parent != nullptr)
+        {
+            parent->Validate();
+        }
+
         if (!dirty_flag)
         {
             return;
         }
 
         transform = mat4();
+
+        if (parent != nullptr)
+        {
+            transform = parent->transform;
+        }
 
         transform = glm::translate(
             transform,

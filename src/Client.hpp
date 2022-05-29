@@ -25,6 +25,7 @@ namespace Application
         void DrawDock(bool* p_open);
         void DrawPlot();
 
+        QuadPtr display_root;
         QuadPtr background_quad;
 
     public:

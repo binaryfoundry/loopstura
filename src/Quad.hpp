@@ -17,10 +17,15 @@ namespace Application
         ContextPtr context;
 
         bool dirty_flag = true;
+        bool passthrough = false;
 
         glm::mat4 transform;
 
         TextureRGBA8Ptr texture = nullptr;
+
+        std::shared_ptr<Quad> parent = nullptr;
+
+        void Init();
 
     public:
         std::shared_ptr<Property<glm::vec2>> scale;
@@ -31,7 +36,12 @@ namespace Application
         std::shared_ptr<Property<vec3>> gradient_0;
         std::shared_ptr<Property<vec3>> gradient_1;
 
-        Quad(ContextPtr context, TextureRGBA8Ptr texture = nullptr);
+        Quad();
+
+        Quad(
+            ContextPtr context,
+            std::shared_ptr<Quad> parent = nullptr,
+            TextureRGBA8Ptr texture = nullptr);
 
         glm::mat4 Transform()
         {
@@ -41,6 +51,11 @@ namespace Application
         TextureRGBA8Ptr Texture()
         {
             return texture;
+        }
+
+        bool Passthrough() const
+        {
+            return passthrough;
         }
 
         void Validate();
