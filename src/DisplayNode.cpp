@@ -2,7 +2,9 @@
 
 namespace Application
 {
-    DisplayNode::DisplayNode()
+    DisplayNode::DisplayNode(
+        std::shared_ptr<DisplayNode> parent) :
+        parent(parent)
     {
         Init();
 
@@ -39,6 +41,11 @@ namespace Application
 
     void DisplayNode::Init()
     {
+        if (parent != nullptr)
+        {
+            parent->children.push_back(this);
+        }
+
         position = std::make_shared<Property<vec2>>(
             vec2(),
             &dirty_flag);

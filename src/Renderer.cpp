@@ -38,10 +38,9 @@ namespace Rendering
             0, 0, width, height);
     }
 
-
-    void Renderer::RegisterNode(DisplayNodePtr quad)
+    void Renderer::RegisterRootNode(DisplayNodePtr node)
     {
-        nodes.push_back(quad);
+        root_node = node;
     }
 }
 }

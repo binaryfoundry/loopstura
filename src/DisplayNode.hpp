@@ -27,6 +27,8 @@ namespace Application
 
         void Init();
 
+        std::vector<DisplayNode*> children;
+
     public:
         std::shared_ptr<Property<glm::vec2>> scale;
         std::shared_ptr<Property<glm::vec2>> position;
@@ -36,7 +38,8 @@ namespace Application
         std::shared_ptr<Property<vec3>> gradient_0;
         std::shared_ptr<Property<vec3>> gradient_1;
 
-        DisplayNode();
+        DisplayNode(
+            std::shared_ptr<DisplayNode> parent = nullptr);
 
         DisplayNode(
             ContextPtr context,
@@ -56,6 +59,11 @@ namespace Application
         bool Passthrough() const
         {
             return passthrough;
+        }
+
+        std::vector<DisplayNode*>& Children()
+        {
+            return children;
         }
 
         void Validate();

@@ -54,7 +54,8 @@ namespace OpenGL
         GLuint gl_quad_gradient_1_uniform_location = 0;
         GLuint gl_quad_sampler_state = 0;
 
-        void DrawQuads(RenderState state);
+        void DrawNode(DisplayNode* node);
+        void DrawNodes(RenderState state, DisplayNode* node);
 
     public:
         GLRenderer(

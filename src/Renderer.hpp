@@ -30,7 +30,7 @@ namespace Rendering
         uint32_t width = 0;
         uint32_t height = 0;
 
-        std::vector<DisplayNodePtr> nodes;
+        DisplayNodePtr root_node;
 
     public:
         virtual ~Renderer();
@@ -41,7 +41,7 @@ namespace Rendering
             uint32_t width,
             uint32_t height);
 
-        void RegisterNode(DisplayNodePtr node);
+        void RegisterRootNode(DisplayNodePtr node);
 
         virtual void Draw(RenderState state) = 0;
 

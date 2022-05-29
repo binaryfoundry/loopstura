@@ -21,6 +21,8 @@ namespace Application
 
         display_root = std::make_shared<DisplayNode>();
 
+        renderer->RegisterRootNode(display_root);
+
         TextureRGBA8Ptr background_texture = renderer->MakeTexture(
             "test.png");
 
@@ -29,7 +31,6 @@ namespace Application
             display_root,
             background_texture);
 
-        renderer->RegisterNode(background_quad);
 
         context->property_manager->AddTween(
             background_quad->brightness,

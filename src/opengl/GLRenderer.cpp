@@ -1,8 +1,10 @@
 #include "GLRenderer.hpp"
 
+#include <stack>
 #include <vector>
 #include <iostream>
 #include <stdexcept>
+#include <unordered_set>
 
 #include "GLTexture.hpp"
 #include "GLStream.hpp"
@@ -234,14 +236,77 @@ namespace OpenGL
             GL_DEPTH_BUFFER_BIT |
             GL_STENCIL_BUFFER_BIT);
 
-        DrawQuads(state);
+        DrawNodes(state, root_node.get());
 
         imgui->Draw(state);
 
         swap_buffers();
     }
 
-    void GLRenderer::DrawQuads(RenderState state)
+    void GLRenderer::DrawNode(DisplayNode* node)
+    {
+        if (node->Passthrough())
+            return;
+
+        if (node->Texture() != nullptr)
+        {
+            node->Texture()->Update();
+
+            const auto gl_texture_handle = std::dynamic_pointer_cast<GLTextureHandle>(
+                node->Texture())->gl_texture_handle;
+
+            glActiveTexture(
+                GL_TEXTURE0);
+
+            glBindTexture(
+                GL_TEXTURE_2D,
+                gl_texture_handle);
+
+            glUniform1i(
+                gl_quad_texture_uniform_location,
+                0);
+
+            glBindSampler(
+                0,
+                gl_quad_sampler_state);
+        }
+
+        node->Validate();
+
+        glUniform1f(
+            gl_quad_brightness_uniform_location,
+            node->brightness->Value());
+
+        glUniform1f(
+            gl_quad_gradient_uniform_location,
+            node->gradient->Value());
+
+        glUniform3fv(
+            gl_quad_gradient_0_uniform_location,
+            1,
+            &node->gradient_0->Value()[0]);
+
+        glUniform3fv(
+            gl_quad_gradient_1_uniform_location,
+            1,
+            &node->gradient_1->Value()[0]);
+
+        const glm::mat4 transform = node->Transform();
+
+        glUniformMatrix4fv(
+            gl_quad_model_uniform_location,
+            1,
+            false,
+            &transform[0][0]);
+
+        glDrawElements(
+            GL_TRIANGLES,
+            static_cast<GLsizei>(quad_indices->data->size()),
+            GL_UNSIGNED_INT,
+            static_cast<char const*>(0));
+    }
+
+    void GLRenderer::DrawNodes(RenderState state, DisplayNode* node)
     {
         glUseProgram(
             gl_quad_shader_program);
@@ -298,67 +363,30 @@ namespace OpenGL
             GL_ELEMENT_ARRAY_BUFFER,
             gl_index_buffer);
 
-        for (DisplayNodePtr node : nodes)
         {
-            if (node->Passthrough())
-                continue;
+            std::unordered_set<DisplayNode*> visited;
+            std::stack<DisplayNode*> stack;
+            stack.push(root_node.get());
 
-            if (node->Texture() != nullptr)
+            while (!stack.empty())
             {
-                node->Texture()->Update();
- 
-                const auto gl_texture_handle = std::dynamic_pointer_cast<GLTextureHandle>(
-                    node->Texture())->gl_texture_handle;
+                DisplayNode* s = stack.top();
+                stack.pop();
 
-                glActiveTexture(
-                    GL_TEXTURE0);
+                if (visited.find(s) == visited.end())
+                {
+                    DrawNode(s);
+                    visited.insert(s);
+                }
 
-                glBindTexture(
-                    GL_TEXTURE_2D,
-                    gl_texture_handle);
-
-                glUniform1i(
-                    gl_quad_texture_uniform_location,
-                    0);
-
-                glBindSampler(
-                    0,
-                    gl_quad_sampler_state);
+                for (auto c : s->Children())
+                {
+                    if (visited.find(c) == visited.end())
+                    {
+                        stack.push(c);
+                    }
+                }
             }
-
-            node->Validate();
-
-            glUniform1f(
-                gl_quad_brightness_uniform_location,
-                node->brightness->Value());
-
-            glUniform1f(
-                gl_quad_gradient_uniform_location,
-                node->gradient->Value());
-
-            glUniform3fv(
-                gl_quad_gradient_0_uniform_location,
-                1,
-                &node->gradient_0->Value()[0]);
-
-            glUniform3fv(
-                gl_quad_gradient_1_uniform_location,
-                1,
-                &node->gradient_1->Value()[0]);
-
-            const glm::mat4 transform = node->Transform();
-
-            glUniformMatrix4fv(
-                gl_quad_model_uniform_location,
-                1,
-                false,
-                &transform[0][0]);
-
-            glDrawElements(
-                GL_TRIANGLES,
-                static_cast<GLsizei>(quad_indices->data->size()),
-                GL_UNSIGNED_INT,
-                static_cast<char const*>(0));
         }
 
         glBindTexture(
