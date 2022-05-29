@@ -21,7 +21,8 @@ set(SOURCES
     src/Context.cpp
     src/Renderer.cpp
     src/Texture.cpp
-    src/DisplayNode.cpp)
+    src/DisplayNode.cpp
+    src/MappedFile.cpp)
 
 set(HEADERS
     src/Platform.hpp
@@ -30,7 +31,8 @@ set(HEADERS
     src/Context.hpp
     src/Renderer.hpp
     src/Texture.hpp
-    src/DisplayNode.hpp)
+    src/DisplayNode.hpp
+    src/MappedFile.hpp)
 
 set(SOURCES_MAIN
     src/sdl/SDL.cpp
@@ -67,12 +69,6 @@ set(HEADERS_AUDIO
     src/audio/Track.hpp
     src/audio/Waveform.hpp
     src/audio/WAVFile.cpp)
-
-set(SOURCES_FILE
-    src/file/MappedFile.cpp)
-
-set(HEADERS_FILE
-    src/file/MappedFile.hpp)
 
 set(SOURCES_CONCURRENCY
     src/concurrency/Worker.cpp

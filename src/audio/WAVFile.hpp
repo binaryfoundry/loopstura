@@ -5,7 +5,7 @@
 #include <memory>
 
 #include "Waveform.hpp"
-#include "../file/MappedFile.hpp"
+#include "../MappedFile.hpp"
 
 class WAVFile
 {
