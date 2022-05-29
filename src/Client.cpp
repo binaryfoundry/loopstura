@@ -19,20 +19,20 @@ namespace Application
         track = std::make_unique<SDLTrack>();
         track->InitComplete();
 
-        TextureRGBA8Ptr test_texture = renderer->MakeTexture(
+        TextureRGBA8Ptr background_texture = renderer->MakeTexture(
             "test.png");
 
-        test_quad = std::make_shared<Quad>(
+        background_quad = std::make_shared<Quad>(
             context,
-            test_texture);
+            background_texture);
+
+        renderer->RegisterQuad(background_quad);
 
         context->property_manager->AddTween(
-            test_quad->brightness,
+            background_quad->brightness,
             0.0f,
             1.0f,
             EasingFunction::EaseOutCubic);
-
-        renderer->RegisterQuad(test_quad);
     }
 
     Client::~Client()
@@ -185,7 +185,7 @@ namespace Application
             state.viewport.z,
             state.viewport.w);
 
-        *test_quad->scale = glm::vec2(
+        *background_quad->scale = glm::vec2(
             renderer->state.viewport.z,
             renderer->state.viewport.w);
 
