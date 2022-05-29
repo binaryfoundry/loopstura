@@ -124,8 +124,6 @@ int main(int argc, char *argv[])
         sdl_imgui_update_cursor();
         client->Update();
         client->Render();
-
-        std::this_thread::sleep_for(std::chrono::milliseconds(16));
     }
 
     sdl_imgui_destroy();
@@ -302,6 +300,7 @@ static int init_graphics()
     };
 
     display = eglGetDisplay(GetDC(hWnd));
+    auto r = eglSwapInterval(display, 1);
 
     if (display == EGL_NO_DISPLAY)
         goto failed;
@@ -346,6 +345,10 @@ static int init_graphics()
     if (!eglMakeCurrent(display, surface, surface, context))
         goto failed;
 
+    if (!eglSwapInterval(display, 1)) {
+        goto failed;
+    }
+
 failed:
     if ((err = eglGetError()) != EGL_SUCCESS)
     {
@@ -356,8 +359,6 @@ failed:
     eglDisplay = display;
     eglSurface = surface;
     eglContext = context;
-
-    auto r = eglSwapInterval(eglDisplay, 1);
 
     //SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN_DESKTOP);
 
