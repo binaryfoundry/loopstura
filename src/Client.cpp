@@ -18,6 +18,15 @@ namespace Application
     {
         track = std::make_unique<SDLTrack>();
         track->InitComplete();
+
+        TextureRGBA8Ptr test_texture = renderer->MakeTexture(
+            "test.png");
+
+        QuadPtr test_quad = std::make_shared<Quad>(
+            context,
+            test_texture);
+
+        renderer->RegisterQuad(test_quad);
     }
 
     Client::~Client()

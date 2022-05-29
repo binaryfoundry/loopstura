@@ -37,5 +37,11 @@ namespace Rendering
         state.viewport = vec4(
             0, 0, width, height);
     }
+
+
+    void Renderer::RegisterQuad(QuadPtr quad)
+    {
+        quads.push_back(quad);
+    }
 }
 }

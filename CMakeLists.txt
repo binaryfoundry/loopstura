@@ -20,7 +20,8 @@ set(SOURCES
     src/Client.cpp
     src/Context.cpp
     src/Renderer.cpp
-    src/Texture.cpp)
+    src/Texture.cpp
+    src/Quad.cpp)
 
 set(HEADERS
     src/Platform.hpp
@@ -28,7 +29,8 @@ set(HEADERS
     src/Client.hpp
     src/Context.hpp
     src/Renderer.hpp
-    src/Texture.hpp)
+    src/Texture.hpp
+    src/Quad.hpp)
 
 set(SOURCES_MAIN
     src/sdl/SDL.cpp

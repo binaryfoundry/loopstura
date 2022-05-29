@@ -13,7 +13,7 @@ namespace Rendering
 {
 namespace OpenGL
 {
-    static std::string vertex_shader_string =
+    static std::string quad_vertex_shader_string =
         R"(#version 300 es
         #ifdef GL_ES
         precision mediump float;
@@ -31,7 +31,7 @@ namespace OpenGL
             gl_Position = ProjMtx * vec4(Position.xy,0,1);
         })";
 
-    static std::string fragment_shader_string =
+    static std::string quad_fragment_shader_string =
         R"(#version 300 es
         #ifdef GL_ES
         precision mediump float;
@@ -50,8 +50,8 @@ namespace OpenGL
     void GLImgui::Initialise()
     {
         gl_shader_program = LinkShader(
-            vertex_shader_string,
-            fragment_shader_string);
+            quad_vertex_shader_string,
+            quad_fragment_shader_string);
     }
 
     void GLImgui::Destroy()
