@@ -298,17 +298,17 @@ namespace OpenGL
             GL_ELEMENT_ARRAY_BUFFER,
             gl_index_buffer);
 
-        for (QuadPtr quad : quads)
+        for (DisplayNodePtr node : nodes)
         {
-            if (quad->Passthrough())
+            if (node->Passthrough())
                 continue;
 
-            if (quad->Texture() != nullptr)
+            if (node->Texture() != nullptr)
             {
-                quad->Texture()->Update();
+                node->Texture()->Update();
  
                 const auto gl_texture_handle = std::dynamic_pointer_cast<GLTextureHandle>(
-                    quad->Texture())->gl_texture_handle;
+                    node->Texture())->gl_texture_handle;
 
                 glActiveTexture(
                     GL_TEXTURE0);
@@ -326,27 +326,27 @@ namespace OpenGL
                     gl_quad_sampler_state);
             }
 
-            quad->Validate();
+            node->Validate();
 
             glUniform1f(
                 gl_quad_brightness_uniform_location,
-                quad->brightness->Value());
+                node->brightness->Value());
 
             glUniform1f(
                 gl_quad_gradient_uniform_location,
-                quad->gradient->Value());
+                node->gradient->Value());
 
             glUniform3fv(
                 gl_quad_gradient_0_uniform_location,
                 1,
-                &quad->gradient_0->Value()[0]);
+                &node->gradient_0->Value()[0]);
 
             glUniform3fv(
                 gl_quad_gradient_1_uniform_location,
                 1,
-                &quad->gradient_1->Value()[0]);
+                &node->gradient_1->Value()[0]);
 
-            const glm::mat4 transform = quad->Transform();
+            const glm::mat4 transform = node->Transform();
 
             glUniformMatrix4fv(
                 gl_quad_model_uniform_location,

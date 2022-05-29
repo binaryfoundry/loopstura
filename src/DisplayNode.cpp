@@ -1,17 +1,17 @@
-#include "Quad.hpp"
+#include "DisplayNode.hpp"
 
 namespace Application
 {
-    Quad::Quad()
+    DisplayNode::DisplayNode()
     {
         Init();
 
         passthrough = true;
     }
 
-    Quad::Quad(
+    DisplayNode::DisplayNode(
         ContextPtr context,
-        std::shared_ptr<Quad> parent,
+        std::shared_ptr<DisplayNode> parent,
         TextureRGBA8Ptr texture) :
         context(context),
         parent(parent),
@@ -37,7 +37,7 @@ namespace Application
             vec3(0.16, 0.27, 0.63));
     }
 
-    void Quad::Init()
+    void DisplayNode::Init()
     {
         position = std::make_shared<Property<vec2>>(
             vec2(),
@@ -48,7 +48,7 @@ namespace Application
             &dirty_flag);
     }
 
-    void Quad::Validate()
+    void DisplayNode::Validate()
     {
         if (parent != nullptr)
         {

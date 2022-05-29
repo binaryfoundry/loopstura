@@ -21,7 +21,7 @@ set(SOURCES
     src/Context.cpp
     src/Renderer.cpp
     src/Texture.cpp
-    src/Quad.cpp)
+    src/DisplayNode.cpp)
 
 set(HEADERS
     src/Platform.hpp
@@ -30,7 +30,7 @@ set(HEADERS
     src/Context.hpp
     src/Renderer.hpp
     src/Texture.hpp
-    src/Quad.hpp)
+    src/DisplayNode.hpp)
 
 set(SOURCES_MAIN
     src/sdl/SDL.cpp

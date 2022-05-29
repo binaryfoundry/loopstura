@@ -8,7 +8,7 @@
 
 #include "Context.hpp"
 #include "Texture.hpp"
-#include "Quad.hpp"
+#include "DisplayNode.hpp"
 
 namespace Application
 {
@@ -30,7 +30,7 @@ namespace Rendering
         uint32_t width = 0;
         uint32_t height = 0;
 
-        std::vector<QuadPtr> quads;
+        std::vector<DisplayNodePtr> nodes;
 
     public:
         virtual ~Renderer();
@@ -41,7 +41,7 @@ namespace Rendering
             uint32_t width,
             uint32_t height);
 
-        void RegisterQuad(QuadPtr quad);
+        void RegisterNode(DisplayNodePtr node);
 
         virtual void Draw(RenderState state) = 0;
 

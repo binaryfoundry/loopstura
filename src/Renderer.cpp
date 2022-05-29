@@ -39,9 +39,9 @@ namespace Rendering
     }
 
 
-    void Renderer::RegisterQuad(QuadPtr quad)
+    void Renderer::RegisterNode(DisplayNodePtr quad)
     {
-        quads.push_back(quad);
+        nodes.push_back(quad);
     }
 }
 }

@@ -4,7 +4,7 @@
 #include <string>
 
 #include "Context.hpp"
-
+#include "DisplayNode.hpp"
 #include "Renderer.hpp"
 
 #include "audio/Track.hpp"
@@ -25,8 +25,8 @@ namespace Application
         void DrawDock(bool* p_open);
         void DrawPlot();
 
-        QuadPtr display_root;
-        QuadPtr background_quad;
+        DisplayNodePtr display_root;
+        DisplayNodePtr background_quad;
 
     public:
         Client(

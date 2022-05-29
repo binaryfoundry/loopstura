@@ -11,7 +11,7 @@ using namespace Application::Rendering;
 
 namespace Application
 {
-    class Quad
+    class DisplayNode
     {
     private:
         ContextPtr context;
@@ -23,7 +23,7 @@ namespace Application
 
         TextureRGBA8Ptr texture = nullptr;
 
-        std::shared_ptr<Quad> parent = nullptr;
+        std::shared_ptr<DisplayNode> parent = nullptr;
 
         void Init();
 
@@ -36,11 +36,11 @@ namespace Application
         std::shared_ptr<Property<vec3>> gradient_0;
         std::shared_ptr<Property<vec3>> gradient_1;
 
-        Quad();
+        DisplayNode();
 
-        Quad(
+        DisplayNode(
             ContextPtr context,
-            std::shared_ptr<Quad> parent = nullptr,
+            std::shared_ptr<DisplayNode> parent = nullptr,
             TextureRGBA8Ptr texture = nullptr);
 
         glm::mat4 Transform()
@@ -61,5 +61,5 @@ namespace Application
         void Validate();
     };
 
-    using QuadPtr = std::shared_ptr<Quad>;
+    using DisplayNodePtr = std::shared_ptr<DisplayNode>;
 }
