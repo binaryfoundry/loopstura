@@ -7,11 +7,11 @@
 #include "SDLImgui.hpp"
 
 #include "../Platform.hpp"
+#include "../Application.hpp"
 #include "../Context.hpp"
+
 #include "../opengl/GL.hpp"
 #include "../opengl/GLRenderer.hpp"
-
-#include "../Client.hpp"
 
 #include <chrono>
 #include <thread>
@@ -44,7 +44,7 @@ static void swap_buffers();
 static int window_width = 1280;
 static int window_height = 720;
 
-static std::shared_ptr<Application::Client> client;
+static std::shared_ptr<Application::Application> client;
 static std::shared_ptr<Application::Rendering::OpenGL::GLRenderer> gl_renderer;
 
 int main(int argc, char *argv[])
@@ -108,7 +108,7 @@ int main(int argc, char *argv[])
         window_width,
         window_height);
 
-    client = std::make_shared<Application::Client>(
+    client = std::make_shared<Application::Application>(
         context,
         gl_renderer);
 

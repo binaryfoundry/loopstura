@@ -17,7 +17,7 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 set(SOURCES
     src/Platform.cpp
     src/Math.cpp
-    src/Client.cpp
+    src/Application.cpp
     src/Context.cpp
     src/Renderer.cpp
     src/Texture.cpp
@@ -27,7 +27,7 @@ set(SOURCES
 set(HEADERS
     src/Platform.hpp
     src/Math.hpp
-    src/Client.hpp
+    src/Application.hpp
     src/Context.hpp
     src/Renderer.hpp
     src/Texture.hpp

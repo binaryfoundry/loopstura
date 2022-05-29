@@ -13,7 +13,7 @@ using namespace Application::Rendering;
 
 namespace Application
 {
-    class Client
+    class Application
     {
     private:
         const std::shared_ptr<Context> context;
@@ -29,10 +29,10 @@ namespace Application
         DisplayNodePtr background_quad;
 
     public:
-        Client(
+        Application(
             ContextPtr context,
             std::shared_ptr<Renderer> renderer);
-        virtual ~Client();
+        virtual ~Application();
 
         void Update();
         void Render();

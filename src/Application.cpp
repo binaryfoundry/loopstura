@@ -1,4 +1,4 @@
-#include "Client.hpp"
+#include "Application.hpp"
 
 #define IMGUI_HAS_DOCK
 
@@ -10,7 +10,7 @@
 
 namespace Application
 {
-    Client::Client(
+    Application::Application(
         ContextPtr context,
         std::shared_ptr<Renderer> renderer) :
         renderer(renderer),
@@ -38,11 +38,11 @@ namespace Application
             EasingFunction::EaseOutCubic);
     }
 
-    Client::~Client()
+    Application::~Application()
     {
     }
 
-    void Client::DrawDock(bool* p_open)
+    void Application::DrawDock(bool* p_open)
     {
         static ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_None;
 
@@ -95,7 +95,7 @@ namespace Application
         ImGui::End();
     }
 
-    void Client::DrawPlot()
+    void Application::DrawPlot()
     {
         const size_t WAVEFORM_WINDOW_SIZE = 512;
 
@@ -152,7 +152,7 @@ namespace Application
         conf.line_thickness = 1.f;
     }
 
-    void Client::Update()
+    void Application::Update()
     {
         ImGui::NewFrame();
 
@@ -179,7 +179,7 @@ namespace Application
         context->Update();
     }
 
-    void Client::Render()
+    void Application::Render()
     {
         RenderState state = renderer->state;
 
