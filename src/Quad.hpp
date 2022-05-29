@@ -20,7 +20,7 @@ namespace Application
 
         glm::mat4 transform;
 
-        TextureRGBA8Ptr texture;
+        TextureRGBA8Ptr texture = nullptr;
 
     public:
         std::shared_ptr<Property<glm::vec2>> scale;
@@ -31,7 +31,7 @@ namespace Application
         std::shared_ptr<Property<vec3>> gradient_0;
         std::shared_ptr<Property<vec3>> gradient_1;
 
-        Quad(ContextPtr context, TextureRGBA8Ptr texture);
+        Quad(ContextPtr context, TextureRGBA8Ptr texture = nullptr);
 
         glm::mat4 Transform()
         {

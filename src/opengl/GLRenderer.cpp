@@ -300,27 +300,30 @@ namespace OpenGL
 
         for (QuadPtr quad : quads)
         {
+            if (quad->Texture() != nullptr)
+            {
+                quad->Texture()->Update();
+ 
+                const auto gl_texture_handle = std::dynamic_pointer_cast<GLTextureHandle>(
+                    quad->Texture())->gl_texture_handle;
+
+                glActiveTexture(
+                    GL_TEXTURE0);
+
+                glBindTexture(
+                    GL_TEXTURE_2D,
+                    gl_texture_handle);
+
+                glUniform1i(
+                    gl_quad_texture_uniform_location,
+                    0);
+
+                glBindSampler(
+                    0,
+                    gl_quad_sampler_state);
+            }
+
             quad->Validate();
-
-            quad->Texture()->Update();
-
-            const auto gl_texture_handle = std::dynamic_pointer_cast<GLTextureHandle>(
-                quad->Texture())->gl_texture_handle;
-
-            glActiveTexture(
-                GL_TEXTURE0);
-
-            glBindTexture(
-                GL_TEXTURE_2D,
-                gl_texture_handle);
-
-            glUniform1i(
-                gl_quad_texture_uniform_location,
-                0);
-
-            glBindSampler(
-                0,
-                gl_quad_sampler_state);
 
             glUniform1f(
                 gl_quad_brightness_uniform_location,
