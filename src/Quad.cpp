@@ -8,6 +8,14 @@ namespace Application
         context(context),
         texture(texture)
     {
+        position = std::make_shared<Property<vec2>>(
+            vec2(),
+            &dirty_flag);
+
+        scale = std::make_shared<Property<vec2>>(
+            vec2(),
+            &dirty_flag);
+
         brightness = std::make_shared<Property<float>>(0.0f);
         gradient = std::make_shared<Property<float>>(0.0f);
         gradient_0 = std::make_shared<Property<vec3>>(vec3());
@@ -24,11 +32,25 @@ namespace Application
 
         gradient_1->Set(
             vec3(0.16, 0.27, 0.63));
+    }
 
-        context->property_manager->AddTween(
-            brightness,
-            0.0f,
-            1.0f,
-            EasingFunction::EaseOutCubic);
+    void Quad::Validate()
+    {
+        if (!dirty_flag)
+        {
+            return;
+        }
+
+        transform = mat4();
+
+        transform = glm::translate(
+            transform,
+            vec3(position->Value(), 1.0f));
+
+        transform = glm::scale(
+            transform,
+            vec3(scale->Value(), 1.0f));
+
+        dirty_flag = false;
     }
 }

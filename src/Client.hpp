@@ -25,6 +25,8 @@ namespace Application
         void DrawDock(bool* p_open);
         void DrawPlot();
 
+        QuadPtr test_quad;
+
     public:
         Client(
             ContextPtr context,

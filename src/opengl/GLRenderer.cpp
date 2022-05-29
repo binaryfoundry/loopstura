@@ -300,10 +300,12 @@ namespace OpenGL
 
         for (QuadPtr quad : quads)
         {
-            quad->texture->Update();
+            quad->Validate();
+
+            quad->Texture()->Update();
 
             const auto gl_texture_handle = std::dynamic_pointer_cast<GLTextureHandle>(
-                quad->texture)->gl_texture_handle;
+                quad->Texture())->gl_texture_handle;
 
             glActiveTexture(
                 GL_TEXTURE0);
@@ -338,7 +340,7 @@ namespace OpenGL
                 1,
                 &quad->gradient_1->Value()[0]);
 
-            const glm::mat4 transform = quad->transform;
+            const glm::mat4 transform = quad->Transform();
 
             glUniformMatrix4fv(
                 gl_quad_model_uniform_location,

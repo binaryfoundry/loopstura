@@ -57,6 +57,19 @@ namespace Properties
             value_ptr = &local_value;
         }
 
+        Property(T value_, bool* dirty_flag_) :
+            dirty_flag(dirty_flag_)
+        {
+            local_value = value_;
+            value_ptr = &local_value;
+        }
+
+        Property(T* value_, bool* dirty_flag_) :
+            dirty_flag(dirty_flag_)
+        {
+            value_ptr = value_;
+        }
+
         T Value()
         {
             return *value_ptr;

@@ -16,10 +16,15 @@ namespace Application
     private:
         ContextPtr context;
 
-    public:
-        glm::mat3 transform;
+        bool dirty_flag = true;
+
+        glm::mat4 transform;
 
         TextureRGBA8Ptr texture;
+
+    public:
+        std::shared_ptr<Property<glm::vec2>> scale;
+        std::shared_ptr<Property<glm::vec2>> position;
 
         std::shared_ptr<Property<float>> brightness;
         std::shared_ptr<Property<float>> gradient;
@@ -27,6 +32,18 @@ namespace Application
         std::shared_ptr<Property<vec3>> gradient_1;
 
         Quad(ContextPtr context, TextureRGBA8Ptr texture);
+
+        glm::mat4 Transform()
+        {
+            return transform;
+        }
+
+        TextureRGBA8Ptr Texture()
+        {
+            return texture;
+        }
+
+        void Validate();
     };
 
     using QuadPtr = std::shared_ptr<Quad>;

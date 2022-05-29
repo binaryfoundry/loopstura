@@ -22,9 +22,15 @@ namespace Application
         TextureRGBA8Ptr test_texture = renderer->MakeTexture(
             "test.png");
 
-        QuadPtr test_quad = std::make_shared<Quad>(
+        test_quad = std::make_shared<Quad>(
             context,
             test_texture);
+
+        context->property_manager->AddTween(
+            test_quad->brightness,
+            0.0f,
+            1.0f,
+            EasingFunction::EaseOutCubic);
 
         renderer->RegisterQuad(test_quad);
     }
@@ -179,14 +185,9 @@ namespace Application
             state.viewport.z,
             state.viewport.w);
 
-        vec3 scale = glm::vec3(
+        *test_quad->scale = glm::vec2(
             renderer->state.viewport.z,
-            renderer->state.viewport.w,
-            1.0);
-
-        state.view = glm::scale(
-            state.view,
-            scale);
+            renderer->state.viewport.w);
 
         renderer->Draw(state);
     }
