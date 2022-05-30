@@ -24,7 +24,6 @@ namespace Application
 
         bool dock_created = false;
         void DrawDock(bool* p_open);
-        void DrawPlot();
 
         DisplayNodePtr display_root;
         DisplayNodePtr test_button;

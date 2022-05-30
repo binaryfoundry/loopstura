@@ -113,8 +113,7 @@ set(SOURCES_IMGUI
     lib/imgui/imgui/imgui_demo.cpp
     lib/imgui/imgui/imgui_tables.cpp
     lib/imgui/imgui/imgui_draw.cpp
-    lib/imgui/imgui/imgui_widgets.cpp
-    lib/imgui_plot/imgui_plot/imgui_plot.cpp)
+    lib/imgui/imgui/imgui_widgets.cpp)
 
 set(HEADERS_IMGUI
     lib/imgui/imgui/imconfig.h
@@ -122,8 +121,7 @@ set(HEADERS_IMGUI
     lib/imgui/imgui/imgui_internal.h
     lib/imgui/imgui/imstb_rectpack.h
     lib/imgui/imgui/imstb_textedit.h
-    lib/imgui/imgui/imstb_truetype.h
-    lib/imgui_plot/imgui_plot/imgui_plot.h)
+    lib/imgui/imgui/imstb_truetype.h)
 
 file(GLOB RESOURCES "${PROJECT_SOURCE_DIR}/resources/*.*")
 
