@@ -184,6 +184,9 @@ namespace Application
 
         context->Update(clamped_frame_duration);
 
+        ImGuiIO& io = ImGui::GetIO();
+        io.DeltaTime = clamped_frame_duration;
+
         fps_timer.Start();
     }
 
