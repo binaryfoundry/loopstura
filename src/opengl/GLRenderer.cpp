@@ -72,9 +72,9 @@ namespace OpenGL
         uniform vec3 gradient_0;
         uniform vec3 gradient_1;
         float buff = 1.0;
-        float alphaMargin = 0.5;
-        float outlineMargin = 5.0;
-        float gradientNonlinearity = 8.0;
+        float alpha_margin = 0.5;
+        float outline_margin = 5.0;
+        float gradient_monlinearity = 8.0;
         float sdCircle(in vec2 p, in float r)
         {
             return length(p) - r;
@@ -84,11 +84,11 @@ namespace OpenGL
             float d = sdCircle(v_texcoord.xy - vec2(0.5), 0.5);
             float d2 = 1.0 - abs(d);
             float e = length(vec2(dFdx(d), dFdy(d)));
-            float alphaWidth = alphaMargin * e;
-            float alpha = smoothstep(buff - alphaWidth, buff + alphaWidth, 1.0 - d);
-            float outlineWidth = outlineMargin * e;
-            float outline = smoothstep(1.0 + outlineWidth - e, 1.0 + outlineWidth, 1.0 - d);
-            vec3 c = mix(linear(gradient_0), linear(gradient_1), 1.0 - pow(d2, gradientNonlinearity));
+            float alpha_width = alpha_margin * e;
+            float alpha = smoothstep(buff - alpha_width, buff + alpha_width, 1.0 - d);
+            float outline_width = outline_margin * e;
+            float outline = smoothstep(1.0 + outline_width - e, 1.0 + outline_width, 1.0 - d);
+            vec3 c = mix(linear(gradient_0), linear(gradient_1), 1.0 - pow(d2, gradient_monlinearity));
             vec3 t = linear(texture(tex, v_texcoord.xy)).xyz;
             c = mix(c, t, tex_blend);
             c = mix(c, vec3(1.0), clamp(brightness, 0.0, 1.0));
