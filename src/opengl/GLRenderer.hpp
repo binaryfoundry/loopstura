@@ -50,6 +50,7 @@ namespace OpenGL
         GLuint gl_quad_texture_uniform_location = 0;
         GLuint gl_quad_texture_blend_uniform_location = 0;
         GLuint gl_quad_sdf_function_location = 0;
+        GLuint gl_quad_outline_margin_function_location = 0;
         GLuint gl_quad_brightness_uniform_location = 0;
         GLuint gl_quad_gradient_uniform_location = 0;
         GLuint gl_quad_gradient_0_uniform_location = 0;

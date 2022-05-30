@@ -29,6 +29,7 @@ namespace Application
         *test_button->position = glm::vec2(300, 20);
         *test_button->scale = glm::vec2(100, 100);
         *test_button->brightness = 1.0;
+        *test_button->outline_margin = 2.0;
         test_button->sdf_func = 1;
 
         context->property_manager->AddTween(

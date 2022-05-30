@@ -72,9 +72,9 @@ namespace OpenGL
         uniform float gradient;
         uniform vec3 gradient_0;
         uniform vec3 gradient_1;
+        uniform float outline_margin;
         float buff = 1.0;
         float alpha_margin = 0.5;
-        float outline_margin = 5.0;
         float gradient_monlinearity = 8.0;
         float sdCircle(in vec2 p, in float r)
         {
@@ -160,6 +160,10 @@ namespace OpenGL
         gl_quad_sdf_function_location = glGetUniformLocation(
             gl_quad_shader_program,
             "sdf_func");
+
+        gl_quad_outline_margin_function_location = glGetUniformLocation(
+            gl_quad_shader_program,
+            "outline_margin");
 
         gl_quad_brightness_uniform_location = glGetUniformLocation(
             gl_quad_shader_program,
@@ -328,6 +332,10 @@ namespace OpenGL
         glUniform1f(
             gl_quad_texture_blend_uniform_location,
             node->texture_blend->Value());
+
+        glUniform1f(
+            gl_quad_outline_margin_function_location,
+            node->outline_margin->Value());
 
         glUniform1f(
             gl_quad_brightness_uniform_location,
