@@ -26,14 +26,16 @@ namespace Application
         TextureRGBA8Ptr background_texture = renderer->MakeTexture(
             "test.png");
 
-        background_quad = std::make_shared<DisplayNode>(
+        test_button = std::make_shared<DisplayNode>(
             context,
             display_root,
             background_texture);
 
+        *test_button->position = glm::vec2(300, 20);
+        *test_button->scale = glm::vec2(100, 100);
 
         context->property_manager->AddTween(
-            background_quad->brightness,
+            test_button->brightness,
             0.0f,
             1.0f,
             EasingFunction::EaseOutCubic);
@@ -188,10 +190,6 @@ namespace Application
         io.DisplaySize = ImVec2(
             state.viewport.z,
             state.viewport.w);
-
-        *background_quad->scale = glm::vec2(
-            renderer->state.viewport.z,
-            renderer->state.viewport.w);
 
         renderer->Draw(state);
     }

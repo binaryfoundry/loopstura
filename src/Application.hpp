@@ -26,7 +26,7 @@ namespace Application
         void DrawPlot();
 
         DisplayNodePtr display_root;
-        DisplayNodePtr background_quad;
+        DisplayNodePtr test_button;
 
     public:
         Application(
