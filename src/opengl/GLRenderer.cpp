@@ -61,10 +61,12 @@ namespace OpenGL
         precision mediump float;
         #endif
         vec3 linear(vec3 v) { return pow(v, vec3(2.2)); }
+        vec4 linear(vec4 v) { return vec4(pow(v.xyz, vec3(2.2)), v.w); }
         vec3 gamma(vec3 v) { return pow(v, 1.0 / vec3(2.2)); }
         in vec2 v_texcoord;
         layout(location = 0) out vec4 out_color;
         uniform sampler2D tex;
+        uniform float tex_blend;
         uniform float brightness;
         uniform float gradient;
         uniform vec3 gradient_0;
@@ -87,6 +89,8 @@ namespace OpenGL
             float outlineWidth = outlineMargin * e;
             float outline = smoothstep(1.0 + outlineWidth - e, 1.0 + outlineWidth, 1.0 - d);
             vec3 c = mix(linear(gradient_0), linear(gradient_1), 1.0 - pow(d2, gradientNonlinearity));
+            vec3 t = linear(texture(tex, v_texcoord.xy)).xyz;
+            c = mix(c, t, tex_blend);
             c = mix(c, vec3(1.0), clamp(brightness, 0.0, 1.0));
             c = mix(c, vec3(0.0), clamp(-brightness, 0.0, 1.0));
             c = mix(vec3(0.0), c, outline);
@@ -143,6 +147,10 @@ namespace OpenGL
         gl_quad_brightness_uniform_location = glGetUniformLocation(
             gl_quad_shader_program,
             "brightness");
+
+        gl_quad_texture_blend_uniform_location = glGetUniformLocation(
+            gl_quad_shader_program,
+            "tex_blend");
 
         gl_quad_gradient_uniform_location = glGetUniformLocation(
             gl_quad_shader_program,
@@ -295,6 +303,10 @@ namespace OpenGL
         }
 
         node->Validate();
+
+        glUniform1f(
+            gl_quad_texture_blend_uniform_location,
+            node->texture_blend->Value());
 
         glUniform1f(
             gl_quad_brightness_uniform_location,

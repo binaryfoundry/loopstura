@@ -22,13 +22,9 @@ namespace Application
 
         renderer->RegisterRootNode(display_root);
 
-        TextureRGBA8Ptr background_texture = renderer->MakeTexture(
-            "test.png");
-
         test_button = std::make_shared<DisplayNode>(
             context,
-            display_root,
-            background_texture);
+            display_root);
 
         *test_button->position = glm::vec2(300, 20);
         *test_button->scale = glm::vec2(100, 100);
@@ -39,6 +35,18 @@ namespace Application
             0.0f,
             1.0f,
             EasingFunction::EaseOutCubic);
+
+        TextureRGBA8Ptr test_texture = renderer->MakeTexture(
+            "test.png");
+
+        waveform_0 = std::make_shared<DisplayNode>(
+            context,
+            display_root,
+            test_texture);
+
+        *waveform_0->position = glm::vec2(0, 0);
+        *waveform_0->scale = glm::vec2(300, 100);
+        *waveform_0->texture_blend = 1.0;
     }
 
     Application::~Application()

@@ -27,7 +27,7 @@ namespace Application
 
         DisplayNodePtr display_root;
         DisplayNodePtr test_button;
-
+        DisplayNodePtr waveform_0;
         Timer fps_timer;
 
     public:

@@ -48,6 +48,7 @@ namespace OpenGL
         GLuint gl_quad_view_uniform_location = 0;
         GLuint gl_quad_viewport_uniform_location = 0;
         GLuint gl_quad_texture_uniform_location = 0;
+        GLuint gl_quad_texture_blend_uniform_location = 0;
         GLuint gl_quad_brightness_uniform_location = 0;
         GLuint gl_quad_gradient_uniform_location = 0;
         GLuint gl_quad_gradient_0_uniform_location = 0;
