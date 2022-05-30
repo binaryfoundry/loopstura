@@ -38,6 +38,16 @@ namespace Application
             1.0f,
             EasingFunction::EaseOutCubic);
 
+        test_button_2 = std::make_shared<DisplayNode>(
+            context,
+            display_root);
+
+        *test_button_2->position = glm::vec2(300, 220);
+        *test_button_2->scale = glm::vec2(100, 100);
+        *test_button_2->brightness = 0.0;
+        *test_button_2->outline_margin = 2.0;
+        test_button_2->sdf_func = 0;
+
         TextureRGBA8Ptr test_texture = renderer->MakeTexture(
             "test.png");
 
