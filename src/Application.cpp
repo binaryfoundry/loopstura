@@ -33,6 +33,7 @@ namespace Application
 
         *test_button->position = glm::vec2(300, 20);
         *test_button->scale = glm::vec2(100, 100);
+        *test_button->brightness = 1.0;
 
         context->property_manager->AddTween(
             test_button->brightness,
@@ -179,7 +180,7 @@ namespace Application
 
         ImGui::End();
 
-        context->Update();
+        context->Update(1.0f / 60.0f);
     }
 
     void Application::Render()

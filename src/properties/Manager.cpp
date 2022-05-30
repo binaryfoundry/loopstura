@@ -17,13 +17,11 @@ namespace Properties
         float duration,
         PropertyTimeoutCallback callback)
     {
-        float step = (1.0f / 60.0f) / duration;
-
         timeouts.push_back({
+            duration,
             0,
-            step,
             callback
-            });
+        });
     }
 
     void Manager::AddTween(
@@ -136,28 +134,28 @@ namespace Properties
             prop, duration_seconds, prop->Value(), target, easing_function, callback);
     }
 
-    void Manager::Update()
+    void Manager::Update(const float timestep)
     {
         auto i = timeouts.begin();
         while (i != timeouts.end())
         {
-            if (i->current_time >= 1.0f)
+            if (i->current_time >= i->duration)
             {
                 i->callback();
                 i = timeouts.erase(i);
             }
             else
             {
-                i->current_time += i->step;
+                i->current_time += timestep;
                 ++i;
             }
         }
 
-        float_animator->Update();
-        vec2_animator->Update();
-        vec3_animator->Update();
-        vec4_animator->Update();
-        quat_animator->Update();
+        float_animator->Update(timestep);
+        vec2_animator->Update(timestep);
+        vec3_animator->Update(timestep);
+        vec4_animator->Update(timestep);
+        quat_animator->Update(timestep);
     }
 }
 }

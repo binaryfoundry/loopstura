@@ -38,7 +38,7 @@ namespace Application
 
         const Texure2DLoadCallback load_texture_2d;
 
-        void Update();
+        void Update(const float timestep);
     };
 
     using ContextPtr = std::shared_ptr<Context>;

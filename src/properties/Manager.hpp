@@ -25,7 +25,7 @@ namespace Properties
     public:
         Manager();
 
-        void Update();
+        void Update(const float timestep);
 
         void AddTimeOut(
             float duration,

@@ -13,8 +13,8 @@ namespace Application
     {
     }
 
-    void Context::Update()
+    void Context::Update(const float timestep)
     {
-        property_manager->Update();
+        property_manager->Update(timestep);
     }
 }

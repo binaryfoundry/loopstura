@@ -14,14 +14,14 @@ namespace Properties
         std::shared_ptr<Property<T>> prop;
         EasingFunction easing_function;
         PropertyAnimationCallback callback;
-        float step;
+        float duration;
         float current_time;
     };
 
     struct TimeOut
     {
+        float duration;
         float current_time;
-        float step;
         PropertyTimeoutCallback callback;
     };
 
@@ -53,16 +53,15 @@ namespace Properties
             EasingFunction easing_function,
             PropertyAnimationCallback callback)
         {
-            float step = (1.0f / 60.0f) / duration;
-
             prop->target_value = target;
             prop->origin_value = origin;
             ease.push_back({
                 prop,
                 easing_function,
                 callback,
-                step,
-                0 });
+                duration,
+                0
+            });
         }
 
         void AddTween(
@@ -83,12 +82,12 @@ namespace Properties
                 callback);
         }
 
-        void Update()
+        void Update(const float timestep)
         {
             auto i = ease.begin();
             while (i != ease.end())
             {
-                if (i->current_time >= 1.0f)
+                if (i->current_time >= i->duration)
                 {
                     i->prop->Set(*i->prop->target_value);
                     ready_callbacks.push_back(*i);
@@ -98,9 +97,9 @@ namespace Properties
                 {
                     T origin = i->prop->origin_value;
                     T target = *i->prop->target_value;
-                    float t = Ease(i->easing_function, i->current_time);
+                    float t = Ease(i->easing_function, i->current_time / i->duration);
                     i->prop->Set(Interpolate(origin, target, t));
-                    i->current_time += i->step;
+                    i->current_time += timestep;
                     ++i;
                 }
             }
