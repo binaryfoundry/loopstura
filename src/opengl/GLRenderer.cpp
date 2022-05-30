@@ -38,6 +38,7 @@ namespace OpenGL
 
     static const std::string quad_vertex_shader_string =
         R"(#version 300 es
+        #extension GL_OES_standard_derivatives : enable
         #ifdef GL_ES
         precision mediump float;
         #endif
@@ -68,13 +69,22 @@ namespace OpenGL
         uniform float gradient;
         uniform vec3 gradient_0;
         uniform vec3 gradient_1;
+        float buff = 1.0;
+        float margin = 1.0;
+        float sdCircle(in vec2 p, in float r)
+        {
+            return length(p) - r;
+        }
         void main()
         {
             vec3 c = linear(texture(tex, v_texcoord).xyz);
             c = mix(c, mix(linear(gradient_0), linear(gradient_1), v_texcoord.y), gradient);
             c = mix(c, vec3(1.0), clamp(brightness, 0.0, 1.0));
             c = mix(c, vec3(0.0), clamp(-brightness, 0.0, 1.0));
-            out_color = vec4(gamma(c), 1.0);
+            float d = 1.0 - sdCircle(v_texcoord.xy - vec2(0.5), 0.5);
+            float edgeWidth = margin * length(vec2(dFdx(d), dFdy(d)));
+            float alpha = smoothstep(buff - edgeWidth, buff + edgeWidth, d);
+            out_color = vec4(gamma(c), alpha);
         })";
 
     GLRenderer::GLRenderer(
@@ -235,6 +245,13 @@ namespace OpenGL
             GL_COLOR_BUFFER_BIT |
             GL_DEPTH_BUFFER_BIT |
             GL_STENCIL_BUFFER_BIT);
+
+        glEnable(
+            GL_BLEND);
+
+        glBlendFunc(
+            GL_SRC_ALPHA,
+            GL_ONE_MINUS_SRC_ALPHA);
 
         DrawNodes(state, root_node.get());
 
