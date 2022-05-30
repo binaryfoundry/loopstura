@@ -6,6 +6,7 @@
 #include "Context.hpp"
 #include "DisplayNode.hpp"
 #include "Renderer.hpp"
+#include "Timer.hpp"
 
 #include "audio/Track.hpp"
 
@@ -27,6 +28,8 @@ namespace Application
 
         DisplayNodePtr display_root;
         DisplayNodePtr test_button;
+
+        Timer fps_timer;
 
     public:
         Application(

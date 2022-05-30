@@ -22,7 +22,8 @@ set(SOURCES
     src/Renderer.cpp
     src/Texture.cpp
     src/DisplayNode.cpp
-    src/MappedFile.cpp)
+    src/MappedFile.cpp
+    src/Timer.cpp)
 
 set(HEADERS
     src/Platform.hpp
@@ -32,7 +33,8 @@ set(HEADERS
     src/Renderer.hpp
     src/Texture.hpp
     src/DisplayNode.hpp
-    src/MappedFile.hpp)
+    src/MappedFile.hpp
+    src/Timer.hpp)
 
 set(SOURCES_MAIN
     src/sdl/SDL.cpp

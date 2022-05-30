@@ -180,7 +180,11 @@ namespace Application
 
         ImGui::End();
 
-        context->Update(1.0f / 60.0f);
+        const float clamped_frame_duration = std::max(fps_timer.End(), 1.0f / 20.0f);
+
+        context->Update(clamped_frame_duration);
+
+        fps_timer.Start();
     }
 
     void Application::Render()
