@@ -29,6 +29,7 @@ namespace Application
         *test_button->position = glm::vec2(300, 20);
         *test_button->scale = glm::vec2(100, 100);
         *test_button->brightness = 1.0;
+        test_button->sdf_func = 1;
 
         context->property_manager->AddTween(
             test_button->brightness,
@@ -45,8 +46,9 @@ namespace Application
             test_texture);
 
         *waveform_0->position = glm::vec2(0, 0);
-        *waveform_0->scale = glm::vec2(300, 100);
+        *waveform_0->scale = glm::vec2(500, 500);
         *waveform_0->texture_blend = 1.0;
+        waveform_0->sdf_func = 0;
     }
 
     Application::~Application()

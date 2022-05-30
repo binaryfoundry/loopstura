@@ -67,6 +67,7 @@ namespace OpenGL
         layout(location = 0) out vec4 out_color;
         uniform sampler2D tex;
         uniform float tex_blend;
+        uniform int sdf_func;
         uniform float brightness;
         uniform float gradient;
         uniform vec3 gradient_0;
@@ -79,9 +80,20 @@ namespace OpenGL
         {
             return length(p) - r;
         }
+        float sdBox(in vec2 p, in vec2 b)
+        {
+            vec2 d = abs(p) - b;
+            return length(max(d, 0.0)) + min(max(d.x, d.y), 0.0);
+        }
         void main()
         {
-            float d = sdCircle(v_texcoord.xy - vec2(0.5), 0.5);
+            float d;
+            if (sdf_func == 0) {
+                d = sdBox(v_texcoord.xy - vec2(0.5), vec2(0.5));
+            }
+            else if (sdf_func == 1) {
+                d = sdCircle(v_texcoord.xy - vec2(0.5), 0.5);
+            }
             float d2 = 1.0 - abs(d);
             float e = length(vec2(dFdx(d), dFdy(d)));
             float alpha_width = alpha_margin * e;
@@ -89,11 +101,12 @@ namespace OpenGL
             float outline_width = outline_margin * e;
             float outline = smoothstep(1.0 + outline_width - e, 1.0 + outline_width, 1.0 - d);
             vec3 c = mix(linear(gradient_0), linear(gradient_1), 1.0 - pow(d2, gradient_monlinearity));
-            vec3 t = linear(texture(tex, v_texcoord.xy)).xyz;
+            vec3 t =  linear(texture(tex, v_texcoord.xy)).xyz;
             c = mix(c, t, tex_blend);
             c = mix(c, vec3(1.0), clamp(brightness, 0.0, 1.0));
             c = mix(c, vec3(0.0), clamp(-brightness, 0.0, 1.0));
             c = mix(vec3(0.0), c, outline);
+            if (sdf_func == 0) alpha = 1.0; // QUICK HACK
             out_color = vec4(gamma(c), alpha);
         })";
 
@@ -143,6 +156,10 @@ namespace OpenGL
         gl_quad_texture_uniform_location = glGetUniformLocation(
             gl_quad_shader_program,
             "tex");
+
+        gl_quad_sdf_function_location = glGetUniformLocation(
+            gl_quad_shader_program,
+            "sdf_func");
 
         gl_quad_brightness_uniform_location = glGetUniformLocation(
             gl_quad_shader_program,
@@ -303,6 +320,10 @@ namespace OpenGL
         }
 
         node->Validate();
+
+        glUniform1i(
+            gl_quad_sdf_function_location,
+            node->sdf_func);
 
         glUniform1f(
             gl_quad_texture_blend_uniform_location,
