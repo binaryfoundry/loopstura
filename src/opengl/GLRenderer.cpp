@@ -70,7 +70,8 @@ namespace OpenGL
         uniform vec3 gradient_0;
         uniform vec3 gradient_1;
         float buff = 1.0;
-        float margin = 1.0;
+        float alphaMargin = 0.5;
+        float outlineMargin = 2.0;
         float sdCircle(in vec2 p, in float r)
         {
             return length(p) - r;
@@ -81,9 +82,13 @@ namespace OpenGL
             c = mix(c, mix(linear(gradient_0), linear(gradient_1), v_texcoord.y), gradient);
             c = mix(c, vec3(1.0), clamp(brightness, 0.0, 1.0));
             c = mix(c, vec3(0.0), clamp(-brightness, 0.0, 1.0));
-            float d = 1.0 - sdCircle(v_texcoord.xy - vec2(0.5), 0.5);
-            float edgeWidth = margin * length(vec2(dFdx(d), dFdy(d)));
-            float alpha = smoothstep(buff - edgeWidth, buff + edgeWidth, d);
+            float d = sdCircle(v_texcoord.xy - vec2(0.5), 0.5);
+            float e = length(vec2(dFdx(d), dFdy(d)));
+            float alphaWidth = alphaMargin * e;
+            float alpha = smoothstep(buff - alphaWidth, buff + alphaWidth, 1.0 - d);
+            float outlineWidth = outlineMargin * e;
+            float outline = smoothstep(1.0 + outlineWidth - e, 1.0 + outlineWidth, 1.0 - d);
+            c = mix(vec3(0.0), c, outline);
             out_color = vec4(gamma(c), alpha);
         })";
 
