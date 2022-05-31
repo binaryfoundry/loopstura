@@ -46,7 +46,7 @@ namespace Application
         *test_button_2->scale = glm::vec2(100, 100);
         *test_button_2->brightness = 0.0;
         *test_button_2->outline_margin = 2.0;
-        test_button_2->sdf_func = 0;
+        test_button_2->sdf_func = 2;
 
         TextureRGBA8Ptr test_texture = renderer->MakeTexture(
             "test.png");

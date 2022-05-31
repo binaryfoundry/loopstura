@@ -74,7 +74,7 @@ namespace OpenGL
         uniform vec3 gradient_1;
         uniform float outline_margin;
         float buff = 1.0;
-        float alpha_margin = 0.5;
+        float alpha_margin = 1.0;
         float gradient_monlinearity = 8.0;
         float sdCircle(in vec2 p, in float r)
         {
@@ -85,6 +85,11 @@ namespace OpenGL
             vec2 d = abs(p) - b;
             return length(max(d, 0.0)) + min(max(d.x, d.y), 0.0);
         }
+        float sdRoundedBox(in vec2 p, in vec2 b, in float r)
+        {
+            vec2 q = abs(p)-b+r;
+            return min(max(q.x,q.y),0.0) + length(max(q,0.0)) - r;
+        }
         void main()
         {
             float d;
@@ -94,19 +99,19 @@ namespace OpenGL
             else if (sdf_func == 1) {
                 d = sdCircle(v_texcoord.xy - vec2(0.5), 0.5);
             }
+            if (sdf_func == 2) {
+                d = sdRoundedBox(v_texcoord.xy - vec2(0.5), vec2(0.5), 0.2);
+            }
             float d2 = 1.0 - abs(d);
             float e = length(vec2(dFdx(d), dFdy(d)));
             float alpha_width = alpha_margin * e;
-            float alpha = smoothstep(buff - alpha_width, buff + alpha_width, 1.0 - d);
-            float outline_width = outline_margin * e;
-            float outline = smoothstep(1.0 + outline_width - e, 1.0 + outline_width, 1.0 - d);
+            float alpha = smoothstep(buff - alpha_width, buff, 1.0 - d);
+            alpha = d > 0.0 ? alpha : 1.0; // clamp to outside SDF shape
             vec3 c = mix(linear(gradient_0), linear(gradient_1), 1.0 - pow(d2, gradient_monlinearity));
             vec3 t =  linear(texture(tex, v_texcoord.xy)).xyz;
             c = mix(c, t, tex_blend);
             c = mix(c, vec3(1.0), clamp(brightness, 0.0, 1.0));
             c = mix(c, vec3(0.0), clamp(-brightness, 0.0, 1.0));
-            c = mix(vec3(0.0), c, outline);
-            if (sdf_func == 0) alpha = 1.0; // QUICK HACK
             out_color = vec4(gamma(c), alpha);
         })";
 
