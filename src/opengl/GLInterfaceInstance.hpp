@@ -2,7 +2,7 @@
 
 #include "GL.hpp"
 #include "GLStream.hpp"
-#include "GLShader.hpp"
+#include "GLInstance.hpp"
 
 #include "../DisplayNode.hpp"
 
@@ -14,7 +14,7 @@ namespace Rendering
 {
 namespace OpenGL
 {
-    class GLInterfaceShader : public GLShader
+    class GLInterfaceInstance : public GLInstance
     {
     private:
         std::shared_ptr<GLStream<float>> quad_vertices;
@@ -37,11 +37,11 @@ namespace OpenGL
         GLuint gl_quad_sampler_state = 0;
 
     public:
-        GLInterfaceShader(
+        GLInterfaceInstance(
             std::shared_ptr<GLStream<float>> quad_vertices,
             std::shared_ptr<GLStream<uint32_t>> quad_indices);
 
-        virtual ~GLInterfaceShader();
+        virtual ~GLInterfaceInstance();
 
         void Draw(DisplayNode* node);
 

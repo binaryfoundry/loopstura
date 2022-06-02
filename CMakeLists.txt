@@ -100,8 +100,8 @@ set(SOURCES_OPENGL
     src/opengl/GLTexture.cpp
     src/opengl/GLStream.cpp
     src/opengl/GLImgui.cpp
-    src/opengl/GLShader.cpp
-    src/opengl/GLInterfaceShader.cpp)
+    src/opengl/GLInstance.cpp
+    src/opengl/GLInterfaceInstance.cpp)
 
 set(HEADERS_OPENGL
     src/opengl/GL.hpp
@@ -109,8 +109,8 @@ set(HEADERS_OPENGL
     src/opengl/GLTexture.hpp
     src/opengl/GLStream.hpp
     src/opengl/GLImgui.hpp
-    src/opengl/GLShader.hpp
-    src/opengl/GLInterfaceShader.hpp)
+    src/opengl/GLInstance.hpp
+    src/opengl/GLInterfaceInstance.hpp)
 
 set(SOURCES_IMGUI
     lib/imgui/imgui/imgui.cpp

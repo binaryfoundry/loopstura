@@ -1,6 +1,6 @@
 #include <string>
 
-#include "GLInterfaceShader.hpp"
+#include "GLInterfaceInstance.hpp"
 
 #include "GLTexture.hpp"
 
@@ -83,7 +83,7 @@ namespace OpenGL
             out_color = vec4(gamma(c), alpha);
         })";
 
-    GLInterfaceShader::GLInterfaceShader(
+    GLInterfaceInstance::GLInterfaceInstance(
         std::shared_ptr<GLStream<float>> quad_vertices,
         std::shared_ptr<GLStream<uint32_t>> quad_indices) :
         quad_vertices(quad_vertices),
@@ -168,7 +168,7 @@ namespace OpenGL
             GL_LINEAR_MIPMAP_LINEAR);
     }
 
-    GLInterfaceShader::~GLInterfaceShader()
+    GLInterfaceInstance::~GLInterfaceInstance()
     {
         glDeleteProgram(
             gl_quad_shader_program);
@@ -178,7 +178,7 @@ namespace OpenGL
             &gl_quad_sampler_state);
     }
 
-    void GLInterfaceShader::Draw(DisplayNode* node)
+    void GLInterfaceInstance::Draw(DisplayNode* node)
     {
         if (node->Passthrough())
             return;
@@ -253,7 +253,7 @@ namespace OpenGL
             static_cast<char const*>(0));
     }
 
-    void GLInterfaceShader::Bind(RenderState state)
+    void GLInterfaceInstance::Bind(RenderState state)
     {
         glUseProgram(
             gl_quad_shader_program);
@@ -311,7 +311,7 @@ namespace OpenGL
             gl_index_buffer);
     }
 
-    void GLInterfaceShader::Unbind()
+    void GLInterfaceInstance::Unbind()
     {
         glBindTexture(
             GL_TEXTURE_2D,

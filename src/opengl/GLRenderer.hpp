@@ -15,7 +15,7 @@
 #include <string>
 
 #include "GLStream.hpp"
-#include "GLInterfaceShader.hpp"
+#include "GLInterfaceInstance.hpp"
 #include "../properties/Property.hpp"
 
 using namespace Application::Properties;
@@ -43,7 +43,7 @@ namespace OpenGL
         std::shared_ptr<GLStream<float>> quad_vertices;
         std::shared_ptr<GLStream<uint32_t>> quad_indices;
 
-        std::unique_ptr<GLInterfaceShader> interface_shader;
+        std::unique_ptr<GLInterfaceInstance> interface_instance;
 
         void DrawNodes(RenderState state, DisplayNode* node);
 

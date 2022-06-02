@@ -59,7 +59,7 @@ namespace OpenGL
             StreamUsage::DYNAMIC,
             quad_indices_data);
 
-        interface_shader = std::make_unique<GLInterfaceShader>(
+        interface_instance = std::make_unique<GLInterfaceInstance>(
             quad_vertices,
             quad_indices);
     }
@@ -142,7 +142,7 @@ namespace OpenGL
 
     void GLRenderer::DrawNodes(RenderState state, DisplayNode* node)
     {
-        interface_shader->Bind(state);
+        interface_instance->Bind(state);
 
         {
             std::unordered_set<DisplayNode*> visited;
@@ -156,7 +156,7 @@ namespace OpenGL
 
                 if (visited.find(s) == visited.end())
                 {
-                    interface_shader->Draw(s);
+                    interface_instance->Draw(s);
                     visited.insert(s);
                 }
 
@@ -170,7 +170,7 @@ namespace OpenGL
             }
         }
 
-        interface_shader->Unbind();
+        interface_instance->Unbind();
     }
 }
 }
