@@ -116,10 +116,6 @@ namespace OpenGL
             gl_quad_shader_program,
             "sdf_func");
 
-        gl_quad_outline_margin_function_location = glGetUniformLocation(
-            gl_quad_shader_program,
-            "outline_margin");
-
         gl_quad_brightness_uniform_location = glGetUniformLocation(
             gl_quad_shader_program,
             "brightness");
@@ -218,10 +214,6 @@ namespace OpenGL
         glUniform1f(
             gl_quad_texture_blend_uniform_location,
             node->texture_blend->Value());
-
-        glUniform1f(
-            gl_quad_outline_margin_function_location,
-            node->outline_margin->Value());
 
         glUniform1f(
             gl_quad_brightness_uniform_location,

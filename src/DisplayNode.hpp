@@ -34,7 +34,6 @@ namespace Application
         std::shared_ptr<Property<glm::vec2>> position;
 
         std::shared_ptr<Property<float>> texture_blend;
-        std::shared_ptr<Property<float>> outline_margin;
         std::shared_ptr<Property<float>> brightness;
         std::shared_ptr<Property<float>> gradient;
         std::shared_ptr<Property<float>> alpha_margin;

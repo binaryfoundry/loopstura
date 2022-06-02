@@ -22,7 +22,6 @@ namespace Application
         Init();
 
         texture_blend = std::make_shared<Property<float>>(0.0f);
-        outline_margin = std::make_shared<Property<float>>(0.0f);
         brightness = std::make_shared<Property<float>>(0.0f);
         gradient = std::make_shared<Property<float>>(0.0f);
         alpha_margin = std::make_shared<Property<float>>(0.0f);
