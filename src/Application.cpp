@@ -63,6 +63,18 @@ namespace Application
         *waveform_0->gradient_1 = vec3(0.0);
         waveform_0->sdf_func = 3;
         waveform_0->mode = 1;
+
+
+        waveform_0_bg = std::make_shared<DisplayNode>(
+            context,
+            display_root);
+
+        *waveform_0_bg->position = glm::vec2(0, 0);
+        *waveform_0_bg->alpha_margin = 1.0;
+        *waveform_0_bg->gradient_0 = vec3(1.0);
+        *waveform_0_bg->gradient_1 = vec3(0.5);
+        waveform_0_bg->sdf_func = 4;
+
     }
 
     Application::~Application()
@@ -160,6 +172,7 @@ namespace Application
             state.viewport.z,
             state.viewport.w);
 
+        *waveform_0_bg->scale = glm::vec2(state.viewport.z, 200);
         *waveform_0->scale = glm::vec2(state.viewport.z, 200);
 
         const double waveform_position = track->PositionNormalized();

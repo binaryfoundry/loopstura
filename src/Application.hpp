@@ -29,6 +29,7 @@ namespace Application
         DisplayNodePtr test_button;
         DisplayNodePtr test_button_2;
 
+        DisplayNodePtr waveform_0_bg;
         DisplayNodePtr waveform_0;
         TextureRGBA32FPtr waveform_texture;
 

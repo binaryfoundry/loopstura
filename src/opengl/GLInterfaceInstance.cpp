@@ -73,7 +73,10 @@ namespace OpenGL
                 d = sdRoundedBox(v_texcoord.xy - vec2(0.5), vec2(0.5), 0.2);
             }
             if (sdf_func == 3) {
-                d = v_texcoord.y - 0.5;
+                d = -abs(v_texcoord.y - 0.5); 
+            }
+            if (sdf_func == 4) {
+                d = sdBox(vec2(0.5, v_texcoord.y) - vec2(0.5), vec2(0.5));
             }
             float d2 = 1.0 - abs(d);
             float e = length(vec2(dFdx(d), dFdy(d)));
