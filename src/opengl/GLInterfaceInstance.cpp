@@ -44,7 +44,6 @@ namespace OpenGL
         uniform float brightness;
         uniform vec3 gradient_0;
         uniform vec3 gradient_1;
-        uniform float outline_margin;
         float buff = 1.0;
         float alpha_margin = 1.0;
         float nonlinearity = 8.0;
@@ -55,9 +54,9 @@ namespace OpenGL
             vec2 d = abs(p) - b;
             return length(max(d, 0.0)) + min(max(d.x, d.y), 0.0);
         }
-        float sdRoundedBox(in vec2 p, in vec2 b, in float r){
-            vec2 q = abs(p)-b+r;
-            return min(max(q.x,q.y),0.0) + length(max(q,0.0)) - r;
+        float sdRoundedBox(in vec2 p, in vec2 b, in float r) {
+            vec2 q = abs(p) -b + r;
+            return min(max(q.x, q.y), 0.0) + length(max(q, 0.0)) - r;
         }
         void main() {
             float d;
