@@ -42,6 +42,7 @@ namespace Application
 
         // TODO enumeration
         uint32_t sdf_func = 0;
+        uint32_t mode = 0;
 
         DisplayNode(
             std::shared_ptr<DisplayNode> parent = nullptr);
