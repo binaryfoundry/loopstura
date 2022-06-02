@@ -74,7 +74,7 @@ namespace OpenGL
         uniform float outline_margin;
         float buff = 1.0;
         float alpha_margin = 1.0;
-        float gradient_monlinearity = 8.0;
+        float nonlinearity = 8.0;
         float sdCircle(in vec2 p, in float r) {
             return length(p) - r;
         }
@@ -102,7 +102,7 @@ namespace OpenGL
             float alpha_width = alpha_margin * e;
             float alpha = smoothstep(buff - alpha_width, buff, 1.0 - d);
             alpha = d > 0.0 ? alpha : 1.0; // clamp to outside SDF shape
-            vec3 c = mix(linear(gradient_0), linear(gradient_1), 1.0 - pow(d2, gradient_monlinearity));
+            vec3 c = mix(linear(gradient_0), linear(gradient_1), 1.0 - pow(d2, nonlinearity));
             vec3 t =  linear(texture(tex, v_texcoord.xy)).xyz;
             c = mix(c, t, tex_blend);
             c = mix(c, vec3(1.0), clamp(brightness, 0.0, 1.0));
