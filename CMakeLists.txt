@@ -99,14 +99,18 @@ set(SOURCES_OPENGL
     src/opengl/GLRenderer.cpp
     src/opengl/GLTexture.cpp
     src/opengl/GLStream.cpp
-    src/opengl/GLImgui.cpp)
+    src/opengl/GLImgui.cpp
+    src/opengl/GLShader.cpp
+    src/opengl/GLInterfaceShader.cpp)
 
 set(HEADERS_OPENGL
     src/opengl/GL.hpp
     src/opengl/GLRenderer.hpp
     src/opengl/GLTexture.hpp
     src/opengl/GLStream.hpp
-    src/opengl/GLImgui.hpp)
+    src/opengl/GLImgui.hpp
+    src/opengl/GLShader.hpp
+    src/opengl/GLInterfaceShader.hpp)
 
 set(SOURCES_IMGUI
     lib/imgui/imgui/imgui.cpp

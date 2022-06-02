@@ -15,6 +15,7 @@
 #include <string>
 
 #include "GLStream.hpp"
+#include "GLInterfaceShader.hpp"
 #include "../properties/Property.hpp"
 
 using namespace Application::Properties;
@@ -39,25 +40,11 @@ namespace OpenGL
 
         std::unique_ptr<GLImgui> imgui;
 
-        TextureRGBA8Ptr quad_texture;
-        std::unique_ptr<GLStream<float>> quad_vertices;
-        std::unique_ptr<GLStream<uint32_t>> quad_indices;
-        GLuint gl_quad_shader_program;
-        GLuint gl_quad_projection_uniform_location = 0;
-        GLuint gl_quad_model_uniform_location = 0;
-        GLuint gl_quad_view_uniform_location = 0;
-        GLuint gl_quad_viewport_uniform_location = 0;
-        GLuint gl_quad_texture_uniform_location = 0;
-        GLuint gl_quad_texture_blend_uniform_location = 0;
-        GLuint gl_quad_sdf_function_location = 0;
-        GLuint gl_quad_outline_margin_function_location = 0;
-        GLuint gl_quad_brightness_uniform_location = 0;
-        GLuint gl_quad_gradient_uniform_location = 0;
-        GLuint gl_quad_gradient_0_uniform_location = 0;
-        GLuint gl_quad_gradient_1_uniform_location = 0;
-        GLuint gl_quad_sampler_state = 0;
+        std::shared_ptr<GLStream<float>> quad_vertices;
+        std::shared_ptr<GLStream<uint32_t>> quad_indices;
 
-        void DrawNode(DisplayNode* node);
+        std::unique_ptr<GLInterfaceShader> interface_shader;
+
         void DrawNodes(RenderState state, DisplayNode* node);
 
     public:
