@@ -49,7 +49,7 @@ namespace Application
         test_button_2->sdf_func = 2;
 
         waveform_texture = renderer->MakeTextureFloat(
-            4096, 1);
+            1024, 1);
 
         waveform_0 = std::make_shared<DisplayNode>(
             context,
@@ -162,16 +162,9 @@ namespace Application
 
         *waveform_0->scale = glm::vec2(state.viewport.z, 200);
 
-        const uint32_t tex_width = waveform_texture->width;
-        const uint32_t tex_pitch = waveform_texture->pitch;
-        for (uint32_t x = 0; x < tex_width; x++)
-        {
-            const float v0 = (float)rand() / (float)RAND_MAX;
-            const float v1 = (float)rand() / (float)RAND_MAX;
-            const size_t idx = x * tex_pitch;
-            (*waveform_texture->data)[idx + 0] = v0;
-            (*waveform_texture->data)[idx + 1] = v1;
-        }
+        const double waveform_position = track->PositionNormalized();
+        const std::shared_ptr<Waveform> waveform = track->Waveform();
+        waveform->Fill(waveform_position, *waveform_texture->data);
         waveform_texture->Invalidate();
 
         renderer->Draw(state);

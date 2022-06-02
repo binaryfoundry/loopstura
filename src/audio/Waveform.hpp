@@ -3,6 +3,8 @@
 #include <vector>
 #include <memory>
 
+#include "../Texture.hpp"
+
 class Waveform
 {
 private:
@@ -24,7 +26,5 @@ public:
 
     void Resize(const size_t size);
 
-    void FillX(double position, std::vector<float>& window_x);
-    void FillYMax(double position, std::vector<float>& window_y_max);
-    void FillYMin(double position, std::vector<float>& window_y_min);
+    void Fill(double position, std::vector<float>& window);
 };
