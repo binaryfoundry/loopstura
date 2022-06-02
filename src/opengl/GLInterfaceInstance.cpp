@@ -44,8 +44,8 @@ namespace OpenGL
         uniform float brightness;
         uniform vec3 gradient_0;
         uniform vec3 gradient_1;
+        uniform float alpha_margin;
         float buff = 1.0;
-        float alpha_margin = 1.0;
         float nonlinearity = 8.0;
         float sdCircle(in vec2 p, in float r) {
             return length(p) - r;
@@ -140,6 +140,10 @@ namespace OpenGL
             gl_quad_shader_program,
             "gradient_1");
 
+        gl_quad_alpha_margin_uniform_location = glGetUniformLocation(
+            gl_quad_shader_program,
+            "alpha_margin");
+
         glGenSamplers(
             1, &gl_quad_sampler_state);
 
@@ -226,6 +230,10 @@ namespace OpenGL
         glUniform1f(
             gl_quad_gradient_uniform_location,
             node->gradient->Value());
+
+        glUniform1f(
+            gl_quad_alpha_margin_uniform_location,
+            node->alpha_margin->Value());
 
         glUniform3fv(
             gl_quad_gradient_0_uniform_location,

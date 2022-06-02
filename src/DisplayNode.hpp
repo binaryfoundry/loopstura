@@ -37,6 +37,7 @@ namespace Application
         std::shared_ptr<Property<float>> outline_margin;
         std::shared_ptr<Property<float>> brightness;
         std::shared_ptr<Property<float>> gradient;
+        std::shared_ptr<Property<float>> alpha_margin;
         std::shared_ptr<Property<vec3>> gradient_0;
         std::shared_ptr<Property<vec3>> gradient_1;
 

@@ -25,6 +25,7 @@ namespace Application
         outline_margin = std::make_shared<Property<float>>(0.0f);
         brightness = std::make_shared<Property<float>>(0.0f);
         gradient = std::make_shared<Property<float>>(0.0f);
+        alpha_margin = std::make_shared<Property<float>>(0.0f);
         gradient_0 = std::make_shared<Property<vec3>>(vec3(0.0, 0.0, 0.0));
         gradient_1 = std::make_shared<Property<vec3>>(vec3(1.0, 1.0, 1.0));
     }
