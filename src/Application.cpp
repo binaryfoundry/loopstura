@@ -26,7 +26,7 @@ namespace Application
             context,
             display_root);
 
-        *test_button->position = glm::vec2(600, 20);
+        *test_button->position = glm::vec2(300, 220);
         *test_button->scale = glm::vec2(100, 100);
         *test_button->brightness = 1.0;
         *test_button->alpha_margin = 20.0;
@@ -59,7 +59,9 @@ namespace Application
         *waveform_0->position = glm::vec2(0, 0);
         *waveform_0->scale = glm::vec2(500, 500);
         *waveform_0->texture_blend = 1.0;
-        waveform_0->sdf_func = 0;
+        *waveform_0->gradient_0 = vec3(0.7);
+        *waveform_0->gradient_1 = vec3(0.0);
+        waveform_0->sdf_func = 3;
         waveform_0->mode = 1;
     }
 
@@ -157,6 +159,8 @@ namespace Application
         io.DisplaySize = ImVec2(
             state.viewport.z,
             state.viewport.w);
+
+        *waveform_0->scale = glm::vec2(state.viewport.z, 200);
 
         const uint32_t tex_width = waveform_texture->width;
         const uint32_t tex_pitch = waveform_texture->pitch;

@@ -72,6 +72,9 @@ namespace OpenGL
             if (sdf_func == 2) {
                 d = sdRoundedBox(v_texcoord.xy - vec2(0.5), vec2(0.5), 0.2);
             }
+            if (sdf_func == 3) {
+                d = v_texcoord.y - 0.5;
+            }
             float d2 = 1.0 - abs(d);
             float e = length(vec2(dFdx(d), dFdy(d)));
             float alpha_width = alpha_margin * e;
@@ -94,7 +97,6 @@ namespace OpenGL
                     }
                 }
             }
-
             c = mix(c, vec3(1.0), clamp(brightness, 0.0, 1.0));
             c = mix(c, vec3(0.0), clamp(-brightness, 0.0, 1.0));
             out_color = vec4(gamma(c), alpha);
