@@ -26,7 +26,7 @@ namespace Application
             context,
             display_root);
 
-        *test_button->position = glm::vec2(300, 20);
+        *test_button->position = glm::vec2(600, 20);
         *test_button->scale = glm::vec2(100, 100);
         *test_button->brightness = 1.0;
         *test_button->alpha_margin = 20.0;
@@ -42,7 +42,7 @@ namespace Application
             context,
             display_root);
 
-        *test_button_2->position = glm::vec2(300, 220);
+        *test_button_2->position = glm::vec2(600, 220);
         *test_button_2->scale = glm::vec2(100, 100);
         *test_button_2->brightness = 0.0;
         *test_button_2->alpha_margin = 20.0;
