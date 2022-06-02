@@ -51,6 +51,10 @@ namespace Rendering
 
         virtual TextureRGBA8Ptr MakeTexture(
             std::string file) = 0;
+
+        virtual TextureRGBA32FPtr MakeTextureFloat(
+            uint32_t width,
+            uint32_t height) = 0;
     };
 }
 }

@@ -28,7 +28,10 @@ namespace Application
         DisplayNodePtr display_root;
         DisplayNodePtr test_button;
         DisplayNodePtr test_button_2;
+
         DisplayNodePtr waveform_0;
+        TextureRGBA32FPtr waveform_texture;
+
         Timer fps_timer;
 
     public:

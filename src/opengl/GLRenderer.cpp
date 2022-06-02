@@ -151,6 +151,22 @@ namespace OpenGL
         return new_texture;
     }
 
+    TextureRGBA32FPtr GLRenderer::MakeTextureFloat(
+        uint32_t width,
+        uint32_t height)
+    {
+        std::shared_ptr<std::vector<uint32_t>> data =
+            std::make_shared<std::vector<uint32_t>>();
+
+        data->resize(
+            width * height * 4);
+
+        return std::make_shared<GLTexture<TextureDataFloat>>(
+            width,
+            height,
+            data);
+    }
+
     void GLRenderer::Draw(RenderState state)
     {
         glDisable(GL_CULL_FACE);

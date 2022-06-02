@@ -48,13 +48,13 @@ namespace Application
         *test_button_2->alpha_margin = 20.0;
         test_button_2->sdf_func = 2;
 
-        TextureRGBA8Ptr test_texture = renderer->MakeTexture(
-            "test.png");
+        waveform_texture = renderer->MakeTextureFloat(
+            4096, 2);
 
         waveform_0 = std::make_shared<DisplayNode>(
             context,
             display_root,
-            test_texture);
+            waveform_texture);
 
         *waveform_0->position = glm::vec2(0, 0);
         *waveform_0->scale = glm::vec2(500, 500);
@@ -156,6 +156,15 @@ namespace Application
         io.DisplaySize = ImVec2(
             state.viewport.z,
             state.viewport.w);
+
+        const uint32_t tex_width = waveform_texture->width;
+        for (uint32_t x = 0; x < tex_width; x++)
+        {
+            //const float v = (float)rand() / (float)RAND_MAX;
+
+            //(*waveform_texture->data)[x] = v;
+            //(*waveform_texture->data)[x + tex_width] = v;
+        }
 
         renderer->Draw(state);
     }

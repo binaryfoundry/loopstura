@@ -38,6 +38,10 @@ namespace OpenGL
         TextureRGBA8Ptr MakeTexture(
             std::string file) override;
 
+        TextureRGBA32FPtr MakeTextureFloat(
+            uint32_t width,
+            uint32_t height) override;
+
         std::unique_ptr<GLImgui> imgui;
 
         std::shared_ptr<GLStream<float>> quad_vertices;
