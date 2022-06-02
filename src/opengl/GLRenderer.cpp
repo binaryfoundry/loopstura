@@ -49,8 +49,7 @@ namespace OpenGL
         layout(location = 0) in vec3 v_position;
         layout(location = 1) in vec2 texcoord;
         out vec2 v_texcoord;
-        void main()
-        {
+        void main() {
             v_texcoord = texcoord;
             gl_Position = projection * view * model * vec4(v_position, 1.0);
         })";
@@ -76,22 +75,18 @@ namespace OpenGL
         float buff = 1.0;
         float alpha_margin = 1.0;
         float gradient_monlinearity = 8.0;
-        float sdCircle(in vec2 p, in float r)
-        {
+        float sdCircle(in vec2 p, in float r) {
             return length(p) - r;
         }
-        float sdBox(in vec2 p, in vec2 b)
-        {
+        float sdBox(in vec2 p, in vec2 b)  {
             vec2 d = abs(p) - b;
             return length(max(d, 0.0)) + min(max(d.x, d.y), 0.0);
         }
-        float sdRoundedBox(in vec2 p, in vec2 b, in float r)
-        {
+        float sdRoundedBox(in vec2 p, in vec2 b, in float r){
             vec2 q = abs(p)-b+r;
             return min(max(q.x,q.y),0.0) + length(max(q,0.0)) - r;
         }
-        void main()
-        {
+        void main() {
             float d;
             if (sdf_func == 0) {
                 d = sdBox(v_texcoord.xy - vec2(0.5), vec2(0.5));
