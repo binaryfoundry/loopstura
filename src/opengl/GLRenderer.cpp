@@ -155,8 +155,8 @@ namespace OpenGL
         uint32_t width,
         uint32_t height)
     {
-        std::shared_ptr<std::vector<uint32_t>> data =
-            std::make_shared<std::vector<uint32_t>>();
+        std::shared_ptr<std::vector<float>> data =
+            std::make_shared<std::vector<float>>();
 
         data->resize(
             width * height * 4);

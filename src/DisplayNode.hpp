@@ -21,7 +21,7 @@ namespace Application
 
         glm::mat4 transform;
 
-        TextureRGBA8Ptr texture = nullptr;
+        TexturePtr texture = nullptr;
 
         std::shared_ptr<DisplayNode> parent = nullptr;
 
@@ -49,14 +49,14 @@ namespace Application
         DisplayNode(
             ContextPtr context,
             std::shared_ptr<DisplayNode> parent = nullptr,
-            TextureRGBA8Ptr texture = nullptr);
+            TexturePtr texture = nullptr);
 
         glm::mat4 Transform()
         {
             return transform;
         }
 
-        TextureRGBA8Ptr Texture()
+        TexturePtr Texture()
         {
             return texture;
         }

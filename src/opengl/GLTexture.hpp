@@ -21,7 +21,7 @@ namespace OpenGL
     };
 
     template <typename T>
-    class GLTexture : public Texture<T>, public GLTextureHandle
+    class GLTexture : public TextureTyped<T>, public GLTextureHandle
     {
         class GLRenderer;
         friend class GLRenderer;

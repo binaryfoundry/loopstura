@@ -14,7 +14,7 @@ namespace OpenGL
         gl_internal_format(GL_RGBA8),
         gl_format(GL_RGBA),
         gl_type(GL_UNSIGNED_BYTE),
-        Texture<TextureDataByte>(
+        TextureTyped<TextureDataByte>(
             width,
             height,
             data)
@@ -30,7 +30,7 @@ namespace OpenGL
         gl_internal_format(GL_RGBA32F),
         gl_format(GL_RGBA),
         gl_type(GL_FLOAT),
-        Texture<TextureDataFloat>(
+        TextureTyped<TextureDataFloat>(
             width,
             height,
             data)
@@ -58,13 +58,13 @@ namespace OpenGL
             GL_TEXTURE_2D,
             gl_texture_handle);
 
-        T* data_ptr = &(*Texture<T>::data)[0];
+        T* data_ptr = &(*TextureTyped<T>::data)[0];
         glTexImage2D(
             GL_TEXTURE_2D,
             0,
             gl_internal_format,
-            Texture<T>::width,
-            Texture<T>::height,
+            Texture::width,
+            Texture::height,
             0,
             gl_format,
             gl_type,
@@ -77,13 +77,13 @@ namespace OpenGL
             GL_TEXTURE_2D,
             NULL);
 
-        Texture<T>::invalidated = false;
+        Texture::invalidated = false;
     }
 
     template <typename T>
     void GLTexture<T>::Update()
     {
-        if (Texture<T>::invalidated)
+        if (Texture::invalidated)
         {
             glActiveTexture(
                 GL_TEXTURE0);
@@ -92,14 +92,14 @@ namespace OpenGL
                 GL_TEXTURE_2D,
                 gl_texture_handle);
 
-            T* data_ptr = &(*Texture<T>::data)[0];
+            T* data_ptr = &(*TextureTyped<T>::data)[0];
             glTexSubImage2D(
                 GL_TEXTURE_2D,
                 0,
                 0,
                 0,
-                Texture<T>::width,
-                Texture<T>::height,
+                Texture::width,
+                Texture::height,
                 gl_format,
                 gl_type,
                 (GLvoid*)data_ptr);
@@ -111,7 +111,7 @@ namespace OpenGL
                 GL_TEXTURE_2D,
                 NULL);
 
-            Texture<T>::invalidated = false;
+            Texture::invalidated = false;
         }
     }
 

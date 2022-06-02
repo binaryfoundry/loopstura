@@ -160,11 +160,12 @@ namespace Application
         const uint32_t tex_width = waveform_texture->width;
         for (uint32_t x = 0; x < tex_width; x++)
         {
-            //const float v = (float)rand() / (float)RAND_MAX;
-
-            //(*waveform_texture->data)[x] = v;
-            //(*waveform_texture->data)[x + tex_width] = v;
+            const float v0 = (float)rand() / (float)RAND_MAX;
+            const float v1 = (float)rand() / (float)RAND_MAX;
+            (*waveform_texture->data)[x] = v0;
+            (*waveform_texture->data)[x + tex_width] = v1;
         }
+        waveform_texture->Invalidate();
 
         renderer->Draw(state);
     }

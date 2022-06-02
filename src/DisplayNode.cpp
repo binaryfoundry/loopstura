@@ -14,7 +14,7 @@ namespace Application
     DisplayNode::DisplayNode(
         ContextPtr context,
         std::shared_ptr<DisplayNode> parent,
-        TextureRGBA8Ptr texture) :
+        TexturePtr texture) :
         context(context),
         parent(parent),
         texture(texture)

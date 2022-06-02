@@ -5,41 +5,39 @@ namespace Application
 namespace Rendering
 {
     template <>
-    Texture<TextureDataByte>::Texture(
+    TextureTyped<TextureDataByte>::TextureTyped(
         uint32_t width,
         uint32_t height,
         TextureDataRGBA8Ptr data) :
-        width(width),
-        height(height),
-        pitch(4),
+        Texture(
+            width, height, 4, sizeof(uint8_t)),
         data(data)
     {
     }
 
     template <>
-    Texture<TextureDataFloat>::Texture(
+    TextureTyped<TextureDataFloat>::TextureTyped(
         uint32_t width,
         uint32_t height,
         TextureDataRGBA32FPtr data) :
-        width(width),
-        height(height),
-        pitch(4),
+        Texture(
+            width, height, 4, sizeof(float)),
         data(data)
     {
     }
 
     template <typename T>
-    Texture<T>::~Texture()
+    TextureTyped<T>::~TextureTyped()
     {
     }
 
     template <typename T>
-    void Texture<T>::Invalidate()
+    void TextureTyped<T>::Invalidate()
     {
         invalidated = true;
     }
 
-    template class Texture<TextureDataByte>;
-    template class Texture<TextureDataFloat>;
+    template class TextureTyped<TextureDataByte>;
+    template class TextureTyped<TextureDataFloat>;
 }
 }
