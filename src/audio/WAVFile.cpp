@@ -82,8 +82,11 @@ void WAVFile::DrawWaveform()
     size_t j_last = 0;
     size_t bin_sample_count = 0;
 
-    float total_max = 0;
-    float total_min = 0;
+    float global_max = 0;
+    float global_min = 0;
+
+    auto& wmax = waveform->max_data;
+    auto& wmin = waveform->min_data;
 
     for (size_t i = 0; i < channel_size; i++)
     {
@@ -95,21 +98,18 @@ void WAVFile::DrawWaveform()
         const float s_max = std::min(sample, 0.0f);
         const float s_min = std::max(sample, 0.0f);
 
-        waveform->max_data[j] += s_max * s_max;
-        waveform->min_data[j] += s_min * s_min;
+        wmax[j] += s_max * s_max;
+        wmin[j] += s_min * s_min;
 
         bin_sample_count++;
 
         if (j > j_last)
         {
-            const float bin_max = sqrtf(waveform->max_data[j] / bin_sample_count);
-            const float bin_min = sqrtf(waveform->min_data[j] / bin_sample_count);
+            wmax[j_last] = sqrtf(wmax[j_last] / bin_sample_count);
+            wmin[j_last] = sqrtf(wmin[j_last] / bin_sample_count);
 
-            waveform->max_data[j] = bin_max;
-            waveform->min_data[j] = bin_min;
-
-            total_max = std::max(bin_max, total_max);
-            total_min = std::max(bin_min, total_min);
+            global_max = std::max(wmax[j_last], global_max);
+            global_min = std::max(wmin[j_last], global_min);
 
             j_last = j;
             bin_sample_count = 0;
@@ -119,7 +119,7 @@ void WAVFile::DrawWaveform()
     // Normalize
     for (size_t i = 0; i < waveform->Size(); i++)
     {
-        waveform->max_data[i] = waveform->max_data[i] * total_max;
-        waveform->min_data[i] = -(waveform->min_data[i] * total_min);
+        wmax[i] = wmax[i] / global_max;
+        wmin[i] = -wmin[i] / global_min;
     }
 }
