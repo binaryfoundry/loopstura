@@ -40,6 +40,7 @@ namespace OpenGL
         layout(location = 0) out vec4 out_color;
         uniform sampler2D tex;
         uniform float tex_blend;
+        uniform vec2 tex_scale;
         uniform int sdf_func;
         uniform float nonlinearity;
         uniform float brightness;
@@ -61,7 +62,7 @@ namespace OpenGL
         void main() {
             float d;
             vec3 t;
-            vec2 tc = v_texcoord.xy;
+            vec2 tc = v_texcoord.xy * tex_scale;
             vec3 s = texture(tex, tc).xyz; // s = texture sample
             if (sdf_func == 0) {
                 d = sdBox(v_texcoord.xy - vec2(0.5), vec2(0.5));
@@ -157,6 +158,10 @@ namespace OpenGL
             gl_quad_shader_program,
             "nonlinearity");
 
+        gl_quad_texscale_uniform_location = glGetUniformLocation(
+            gl_quad_shader_program,
+            "tex_scale");
+
         glGenSamplers(
             1, &gl_quad_sampler_state);
 
@@ -227,6 +232,11 @@ namespace OpenGL
         glUniform1i(
             gl_quad_sdf_function_location,
             node->sdf_func);
+
+        glUniform2fv(
+            gl_quad_texscale_uniform_location,
+            1,
+            &node->tex_scale[0]);
 
         glUniform1f(
             gl_quad_nonlinearity_uniform_location,

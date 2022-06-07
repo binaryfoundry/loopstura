@@ -34,6 +34,7 @@ namespace OpenGL
         GLuint gl_quad_gradient_1_uniform_location = 0;
         GLuint gl_quad_alpha_margin_uniform_location = 0;
         GLuint gl_quad_nonlinearity_uniform_location = 0;
+        GLuint gl_quad_texscale_uniform_location = 0;
 
         GLuint gl_quad_sampler_state = 0;
 

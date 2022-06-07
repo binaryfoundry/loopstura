@@ -41,6 +41,8 @@ namespace Application
         std::shared_ptr<Property<vec3>> gradient_0;
         std::shared_ptr<Property<vec3>> gradient_1;
 
+        glm::vec2 tex_scale = glm::vec2(1.0f, 1.0f);
+
         // TODO enumeration
         uint32_t sdf_func = 0;
 
