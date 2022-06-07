@@ -42,6 +42,7 @@ namespace Application
         std::shared_ptr<Property<vec3>> gradient_1;
 
         glm::vec2 tex_scale = glm::vec2(1.0f, 1.0f);
+        bool maintain_pixel_scaling_horizontal = false;
 
         // TODO enumeration
         uint32_t sdf_func = 0;

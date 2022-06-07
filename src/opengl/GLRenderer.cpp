@@ -216,7 +216,7 @@ namespace OpenGL
 
                 if (visited.find(s) == visited.end())
                 {
-                    interface_instance->Draw(s);
+                    interface_instance->Draw(state, s);
                     visited.insert(s);
                 }
 

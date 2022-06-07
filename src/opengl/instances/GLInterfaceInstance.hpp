@@ -45,7 +45,7 @@ namespace OpenGL
 
         virtual ~GLInterfaceInstance();
 
-        void Draw(DisplayNode* node);
+        void Draw(RenderState state, DisplayNode* node);
 
         void Bind(RenderState state);
         void Unbind();

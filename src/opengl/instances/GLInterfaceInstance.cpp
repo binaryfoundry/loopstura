@@ -199,7 +199,7 @@ namespace OpenGL
             &gl_quad_sampler_state);
     }
 
-    void GLInterfaceInstance::Draw(DisplayNode* node)
+    void GLInterfaceInstance::Draw(RenderState state, DisplayNode* node)
     {
         if (node->Passthrough())
             return;
@@ -225,6 +225,12 @@ namespace OpenGL
             glBindSampler(
                 0,
                 gl_quad_sampler_state);
+
+            if (node->maintain_pixel_scaling_horizontal)
+            {
+                const float x_scale = state.viewport.z / node->Texture()->width;
+                node->tex_scale = vec2(x_scale, node->tex_scale.y);
+            }
         }
 
         node->Validate();
