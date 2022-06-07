@@ -37,12 +37,12 @@ namespace Application
         std::shared_ptr<Property<float>> brightness;
         std::shared_ptr<Property<float>> gradient;
         std::shared_ptr<Property<float>> alpha_margin;
+        std::shared_ptr<Property<float>> nonlinearity;
         std::shared_ptr<Property<vec3>> gradient_0;
         std::shared_ptr<Property<vec3>> gradient_1;
 
         // TODO enumeration
         uint32_t sdf_func = 0;
-        uint32_t mode = 0;
 
         DisplayNode(
             std::shared_ptr<DisplayNode> parent = nullptr);

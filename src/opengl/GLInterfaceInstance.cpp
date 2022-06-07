@@ -41,13 +41,12 @@ namespace OpenGL
         uniform sampler2D tex;
         uniform float tex_blend;
         uniform int sdf_func;
-        uniform int mode;
+        uniform float nonlinearity;
         uniform float brightness;
         uniform vec3 gradient_0;
         uniform vec3 gradient_1;
         uniform float alpha_margin;
         float buff = 1.0;
-        float nonlinearity = 8.0;
         float sdCircle(in vec2 p, in float r) {
             return length(p) - r;
         }
@@ -156,9 +155,9 @@ namespace OpenGL
             gl_quad_shader_program,
             "alpha_margin");
 
-        gl_quad_mode_uniform_location = glGetUniformLocation(
+        gl_quad_nonlinearity_uniform_location = glGetUniformLocation(
             gl_quad_shader_program,
-            "mode");
+            "nonlinearity");
 
         glGenSamplers(
             1, &gl_quad_sampler_state);
@@ -231,9 +230,9 @@ namespace OpenGL
             gl_quad_sdf_function_location,
             node->sdf_func);
 
-        glUniform1i(
-            gl_quad_mode_uniform_location,
-            node->mode);
+        glUniform1f(
+            gl_quad_nonlinearity_uniform_location,
+            node->nonlinearity->Value());
 
         glUniform1f(
             gl_quad_texture_blend_uniform_location,
