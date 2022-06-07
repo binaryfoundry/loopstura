@@ -63,6 +63,7 @@ namespace OpenGL
             float d;
             vec3 t;
             vec2 tc = v_texcoord.xy;
+            vec3 s = texture(tex, tc).xyz; // s = texture sample
             if (sdf_func == 0) {
                 d = sdBox(v_texcoord.xy - vec2(0.5), vec2(0.5));
             }
@@ -78,28 +79,20 @@ namespace OpenGL
             if (sdf_func == 4) {
                 d = sdBox(vec2(0.5, v_texcoord.y) - vec2(0.5), vec2(0.5));
             }
+            if (sdf_func == 5) {
+               float wmax = (s.x + 1.0) * 0.5;
+               float wmin = ((( s.y) + 1.0) * 0.5) - 1.0;
+               float wv = tc.y < 0.5 ? wmax :1.0- wmin;
+               d = sdBox(vec2(0.5, v_texcoord.y - (1.0 - wv)) - vec2(0.5), vec2(0.5));
+            }
             float d2 = 1.0 - abs(d);
             float e = length(vec2(dFdx(d), dFdy(d)));
             float alpha_width = alpha_margin * e;
             float alpha = smoothstep(buff - alpha_width, buff, 1.0 - d);
             alpha = d > 0.0 ? alpha : 1.0; // clamp to outside SDF shape
             vec3 c = mix(linear(gradient_0), linear(gradient_1), 1.0 - pow(d2, nonlinearity));
-            if (mode == 0) {
-                t = linear(texture(tex, tc)).xyz;
-                c = mix(c, t, tex_blend);
-            }
-            else if (mode == 1) {
-                alpha = 0.0;
-                vec2 s = texture(tex, tc).xy;
-                if (tc.x >= 0.0 && tc.x <= 1.0) {
-                    if (tc.y < 0.5) {
-                        alpha = s.x < 1.0 - (tc.y * 2.0) ? 0.0 : 1.0;
-                    }
-                    else if (tc.y > 0.5) {
-                        alpha = s.y < ((tc.y - 0.5) * 2.0) ? 0.0 : 1.0;
-                    }
-                }
-            }
+            t = linear(s).xyz;
+            c = mix(c, t, tex_blend);
             c = mix(c, vec3(1.0), clamp(brightness, 0.0, 1.0));
             c = mix(c, vec3(0.0), clamp(-brightness, 0.0, 1.0));
             out_color = vec4(gamma(c), alpha);

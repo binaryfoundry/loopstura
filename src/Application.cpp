@@ -58,12 +58,10 @@ namespace Application
 
         *waveform_0->position = glm::vec2(0, 0);
         *waveform_0->scale = glm::vec2(500, 500);
-        *waveform_0->texture_blend = 1.0;
-        *waveform_0->gradient_0 = vec3(1.0, 0.843, 0.0);
-        *waveform_0->gradient_1 = vec3(0.8, 0.49, 0.196);
-        waveform_0->sdf_func = 3;
-        waveform_0->mode = 1;
-
+        *waveform_0->texture_blend = 0.0;
+        *waveform_0->gradient_0 = vec3(0.8, 0.49, 0.196);
+        *waveform_0->gradient_1 = vec3(1.0, 0.843, 0.0);
+        waveform_0->sdf_func = 5;
 
         waveform_0_bg = std::make_shared<DisplayNode>(
             context,
