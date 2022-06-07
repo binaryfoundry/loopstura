@@ -61,7 +61,7 @@ namespace Application
         *waveform_0->texture_blend = 0.0;
         *waveform_0->gradient_0 = vec3(0.8, 0.49, 0.196);
         *waveform_0->gradient_1 = vec3(1.0, 0.843, 0.0);
-        waveform_0->sdf_func = 5;
+        waveform_0->sdf_func = 4;
 
         waveform_0_bg = std::make_shared<DisplayNode>(
             context,
@@ -72,7 +72,7 @@ namespace Application
         *waveform_0_bg->nonlinearity = -2.0;
         *waveform_0_bg->gradient_0 = vec3(1.0);
         *waveform_0_bg->gradient_1 = vec3(0.5);
-        waveform_0_bg->sdf_func = 4;
+        waveform_0_bg->sdf_func = 3;
 
     }
 

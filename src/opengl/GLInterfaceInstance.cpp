@@ -72,13 +72,10 @@ namespace OpenGL
             if (sdf_func == 2) {
                 d = sdRoundedBox(v_texcoord.xy - vec2(0.5), vec2(0.5), 0.2);
             }
-            if (sdf_func == 3) {
-                d = -abs(v_texcoord.y - 0.5);
-            }
-            if (sdf_func == 4) {
+            if (sdf_func == 3) { // Cylinder
                 d = sdBox(vec2(0.5, v_texcoord.y) - vec2(0.5), vec2(0.5));
             }
-            if (sdf_func == 5) {
+            if (sdf_func == 4) { // Waveform
                float wmax = (s.x + 1.0) * 0.5;
                float wmin = ((( s.y) + 1.0) * 0.5) - 1.0;
                float wv = tc.y < 0.5 ? wmax :1.0- wmin;
