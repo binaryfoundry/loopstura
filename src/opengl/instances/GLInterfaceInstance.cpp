@@ -51,46 +51,72 @@ namespace OpenGL
         float sdCircle(in vec2 p, in float r) {
             return length(p) - r;
         }
+        vec3 sdgCircle(in vec2 p, in float r) {
+            float d = length(p);
+            return vec3( d-r, p/d );
+        }
         float sdBox(in vec2 p, in vec2 b)  {
             vec2 d = abs(p) - b;
             return length(max(d, 0.0)) + min(max(d.x, d.y), 0.0);
+        }
+        vec3 sdgBox(in vec2 p, in vec2 b) {
+            vec2 w = abs(p) - b;
+            vec2 s = vec2(p.x < 0.0 ? -1 : 1, p.y < 0.0 ? -1 : 1);
+            float g = max(w.x, w.y);
+            vec2  q = max(w, 0.0);
+            float l = length(q);
+            return vec3((g > 0.0) ? l : g,
+                        s * ((g > 0.0) ? q / l : ((w.x > w.y) ? vec2(1, 0) : vec2(0, 1))));
         }
         float sdRoundedBox(in vec2 p, in vec2 b, in float r) {
             vec2 q = abs(p) -b + r;
             return min(max(q.x, q.y), 0.0) + length(max(q, 0.0)) - r;
         }
+        vec3 sdgRound(in vec3 n, in float r) {
+            return vec3(n.x - r, n.yz);
+        }
         void main() {
-            float d;
-            vec3 t;
-            vec2 tc = v_texcoord.xy * tex_scale;
+            float d; // SDF value
+            vec3 n = vec3(1.0, 0.0, 0.0); //  SDF Normal
+            vec2 tc = v_texcoord.xy * tex_scale; // texture coordinates
             vec3 s = texture(tex, tc).xyz; // s = texture sample
             if (sdf_func == 0) {
-                d = sdBox(v_texcoord.xy - vec2(0.5), vec2(0.5));
+                d = sdBox(tc - vec2(0.5), vec2(0.5));
             }
             else if (sdf_func == 1) {
-                d = sdCircle(v_texcoord.xy - vec2(0.5), 0.5);
+                vec2 p = tc - vec2(0.5);
+                float r = 0.5;
+                d = sdCircle(p, r);
+                n = sdgCircle(p, r);
             }
-            if (sdf_func == 2) {
-                d = sdRoundedBox(v_texcoord.xy - vec2(0.5), vec2(0.5), 0.2);
+            else if (sdf_func == 2) {
+                float rad = 0.2;
+                vec2 p = tc - vec2(0.5);
+                vec2 b = vec2(0.5);
+                d = sdRoundedBox(p, b, rad);
+                n = sdgRound(sdgBox(p, b), rad);
             }
-            if (sdf_func == 3) { // Cylinder
-                d = sdBox(vec2(0.5, v_texcoord.y) - vec2(0.5), vec2(0.5));
+            else if (sdf_func == 3) { // Cylinder
+                vec2 p = vec2(0.5, tc.y) - vec2(0.5);
+                vec2 b = vec2(0.5);
+                d = sdBox(p, b);
+                n = sdgBox(p, b);
             }
-            if (sdf_func == 4) { // Waveform
+            else if (sdf_func == 4) { // Waveform
                float wmax = (s.x + 1.0) * 0.5;
-               float wmin = ((( s.y) + 1.0) * 0.5) - 1.0;
-               float wv = tc.y < 0.5 ? wmax :1.0- wmin;
-               d = sdBox(vec2(0.5, v_texcoord.y - (1.0 - wv)) - vec2(0.5), vec2(0.5));
+               float wmin = (((s.y) + 1.0) * 0.5) - 1.0;
+               float wv = tc.y < 0.5 ? wmax : 1.0 - wmin;
+               d = sdBox(vec2(0.5, tc.y - (1.0 - wv)) - vec2(0.5), vec2(0.5));
             }
-            float d2 = 1.0 - abs(d);
+            n = normalize(n.yzx);
             float e = length(vec2(dFdx(d), dFdy(d)));
             float alpha_width = alpha_margin * e;
             float alpha = smoothstep(buff - alpha_width, buff, 1.0 - d);
             alpha = d > 0.0 ? alpha : 1.0; // clamp to outside SDF shape
-            float nmx = nonlinearity > 0.0 ? 1.0 - pow(d2, nonlinearity) : pow(d2, -nonlinearity);
+            float dr = 1.0 - abs(d);
+            float nmx = nonlinearity > 0.0 ? 1.0 - pow(dr, nonlinearity) : pow(dr, -nonlinearity);
             vec3 c = mix(linear(gradient_0), linear(gradient_1), nmx);
-            t = linear(s).xyz;
-            c = mix(c, t, tex_blend);
+            c = mix(c, linear(s).xyz, tex_blend);
             c = mix(c, vec3(1.0), clamp(brightness, 0.0, 1.0));
             c = mix(c, vec3(0.0), clamp(-brightness, 0.0, 1.0));
             out_color = vec4(gamma(c), alpha);
