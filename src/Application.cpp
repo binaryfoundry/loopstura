@@ -30,7 +30,7 @@ namespace Application
         *test_button->scale = glm::vec2(100, 100);
         *test_button->brightness = 1.0;
         *test_button->alpha_margin = 20.0;
-        test_button->sdf_func = 1;
+        test_button->sdf_func = DisplayNodeSDFFunction::CIRCLE;
 
         context->property_manager->AddTween(
             test_button->brightness,
@@ -46,7 +46,7 @@ namespace Application
         *test_button_2->scale = glm::vec2(100, 100);
         *test_button_2->brightness = 0.0;
         *test_button_2->alpha_margin = 20.0;
-        test_button_2->sdf_func = 2;
+        test_button_2->sdf_func = DisplayNodeSDFFunction::BOX_ROUNDED;
 
         waveform_texture = renderer->MakeTextureFloat(
             4096, 1);
@@ -62,7 +62,7 @@ namespace Application
         *waveform_0->gradient_0 = vec3(0.8, 0.49, 0.196);
         *waveform_0->gradient_1 = vec3(1.0, 0.843, 0.0);
         waveform_0->maintain_pixel_scaling_horizontal = true;
-        waveform_0->sdf_func = 4;
+        waveform_0->sdf_func = DisplayNodeSDFFunction::WAVEFORM;
 
         waveform_0_bg = std::make_shared<DisplayNode>(
             context,
@@ -73,7 +73,7 @@ namespace Application
         *waveform_0_bg->nonlinearity = -2.0;
         *waveform_0_bg->gradient_0 = vec3(1.0);
         *waveform_0_bg->gradient_1 = vec3(0.5);
-        waveform_0_bg->sdf_func = 3;
+        waveform_0_bg->sdf_func = DisplayNodeSDFFunction::CYLINDER_HORIZONTAL;
 
     }
 

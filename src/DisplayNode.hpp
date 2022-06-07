@@ -11,6 +11,15 @@ using namespace Application::Rendering;
 
 namespace Application
 {
+    enum class DisplayNodeSDFFunction
+    {
+        NONE,
+        CIRCLE,
+        BOX_ROUNDED,
+        CYLINDER_HORIZONTAL,
+        WAVEFORM
+    };
+
     class DisplayNode
     {
     private:
@@ -44,8 +53,7 @@ namespace Application
         glm::vec2 tex_scale = glm::vec2(1.0f, 1.0f);
         bool maintain_pixel_scaling_horizontal = false;
 
-        // TODO enumeration
-        uint32_t sdf_func = 0;
+        DisplayNodeSDFFunction sdf_func = DisplayNodeSDFFunction::NONE;
 
         DisplayNode(
             std::shared_ptr<DisplayNode> parent = nullptr);

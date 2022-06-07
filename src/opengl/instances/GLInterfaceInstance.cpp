@@ -237,7 +237,7 @@ namespace OpenGL
 
         glUniform1i(
             gl_quad_sdf_function_location,
-            node->sdf_func);
+            static_cast<GLint>(node->sdf_func));
 
         glUniform2fv(
             gl_quad_texscale_uniform_location,
