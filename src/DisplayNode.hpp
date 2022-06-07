@@ -47,6 +47,8 @@ namespace Application
         std::shared_ptr<Property<float>> gradient;
         std::shared_ptr<Property<float>> alpha_margin;
         std::shared_ptr<Property<float>> nonlinearity;
+        std::shared_ptr<Property<float>> metalness;
+        std::shared_ptr<Property<float>> roughness;
         std::shared_ptr<Property<vec3>> gradient_0;
         std::shared_ptr<Property<vec3>> gradient_1;
 

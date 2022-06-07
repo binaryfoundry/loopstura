@@ -106,6 +106,8 @@ namespace OpenGL
         interface_instance = std::make_unique<GLInterfaceInstance>(
             quad_vertices,
             quad_indices);
+
+        environment = MakeTexture("env2.jpg");
     }
 
     GLRenderer::~GLRenderer()
@@ -216,7 +218,7 @@ namespace OpenGL
 
                 if (visited.find(s) == visited.end())
                 {
-                    interface_instance->Draw(state, s);
+                    interface_instance->Draw(state, s, environment);
                     visited.insert(s);
                 }
 

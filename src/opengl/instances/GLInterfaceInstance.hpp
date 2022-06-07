@@ -35,8 +35,12 @@ namespace OpenGL
         GLuint gl_quad_alpha_margin_uniform_location = 0;
         GLuint gl_quad_nonlinearity_uniform_location = 0;
         GLuint gl_quad_texscale_uniform_location = 0;
+        GLuint gl_quad_environment_uniform_location = 0;
+        GLuint gl_quad_metalness_uniform_location = 0;
+        GLuint gl_quad_roughness_uniform_location = 0;
 
         GLuint gl_quad_sampler_state = 0;
+        GLuint gl_environment_sampler_state = 0;
 
     public:
         GLInterfaceInstance(
@@ -45,7 +49,7 @@ namespace OpenGL
 
         virtual ~GLInterfaceInstance();
 
-        void Draw(RenderState state, DisplayNode* node);
+        void Draw(RenderState state, DisplayNode* node, TexturePtr environment);
 
         void Bind(RenderState state);
         void Unbind();

@@ -38,7 +38,9 @@ namespace OpenGL
         vec3 gamma(vec3 v) { return pow(v, 1.0 / vec3(2.2)); }
         in vec2 v_texcoord;
         layout(location = 0) out vec4 out_color;
+        uniform vec4 viewport;
         uniform sampler2D tex;
+        uniform sampler2D environment;
         uniform float tex_blend;
         uniform vec2 tex_scale;
         uniform int sdf_func;
@@ -47,17 +49,13 @@ namespace OpenGL
         uniform vec3 gradient_0;
         uniform vec3 gradient_1;
         uniform float alpha_margin;
+        uniform float metalness;
+        uniform float roughness;
         float buff = 1.0;
-        float sdCircle(in vec2 p, in float r) {
-            return length(p) - r;
-        }
+        float lighting_blend = 1.0;
         vec3 sdgCircle(in vec2 p, in float r) {
             float d = length(p);
-            return vec3( d-r, p/d );
-        }
-        float sdBox(in vec2 p, in vec2 b)  {
-            vec2 d = abs(p) - b;
-            return length(max(d, 0.0)) + min(max(d.x, d.y), 0.0);
+            return vec3(d - r, p / d);
         }
         vec3 sdgBox(in vec2 p, in vec2 b) {
             vec2 w = abs(p) - b;
@@ -75,51 +73,98 @@ namespace OpenGL
         vec3 sdgRound(in vec3 n, in float r) {
             return vec3(n.x - r, n.yz);
         }
-        void main() {
-            float d; // SDF value
-            vec3 n = vec3(1.0, 0.0, 0.0); //  SDF Normal
-            vec2 tc = v_texcoord.xy * tex_scale; // texture coordinates
-            vec3 s = texture(tex, tc).xyz; // s = texture sample
+        vec3 specular(vec3 n, float rough) {
+            vec2 t = gl_FragCoord.xy / viewport.zw;
+            float s = 0.25; // normal scale
+            float w = log2(float(textureSize(environment, 0).x));
+            float r = log2(rough * pow(w - 1.0, 2.0));
+            return linear(textureLod(environment, t + (n.xy * s), r)).xyz;
+        }
+        vec3 env_bdrf_approx(vec3 f0, float roughness, float NoV) {
+            vec4 c0 = vec4(-1, -0.0275, -0.572, 0.022);
+            vec4 c1 = vec4(1, 0.0425, 1.0, -0.04);
+            vec4 r = roughness * c0 + c1;
+            float a004 = min(r.x * r.x, exp2(-9.28 * NoV)) * r.x + r.y;
+            vec2 AB = vec2(-1.04, 1.04) * a004 + r.zw;
+            return f0 * AB.x + AB.y;
+        }
+        float sdf(vec2 tc) {
+            vec3 dg; // sdg function value
             if (sdf_func == 0) {
-                d = sdBox(tc - vec2(0.5), vec2(0.5));
+                dg = sdgBox(tc - vec2(0.5), vec2(0.5));
             }
             else if (sdf_func == 1) {
                 vec2 p = tc - vec2(0.5);
                 float r = 0.5;
-                d = sdCircle(p, r);
-                n = sdgCircle(p, r);
+                dg = sdgCircle(p, r);
             }
             else if (sdf_func == 2) {
                 float rad = 0.2;
                 vec2 p = tc - vec2(0.5);
                 vec2 b = vec2(0.5);
-                d = sdRoundedBox(p, b, rad);
-                n = sdgRound(sdgBox(p, b), rad);
+                dg = sdgRound(sdgBox(p, b), rad);
             }
             else if (sdf_func == 3) { // Cylinder
-                vec2 p = vec2(0.5, tc.y) - vec2(0.5);
+                vec2 p = tc - vec2(0.5);
                 vec2 b = vec2(0.5);
-                d = sdBox(p, b);
-                n = sdgBox(p, b);
+                dg = sdgBox(vec2(0.0, p.y), b);
             }
             else if (sdf_func == 4) { // Waveform
-               float wmax = (s.x + 1.0) * 0.5;
-               float wmin = (((s.y) + 1.0) * 0.5) - 1.0;
-               float wv = tc.y < 0.5 ? wmax : 1.0 - wmin;
-               d = sdBox(vec2(0.5, tc.y - (1.0 - wv)) - vec2(0.5), vec2(0.5));
+                vec3 s = texture(tex, tc).xyz; // s = texture sample
+                float wmax = (s.x + 1.0) * 0.5;
+                float wmin = (((s.y) + 1.0) * 0.5) - 1.0;
+                float wv = tc.y < 0.5 ? wmax : 1.0 - wmin;
+                dg = sdgBox(vec2(0.5, tc.y - (1.0 - wv)) - vec2(0.5), vec2(0.5));
+                lighting_blend = 0.0;
             }
-            n = normalize(n.yzx);
-            float e = length(vec2(dFdx(d), dFdy(d)));
+            return dg.x;
+        }
+        float shade(float d) {
+            float dr = 1.0 - d;
+            return nonlinearity > 0.0 ? 1.0 - pow(dr, nonlinearity) : pow(dr, -nonlinearity);
+        }
+        vec3 shade_norm(vec2 tc) {
+            vec2 dd = vec2(dFdx(tc.x), dFdy(tc.y));
+            vec2 x0 = tc + vec2(-dd.x, 0.0);
+            vec2 x1 = tc + vec2(dd.x, 0.0);
+            vec2 y0 = tc + vec2(0.0, dd.y);
+            vec2 y1 = tc + vec2(0.0, -dd.y);
+            float e = 0.05;
+            vec3 v0 = vec3(-e, 0.0, shade(-sdf(x0)));
+            vec3 v1 = vec3( e, 0.0, shade(-sdf(x1)));
+            vec3 w0 = vec3(0.0, -e, shade(-sdf(y0)));
+            vec3 w1 = vec3(0.0,  e, shade(-sdf(y1)));
+            vec3 n = normalize(cross(v1 - v0, w1 - w0));
+            return n;
+        }
+        void main() {
+            vec2 tc = v_texcoord.xy * tex_scale; // texture coordinates
+            vec3 s = texture(tex, tc).xyz; // s = texture sample
+
+            float d = sdf(tc);
+            vec2 dd = vec2(dFdx(d), dFdy(d));
+            float e = length(dd);
             float alpha_width = alpha_margin * e;
-            float alpha = smoothstep(buff - alpha_width, buff, 1.0 - d);
-            alpha = d > 0.0 ? alpha : 1.0; // clamp to outside SDF shape
-            float dr = 1.0 - abs(d);
-            float nmx = nonlinearity > 0.0 ? 1.0 - pow(dr, nonlinearity) : pow(dr, -nonlinearity);
-            vec3 c = mix(linear(gradient_0), linear(gradient_1), nmx);
-            c = mix(c, linear(s).xyz, tex_blend);
-            c = mix(c, vec3(1.0), clamp(brightness, 0.0, 1.0));
-            c = mix(c, vec3(0.0), clamp(-brightness, 0.0, 1.0));
-            out_color = vec4(gamma(c), alpha);
+            float alpha = d > 0.0 ? smoothstep(buff - alpha_width, buff, 1.0 - d) : 1.0;
+
+            float m = shade(abs(d));
+            vec3 n = shade_norm(tc);
+
+            vec3 albedo = mix(linear(gradient_0), linear(gradient_1), m);
+            albedo = mix(albedo, linear(s).xyz, tex_blend);
+            albedo = mix(albedo, vec3(1.0), clamp(brightness, 0.0, 1.0));
+            albedo = mix(albedo, vec3(0.0), clamp(-brightness, 0.0, 1.0));
+
+            float NoV = max(0.0, abs(dot(n, vec3(0.0, 0.0, 1.0))));
+            vec3 f0 = max(albedo * metalness, 0.04);
+            vec3 diff = albedo * NoV * (1.0 - metalness);
+            vec3 spec = specular(n, roughness);
+            vec3 lighting = mix(diff, spec, env_bdrf_approx(f0, roughness, NoV));
+
+            float inner = d > 0.0 ? smoothstep(1.0, 1.0 + e, 1.0 - d) : 1.0;
+            vec3 final = mix(albedo, lighting, inner * lighting_blend);
+
+            out_color = vec4(gamma(final), alpha);
         })";
 
     GLInterfaceInstance::GLInterfaceInstance(
@@ -151,6 +196,10 @@ namespace OpenGL
         gl_quad_texture_uniform_location = glGetUniformLocation(
             gl_quad_shader_program,
             "tex");
+
+        gl_quad_environment_uniform_location = glGetUniformLocation(
+            gl_quad_shader_program,
+            "environment");
 
         gl_quad_sdf_function_location = glGetUniformLocation(
             gl_quad_shader_program,
@@ -188,6 +237,14 @@ namespace OpenGL
             gl_quad_shader_program,
             "tex_scale");
 
+        gl_quad_metalness_uniform_location = glGetUniformLocation(
+            gl_quad_shader_program,
+            "metalness");
+
+        gl_quad_roughness_uniform_location = glGetUniformLocation(
+            gl_quad_shader_program,
+            "roughness");
+
         glGenSamplers(
             1, &gl_quad_sampler_state);
 
@@ -213,6 +270,29 @@ namespace OpenGL
             gl_quad_sampler_state,
             GL_TEXTURE_MIN_FILTER,
             GL_LINEAR_MIPMAP_LINEAR);
+
+        glGenSamplers(
+            1, &gl_environment_sampler_state);
+
+        glSamplerParameteri(
+            gl_environment_sampler_state,
+            GL_TEXTURE_WRAP_S,
+            GL_MIRRORED_REPEAT);
+
+        glSamplerParameteri(
+            gl_environment_sampler_state,
+            GL_TEXTURE_WRAP_T,
+            GL_MIRRORED_REPEAT);
+
+        glSamplerParameteri(
+            gl_environment_sampler_state,
+            GL_TEXTURE_MAG_FILTER,
+            GL_LINEAR);
+
+        glSamplerParameteri(
+            gl_environment_sampler_state,
+            GL_TEXTURE_MIN_FILTER,
+            GL_LINEAR_MIPMAP_LINEAR);
     }
 
     GLInterfaceInstance::~GLInterfaceInstance()
@@ -223,9 +303,13 @@ namespace OpenGL
         glDeleteSamplers(
             1,
             &gl_quad_sampler_state);
+
+        glDeleteSamplers(
+            1,
+            &gl_environment_sampler_state);
     }
 
-    void GLInterfaceInstance::Draw(RenderState state, DisplayNode* node)
+    void GLInterfaceInstance::Draw(RenderState state, DisplayNode* node, TexturePtr environment)
     {
         if (node->Passthrough())
             return;
@@ -257,6 +341,26 @@ namespace OpenGL
                 const float x_scale = state.viewport.z / node->Texture()->width;
                 node->tex_scale = vec2(x_scale, node->tex_scale.y);
             }
+        }
+
+        {
+            const auto gl_texture_handle = std::dynamic_pointer_cast<GLTextureHandle>(
+               environment)->gl_texture_handle;
+
+            glActiveTexture(
+                GL_TEXTURE1);
+
+            glBindTexture(
+                GL_TEXTURE_2D,
+                gl_texture_handle);
+
+            glUniform1i(
+                gl_quad_environment_uniform_location,
+                1);
+
+            glBindSampler(
+                1,
+                gl_environment_sampler_state);
         }
 
         node->Validate();
@@ -299,6 +403,14 @@ namespace OpenGL
             gl_quad_gradient_1_uniform_location,
             1,
             &node->gradient_1->Value()[0]);
+
+        glUniform1f(
+            gl_quad_metalness_uniform_location,
+            node->metalness->Value());
+
+        glUniform1f(
+            gl_quad_roughness_uniform_location,
+            node->roughness->Value());
 
         const glm::mat4 transform = node->Transform();
 

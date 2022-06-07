@@ -26,10 +26,13 @@ namespace Application
             context,
             display_root);
 
-        *test_button->position = glm::vec2(300, 220);
+        *test_button->position = glm::vec2(300, 320);
         *test_button->scale = glm::vec2(100, 100);
         *test_button->brightness = 1.0;
-        *test_button->alpha_margin = 20.0;
+        *test_button->alpha_margin = 1.0;
+        *test_button->gradient_0 = vec3(1.0, 0.843, 0.0) * 0.75f;
+        *test_button->gradient_1 = vec3(1.0, 0.843, 0.0);
+        *test_button->roughness = 0.0;
         test_button->sdf_func = DisplayNodeSDFFunction::CIRCLE;
 
         context->property_manager->AddTween(
@@ -42,10 +45,13 @@ namespace Application
             context,
             display_root);
 
-        *test_button_2->position = glm::vec2(600, 220);
+        *test_button_2->position = glm::vec2(600, 320);
         *test_button_2->scale = glm::vec2(100, 100);
         *test_button_2->brightness = 0.0;
-        *test_button_2->alpha_margin = 20.0;
+        *test_button_2->alpha_margin = 1.0;
+        *test_button_2->gradient_0 = vec3(1.0, 0.843, 0.0) * 0.75f;
+        *test_button_2->gradient_1 = vec3(1.0, 0.843, 0.0);
+        *test_button_2->roughness = 0.0;
         test_button_2->sdf_func = DisplayNodeSDFFunction::BOX_ROUNDED;
 
         waveform_texture = renderer->MakeTextureFloat(

@@ -49,6 +49,8 @@ namespace OpenGL
 
         std::unique_ptr<GLInterfaceInstance> interface_instance;
 
+        TexturePtr environment;
+
         void DrawNodes(RenderState state, DisplayNode* node);
 
     public:
