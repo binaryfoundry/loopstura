@@ -123,7 +123,7 @@ namespace Application
                 ImGuiID dock_id_right = ImGui::DockBuilderSplitNode(dockspace_id, ImGuiDir_Right, 0.20f, nullptr, &dockspace_id);
                 ImGuiID dock_id_bottom = ImGui::DockBuilderSplitNode(dockspace_id, ImGuiDir_Down, 0.20f, nullptr, &dockspace_id);
 
-                ImGui::DockBuilderDockWindow("Audio", dock_id_right);
+                ImGui::DockBuilderDockWindow("Audio", dock_id_bottom);
                 ImGui::DockBuilderFinish(dockspace_id);
 
                 dock_created = true;
