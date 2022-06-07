@@ -89,7 +89,8 @@ namespace OpenGL
             float alpha_width = alpha_margin * e;
             float alpha = smoothstep(buff - alpha_width, buff, 1.0 - d);
             alpha = d > 0.0 ? alpha : 1.0; // clamp to outside SDF shape
-            vec3 c = mix(linear(gradient_0), linear(gradient_1), 1.0 - pow(d2, nonlinearity));
+            float nmx = nonlinearity > 0.0 ? 1.0 - pow(d2, nonlinearity) : pow(d2, -nonlinearity);
+            vec3 c = mix(linear(gradient_0), linear(gradient_1), nmx);
             t = linear(s).xyz;
             c = mix(c, t, tex_blend);
             c = mix(c, vec3(1.0), clamp(brightness, 0.0, 1.0));
