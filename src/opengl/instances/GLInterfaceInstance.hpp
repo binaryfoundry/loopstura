@@ -1,10 +1,10 @@
 #pragma once
 
-#include "GL.hpp"
-#include "GLStream.hpp"
-#include "GLInstance.hpp"
+#include "../GL.hpp"
+#include "../GLStream.hpp"
+#include "../GLInstance.hpp"
 
-#include "../DisplayNode.hpp"
+#include "../../DisplayNode.hpp"
 
 #include <memory>
 

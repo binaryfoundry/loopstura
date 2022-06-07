@@ -15,7 +15,7 @@
 #include <string>
 
 #include "GLStream.hpp"
-#include "GLInterfaceInstance.hpp"
+#include "instances/GLInterfaceInstance.hpp"
 #include "../properties/Property.hpp"
 
 using namespace Application::Properties;

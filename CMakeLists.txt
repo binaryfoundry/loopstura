@@ -100,8 +100,7 @@ set(SOURCES_OPENGL
     src/opengl/GLTexture.cpp
     src/opengl/GLStream.cpp
     src/opengl/GLImgui.cpp
-    src/opengl/GLInstance.cpp
-    src/opengl/GLInterfaceInstance.cpp)
+    src/opengl/GLInstance.cpp)
 
 set(HEADERS_OPENGL
     src/opengl/GL.hpp
@@ -109,8 +108,13 @@ set(HEADERS_OPENGL
     src/opengl/GLTexture.hpp
     src/opengl/GLStream.hpp
     src/opengl/GLImgui.hpp
-    src/opengl/GLInstance.hpp
-    src/opengl/GLInterfaceInstance.hpp)
+    src/opengl/GLInstance.hpp)
+
+set(SOURCES_OPENGL_INSTANCES
+    src/opengl/instances/GLInterfaceInstance.cpp)
+
+set(HEADERS_OPENGL_INSTANCES
+    src/opengl/instances/GLInterfaceInstance.hpp)
 
 set(SOURCES_IMGUI
     lib/imgui/imgui/imgui.cpp
@@ -155,6 +159,9 @@ SOURCE_GROUP("src\\sdl" FILES ${HEADERS_MAIN})
 
 SOURCE_GROUP("src\\opengl" FILES ${SOURCES_OPENGL})
 SOURCE_GROUP("src\\opengl" FILES ${HEADERS_OPENGL})
+
+SOURCE_GROUP("src\\opengl\\instances" FILES ${SOURCES_OPENGL_INSTANCES})
+SOURCE_GROUP("src\\opengl\\instances" FILES ${HEADERS_OPENGL_INSTANCES})
 
 SOURCE_GROUP("src\\imgui" FILES ${SOURCES_IMGUI})
 SOURCE_GROUP("src\\imgui" FILES ${HEADERS_IMGUI})
@@ -214,6 +221,8 @@ add_executable(
     ${HEADERS_SIGNAL}
     ${SOURCES_OPENGL}
     ${HEADERS_OPENGL}
+    ${SOURCES_OPENGL_INSTANCES}
+    ${HEADERS_OPENGL_INSTANCES}
     ${SOURCES_IMGUI}
     ${HEADERS_IMGUI})
 

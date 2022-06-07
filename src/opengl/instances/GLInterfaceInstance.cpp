@@ -2,7 +2,7 @@
 
 #include "GLInterfaceInstance.hpp"
 
-#include "GLTexture.hpp"
+#include "../GLTexture.hpp"
 
 namespace Application
 {
