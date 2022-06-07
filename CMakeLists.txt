@@ -100,7 +100,8 @@ set(SOURCES_OPENGL
     src/opengl/GLTexture.cpp
     src/opengl/GLStream.cpp
     src/opengl/GLImgui.cpp
-    src/opengl/GLInstance.cpp)
+    src/opengl/GLInstance.cpp
+    src/opengl/GLFrameBuffer.cpp)
 
 set(HEADERS_OPENGL
     src/opengl/GL.hpp
@@ -108,7 +109,8 @@ set(HEADERS_OPENGL
     src/opengl/GLTexture.hpp
     src/opengl/GLStream.hpp
     src/opengl/GLImgui.hpp
-    src/opengl/GLInstance.hpp)
+    src/opengl/GLInstance.hpp
+    src/opengl/GLFrameBuffer.hpp)
 
 set(SOURCES_OPENGL_INSTANCES
     src/opengl/instances/GLInterfaceInstance.cpp)
