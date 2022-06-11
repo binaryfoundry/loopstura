@@ -31,6 +31,7 @@ namespace Application
 
         DisplayNodePtr waveform_0_bg;
         DisplayNodePtr waveform_0;
+        DisplayNodePtr waveform_0_ft;
         TextureRGBA32FPtr waveform_texture;
 
         Timer fps_timer;

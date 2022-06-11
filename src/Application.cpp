@@ -57,6 +57,19 @@ namespace Application
         waveform_texture = renderer->MakeTextureFloat(
             4096, 1);
 
+        waveform_0_ft = std::make_shared<DisplayNode>(
+            context,
+            display_root);
+
+        *waveform_0_ft->position = glm::vec2(0, 0);
+        *waveform_0_ft->alpha_margin = 1.0;
+        *waveform_0_ft->nonlinearity = -12.0;
+        *waveform_0_ft->gradient_0 = vec3(0.0);
+        *waveform_0_ft->gradient_1 = vec3(0.0);
+        *waveform_0_ft->roughness = 0.0;
+        *waveform_0_ft->metalness = 1.0;
+        waveform_0_ft->sdf_func = DisplayNodeSDFFunction::CYLINDER_HORIZONTAL;
+
         waveform_0 = std::make_shared<DisplayNode>(
             context,
             display_root,
@@ -180,6 +193,7 @@ namespace Application
 
         *waveform_0_bg->scale = glm::vec2(state.viewport.z, 200);
         *waveform_0->scale = glm::vec2(state.viewport.z, 200);
+        *waveform_0_ft->scale = glm::vec2(state.viewport.z, 200);
 
         const double waveform_position = track->PositionNormalized();
         const std::shared_ptr<Waveform> waveform = track->Waveform();
