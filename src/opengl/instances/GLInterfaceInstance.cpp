@@ -412,6 +412,21 @@ namespace OpenGL
             gl_quad_roughness_uniform_location,
             node->roughness->Value());
 
+        switch (node->blend_func)
+        {
+            case BlendFunc::ALPHA:
+                glBlendFunc(
+                    GL_SRC_ALPHA,
+                    GL_ONE_MINUS_SRC_ALPHA);
+                break;
+
+            case BlendFunc::ADDITIVE:
+                glBlendFunc(
+                    GL_ONE,
+                    GL_ONE);
+                break;
+        }
+
         const glm::mat4 transform = node->Transform();
 
         glUniformMatrix4fv(

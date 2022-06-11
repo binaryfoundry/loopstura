@@ -8,6 +8,13 @@
 
 namespace Application
 {
+    // TODO move to own file
+    enum class BlendFunc
+    {
+        ALPHA,
+        ADDITIVE
+    };
+
     struct RenderState
     {
         glm::mat4 view = mat4();

@@ -56,6 +56,7 @@ namespace Application
         bool maintain_pixel_scaling_horizontal = false;
 
         DisplayNodeSDFFunction sdf_func = DisplayNodeSDFFunction::NONE;
+        BlendFunc blend_func = BlendFunc::ALPHA;
 
         DisplayNode(
             std::shared_ptr<DisplayNode> parent = nullptr);
