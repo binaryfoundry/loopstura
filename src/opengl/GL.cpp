@@ -65,7 +65,7 @@ namespace OpenGL
                     NULL,
                     info_log);
                 std::cout << "link error " << info_log << std::endl;
-                free(info_log);
+                delete[] info_log;
             }
 
             glDeleteProgram(
