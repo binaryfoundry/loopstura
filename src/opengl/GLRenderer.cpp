@@ -8,6 +8,7 @@
 
 #include "GLTexture.hpp"
 #include "GLStream.hpp"
+#include "GLFrameBuffer.hpp"
 
 #include "../properties/Property.hpp"
 

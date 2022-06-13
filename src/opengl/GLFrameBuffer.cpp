@@ -1,152 +1,76 @@
 #include "GLFrameBuffer.hpp"
 
+#include <iostream>
+#include <cassert>
+
 namespace Application
 {
 namespace Rendering
 {
 namespace OpenGL
 {
-    /*GLFrameBuffer::GLFrameBuffer(
-        ContextPtr context,
-        SamplerPresets samplers,
-        uint16_t width_,
-        uint16_t height_,
-        TextureFormat format,
-        bool mipmaps) :
-    FrameBuffer(
-        width_,
-        height_),
-    context(context),
-    samplers(samplers),
-    mipmaps(mipmaps),
-    format(format)
+    template <>
+    GLFrameBuffer<TextureDataByte>::GLFrameBuffer(
+        uint32_t width,
+        uint32_t height) :
+        gl_internal_format(GL_RGBA8),
+        gl_format(GL_RGBA),
+        gl_type(GL_UNSIGNED_BYTE),
+        TextureTyped<TextureDataByte>(
+            width,
+            height,
+            nullptr)
     {
+        Create();
     }
 
-    GLFrameBuffer::~GLFrameBuffer()
+    template <>
+    GLFrameBuffer<TextureDataFloat>::GLFrameBuffer(
+        uint32_t width,
+        uint32_t height) :
+        gl_internal_format(GL_RGBA32F),
+        gl_format(GL_RGBA),
+        gl_type(GL_FLOAT),
+        TextureTyped<TextureDataFloat>(
+            width,
+            height,
+            nullptr)
     {
+        Create();
     }
 
-    void GLFrameBuffer::BindTarget()
+    template <typename T>
+    GLFrameBuffer<T>::~GLFrameBuffer()
     {
-        glBindFramebuffer(
-            GL_FRAMEBUFFER,
-            frame_buffer);
-
-        glViewport(
-            0, 0,
-            width, height);
-
-        glClearColor(
-            clear_color.x,
-            clear_color.y,
-            clear_color.z,
-            clear_color.w);
-
-        glClear(
-            GL_COLOR_BUFFER_BIT |
-            GL_DEPTH_BUFFER_BIT |
-            GL_STENCIL_BUFFER_BIT);
+        glDeleteTextures(
+            1, &gl_texture_handle);
     }
 
-    void GLFrameBuffer::UnbindTarget()
-    {
-        glBindFramebuffer(
-            GL_FRAMEBUFFER,
-            0);
-
-        glViewport(
-            0,
-            0,
-            context->backend->window_width,
-            context->backend->window_height);
-    }
-
-    void GLFrameBuffer::GenerateMipMaps()
-    {
-        glActiveTexture(
-            GL_TEXTURE0);
-
-        glBindTexture(
-            GL_TEXTURE_2D,
-            texture_buffer);
-
-        glGenerateMipmap(
-            GL_TEXTURE_2D);
-    }
-
-    void GLFrameBuffer::Destroy()
-    {
-        context->graphics->GPUAssetUnregister(
-            Asset::GetID());
-
-        // TODO destroy other buffers
-    }
-
-    shared_ptr<vector<uint8_t>> GLFrameBuffer::Read()
-    {
-        if (format != TextureFormat::RGBA8)
-        {
-            throw std::runtime_error("Only RGBA8 format is currently readable.");
-        }
-
-        // TODO: match pixels array to gl_format
-
-        shared_ptr<vector<uint8_t>> pixels = make_shared<vector<uint8_t>>(
-            4 * width * height);
-
-        glBindFramebuffer(
-            GL_FRAMEBUFFER,
-            frame_buffer);
-
-        glViewport(
-            0, 0,
-            width, height);
-
-        glReadPixels(
-            0, 0,
-            width, height,
-            gl_format,
-            gl_type,
-            &(*pixels)[0]);
-
-        glBindFramebuffer(
-            GL_FRAMEBUFFER,
-            NULL);
-
-        return pixels;
-    }
-
-    void GLFrameBuffer::UploadToGPU()
+    template <typename T>
+    void GLFrameBuffer<T>::Create()
     {
         glGenFramebuffers(
             1,
-            &frame_buffer);
+            &gl_frame_buffer);
 
         glBindFramebuffer(
             GL_FRAMEBUFFER,
-            frame_buffer);
+            gl_frame_buffer);
 
         glGenTextures(
             1,
-            &texture_buffer);
+            &gl_texture_handle);
 
         glBindTexture(
             GL_TEXTURE_2D,
-            texture_buffer);
-
-        GetGLTextureFormat(
-            format,
-            gl_type,
-            gl_format,
-            gl_internal_format);
+            gl_texture_handle);
 
         glTexImage2D(
             GL_TEXTURE_2D,
-            mipmaps ? 0 : 1,
+            0,
             gl_internal_format,
-            width,
-            height,
+            Texture::width,
+            Texture::height,
             0,
             gl_format,
             gl_type,
@@ -154,37 +78,39 @@ namespace OpenGL
 
         glGenRenderbuffers(
             1,
-            &depth_renderbuffer);
+            &gl_depth_renderbuffer);
 
         glBindRenderbuffer(
             GL_RENDERBUFFER,
-            depth_renderbuffer);
+            gl_depth_renderbuffer);
 
         glRenderbufferStorage(
             GL_RENDERBUFFER,
             GL_DEPTH_COMPONENT24,
-            width,
-            height);
+            Texture::width,
+            Texture::height);
 
         GLenum err;
-        while ((err = glGetError()) != GL_NO_ERROR) {
-            cout << "OpenGL error: " << err << endl;
+        while ((err = glGetError()) != GL_NO_ERROR)
+        {
+            std::cout << "OpenGL error: " << err << std::endl;
         }
 
         glFramebufferRenderbuffer(
             GL_FRAMEBUFFER,
             GL_DEPTH_ATTACHMENT,
             GL_RENDERBUFFER,
-            depth_renderbuffer);
+            gl_depth_renderbuffer);
 
         glFramebufferTexture2D(
             GL_FRAMEBUFFER,
             GL_COLOR_ATTACHMENT0,
             GL_TEXTURE_2D,
-            texture_buffer,
+            gl_texture_handle,
             0);
 
-        GLenum draw_buffers[1] = {
+        GLenum draw_buffers[1] =
+        {
             GL_COLOR_ATTACHMENT0
         };
 
@@ -192,7 +118,7 @@ namespace OpenGL
             1,
             draw_buffers);
 
-        if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+        if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
         {
             assert(false);
         }
@@ -202,26 +128,55 @@ namespace OpenGL
             0);
     }
 
-    void GLFrameBuffer::Bind(
-        uint16_t texture_unit,
-        uint16_t sampler_id,
-        TextureSamplerMode sampler_mode)
+    template <typename T>
+    void GLFrameBuffer<T>::Bind()
+    {
+        glBindFramebuffer(
+            GL_FRAMEBUFFER,
+            gl_frame_buffer);
+
+        glViewport(
+            0,
+            0,
+            Texture::width,
+            Texture::height);
+
+        glClearColor(
+            0, 0, 0, 0);
+
+        glClear(
+            GL_COLOR_BUFFER_BIT |
+            GL_DEPTH_BUFFER_BIT |
+            GL_STENCIL_BUFFER_BIT);
+    }
+
+    template <typename T>
+    void GLFrameBuffer<T>::Unbind()
+    {
+        glBindFramebuffer(
+            GL_FRAMEBUFFER,
+            0);
+
+        //glViewport(
+        //    0,
+        //    0,
+        //    window_width,
+        //    window_height);
+    }
+
+    template <typename T>
+    void GLFrameBuffer<T>::GenerateMipMaps()
     {
         glActiveTexture(
-            GL_TEXTURE0 + texture_unit);
+            GL_TEXTURE0);
 
         glBindTexture(
             GL_TEXTURE_2D,
-            texture_buffer);
+            gl_texture_handle);
 
-        glBindSampler(
-            texture_unit,
-            samplers[sampler_mode]);
-
-        glUniform1i(
-            sampler_id,
-            texture_unit);
-    }*/
+        glGenerateMipmap(
+            GL_TEXTURE_2D);
+    }
 }
 }
 }

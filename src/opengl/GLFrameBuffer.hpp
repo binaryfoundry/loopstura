@@ -1,6 +1,7 @@
 #pragma once
 
 #include "GL.hpp"
+#include "../Texture.hpp"
 
 #include <memory>
 
@@ -10,46 +11,32 @@ namespace Rendering
 {
 namespace OpenGL
 {
-    /*class GLFrameBuffer : public FrameBuffer
+    template <typename T>
+    class GLFrameBuffer : public TextureTyped<T>, public GLTextureHandle
     {
+        class GLRenderer;
+        friend class GLRenderer;
+
+    protected:
+        GLint gl_internal_format = 0;
+        GLenum gl_format = 0;
+        GLenum gl_type = 0;
+
+        GLuint gl_frame_buffer = 0;
+        GLuint gl_depth_renderbuffer = 0;
+
+        void Create();
+
     public:
         GLFrameBuffer(
-            ContextPtr context,
-            SamplerPresets samplers,
-            uint16_t width,
-            uint16_t height,
-            TextureFormat format,
-            bool mipmaps);
+            uint32_t width,
+            uint32_t height);
         virtual ~GLFrameBuffer();
 
-        const bool mipmaps;
-        const TextureFormat format;
-
-        GLuint frame_buffer = 0;
-        GLuint texture_buffer = 0;
-        GLuint depth_renderbuffer = 0;
-
-        GLuint gl_type = GL_FLOAT;
-        GLuint gl_format = GL_RGBA;
-        GLuint gl_internal_format = GL_RGBA32F;
-
-        void BindTarget();
-        void UnbindTarget();
-
-        shared_ptr<vector<uint8_t>> Read();
-
+        void Bind();
+        void Unbind();
         void GenerateMipMaps();
-        void UploadToGPU();
-        void Destroy();
-
-        ContextPtr context;
-        SamplerPresets samplers;
-
-        void Bind(
-            uint16_t texture_unit,
-            uint16_t sampler_id,
-            TextureSamplerMode sampler_mode);
-    };*/
+    };
 }
 }
 }
