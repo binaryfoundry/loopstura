@@ -14,12 +14,6 @@ namespace Rendering
 {
 namespace OpenGL
 {
-    class GLTextureHandle
-    {
-    public:
-        GLuint gl_texture_handle = 0; // TODO make private
-    };
-
     template <typename T>
     class GLTexture : public TextureTyped<T>, public GLTextureHandle
     {

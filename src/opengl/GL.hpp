@@ -46,6 +46,12 @@ namespace OpenGL
     GLuint LinkShader(
         std::string vertex_shader_string,
         std::string fragment_shader_string);
+
+    class GLTextureHandle
+    {
+    public:
+        GLuint gl_texture_handle = 0; // TODO make private
+    };
 }
 }
 }
