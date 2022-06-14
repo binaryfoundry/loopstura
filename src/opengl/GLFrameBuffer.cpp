@@ -42,6 +42,12 @@ namespace OpenGL
     template <typename T>
     GLFrameBuffer<T>::~GLFrameBuffer()
     {
+        glDeleteFramebuffers(
+            1, gl_frame_buffer);
+
+        glDeleteRenderbuffers(
+            1, gl_depth_renderbuffer);
+
         glDeleteTextures(
             1, &gl_texture_handle);
     }
