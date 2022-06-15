@@ -113,10 +113,12 @@ set(HEADERS_OPENGL
     src/opengl/GLFrameBuffer.hpp)
 
 set(SOURCES_OPENGL_INSTANCES
-    src/opengl/instances/GLInterfaceInstance.cpp)
+    src/opengl/instances/GLInterfaceInstance.cpp
+    src/opengl/instances/GLEnvironmentInstance.cpp)
 
 set(HEADERS_OPENGL_INSTANCES
-    src/opengl/instances/GLInterfaceInstance.hpp)
+    src/opengl/instances/GLInterfaceInstance.hpp
+    src/opengl/instances/GLEnvironmentInstance.hpp)
 
 set(SOURCES_IMGUI
     lib/imgui/imgui/imgui.cpp
