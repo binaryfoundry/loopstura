@@ -2,6 +2,7 @@
 
 #include "GL.hpp"
 #include "GLStream.hpp"
+#include "GLFrameBuffer.hpp"
 #include "GLImgui.hpp"
 
 #include "../Context.hpp"
@@ -14,7 +15,6 @@
 #include <memory>
 #include <string>
 
-#include "GLStream.hpp"
 #include "instances/GLInterfaceInstance.hpp"
 #include "../properties/Property.hpp"
 
@@ -42,6 +42,16 @@ namespace OpenGL
             uint32_t width,
             uint32_t height) override;
 
+    private:
+        GLFrameBufferBytePtr MakeFrameBuffer(
+            uint32_t width,
+            uint32_t height);
+
+        GLFrameBufferFloatPtr MakeFrameBufferFloat(
+            uint32_t width,
+            uint32_t height);
+
+    protected:
         std::unique_ptr<GLImgui> imgui;
 
         std::shared_ptr<GLStream<float>> quad_vertices;
@@ -49,6 +59,7 @@ namespace OpenGL
 
         std::unique_ptr<GLInterfaceInstance> interface_instance;
 
+        GLFrameBufferFloatPtr environment_buffer;
         TexturePtr environment;
 
         void DrawNodes(RenderState state, DisplayNode* node);

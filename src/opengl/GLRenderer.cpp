@@ -108,6 +108,10 @@ namespace OpenGL
             quad_vertices,
             quad_indices);
 
+        environment_buffer = MakeFrameBufferFloat(
+            1024,
+            1024);
+
         environment = MakeTexture("env2.jpg");
     }
 
@@ -168,6 +172,28 @@ namespace OpenGL
             width,
             height,
             data);
+    }
+
+    GLFrameBufferBytePtr GLRenderer::MakeFrameBuffer(
+        uint32_t width,
+        uint32_t height)
+    {
+        auto buffer = std::make_shared<GLFrameBuffer<TextureDataByte>>(
+            width,
+            height);
+
+        return buffer;
+    }
+
+    GLFrameBufferFloatPtr GLRenderer::MakeFrameBufferFloat(
+        uint32_t width,
+        uint32_t height)
+    {
+        auto buffer = std::make_shared<GLFrameBuffer<TextureDataFloat>>(
+            width,
+            height);
+
+        return buffer;
     }
 
     void GLRenderer::Draw(RenderState state)

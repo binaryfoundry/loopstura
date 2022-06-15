@@ -36,7 +36,12 @@ namespace OpenGL
         void Bind();
         void Unbind();
         void GenerateMipMaps();
+
+        void Update() override;
     };
+
+    using GLFrameBufferBytePtr = std::shared_ptr<GLFrameBuffer<TextureDataByte>>;
+    using GLFrameBufferFloatPtr = std::shared_ptr<GLFrameBuffer<TextureDataFloat>>;
 }
 }
 }

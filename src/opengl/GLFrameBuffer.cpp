@@ -43,10 +43,10 @@ namespace OpenGL
     GLFrameBuffer<T>::~GLFrameBuffer()
     {
         glDeleteFramebuffers(
-            1, gl_frame_buffer);
+            1, &gl_frame_buffer);
 
         glDeleteRenderbuffers(
-            1, gl_depth_renderbuffer);
+            1, &gl_depth_renderbuffer);
 
         glDeleteTextures(
             1, &gl_texture_handle);
@@ -182,6 +182,12 @@ namespace OpenGL
 
         glGenerateMipmap(
             GL_TEXTURE_2D);
+    }
+
+    template <typename T>
+    void GLFrameBuffer<T>::Update()
+    {
+        assert(false);
     }
 }
 }
