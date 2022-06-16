@@ -189,6 +189,9 @@ namespace OpenGL
     {
         assert(false);
     }
+
+    template class GLFrameBuffer<TextureDataByte>;
+    template class GLFrameBuffer<TextureDataFloat>;
 }
 }
 }
