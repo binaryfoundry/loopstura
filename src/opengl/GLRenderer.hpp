@@ -16,6 +16,7 @@
 #include <string>
 
 #include "instances/GLInterfaceInstance.hpp"
+#include "instances/GLEnvironmentInstance.hpp"
 #include "../properties/Property.hpp"
 
 using namespace Application::Properties;
@@ -60,7 +61,7 @@ namespace OpenGL
         std::unique_ptr<GLInterfaceInstance> interface_instance;
 
         GLFrameBufferFloatPtr environment_buffer;
-        TexturePtr environment;
+        std::unique_ptr<GLEnvironmentInstance> environment_instance;
 
         void DrawNodes(RenderState state, DisplayNode* node);
 

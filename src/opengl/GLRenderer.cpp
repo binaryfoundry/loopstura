@@ -112,7 +112,9 @@ namespace OpenGL
             1024,
             1024);
 
-        environment = MakeTexture("env2.jpg");
+        environment_instance = std::make_unique<GLEnvironmentInstance>(
+            quad_vertices,
+            quad_indices);
     }
 
     GLRenderer::~GLRenderer()
@@ -227,6 +229,19 @@ namespace OpenGL
 
     void GLRenderer::DrawNodes(RenderState state, DisplayNode* node)
     {
+        environment_buffer->Bind();
+        environment_instance->Bind(state);
+        environment_instance->Draw(state);
+        environment_instance->Unbind();
+        environment_buffer->Unbind();
+        environment_buffer->GenerateMipMaps();
+
+        glViewport(
+            state.viewport.x,
+            state.viewport.y,
+            state.viewport.z,
+            state.viewport.w);
+
         interface_instance->Bind(state);
 
         {
@@ -241,7 +256,7 @@ namespace OpenGL
 
                 if (visited.find(s) == visited.end())
                 {
-                    interface_instance->Draw(state, s, environment);
+                    interface_instance->Draw(state, s, environment_buffer);
                     visited.insert(s);
                 }
 

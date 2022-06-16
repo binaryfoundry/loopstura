@@ -24,7 +24,7 @@ namespace OpenGL
         out vec2 v_texcoord;
         void main() {
             v_texcoord = texcoord;
-            gl_Position = projection * view * vec4(v_position, 1.0);
+            gl_Position = vec4(v_position, 1.0);
         })";
 
     static std::string fragment_shader_string =
@@ -37,7 +37,7 @@ namespace OpenGL
         in vec2 v_texcoord;
         layout(location = 0) out vec4 out_color;
         void main() {
-            vec3 c = linear(v_texcoord.xyzz);
+            vec3 c = linear(abs(v_texcoord.xyy));
             out_color = vec4(gamma(c), 1.0);
         })";
 
@@ -102,23 +102,6 @@ namespace OpenGL
         glUseProgram(
             gl_shader_program);
 
-        glUniformMatrix4fv(
-            gl_projection_uniform_location,
-            1,
-            false,
-            &state.projection[0][0]);
-
-        glUniformMatrix4fv(
-            gl_view_uniform_location,
-            1,
-            false,
-            &state.view[0][0]);
-
-        glUniform4fv(
-            gl_viewport_uniform_location,
-            1,
-            &state.viewport[0]);
-
         quad_vertices->Update();
         quad_indices->Update();
 
@@ -164,11 +147,19 @@ namespace OpenGL
 
     void GLEnvironmentInstance::Draw(RenderState state)
     {
+        mat4 projection = glm::ortho<float>(
+            -1.0f,
+            1.0f,
+            1.0f,
+            -1.0f,
+            -1.0f,
+            1.0f);
+
         glUniformMatrix4fv(
             gl_projection_uniform_location,
             1,
             false,
-            &state.projection[0][0]);
+            &projection[0][0]);
 
         glUniformMatrix4fv(
             gl_view_uniform_location,
