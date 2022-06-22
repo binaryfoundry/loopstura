@@ -25,21 +25,21 @@ namespace Application
 
         renderer->RegisterRootNode(display_root);
 
-        test_button = std::make_unique<Components::ButtonComponent>(
+        test_button = std::make_shared<Components::ButtonComponent>(
             context,
             glm::vec2(600, 320),
             glm::vec2(100, 100),
             DisplayNodeSDFFunction::CIRCLE,
             display_root);
 
-        test_button_2 = std::make_unique<Components::ButtonComponent>(
+        test_button_2 = std::make_shared<Components::ButtonComponent>(
             context,
             glm::vec2(300, 320),
             glm::vec2(100, 100),
             DisplayNodeSDFFunction::BOX_ROUNDED,
             display_root);
 
-        waveform0 = std::make_unique<Components::WaveformComponent>(
+        waveform0 = std::make_shared<Components::WaveformComponent>(
             context,
             track,
             renderer,
