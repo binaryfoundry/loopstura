@@ -90,8 +90,8 @@ namespace Application
 
         *waveform_0_bg->position = glm::vec2(0, 0);
         *waveform_0_bg->alpha_margin = 1.0;
-        *waveform_0_bg->nonlinearity = -2.0;
-        *waveform_0_bg->gradient_0 = vec3(0.5);
+        *waveform_0_bg->nonlinearity = 8.0;
+        *waveform_0_bg->gradient_0 = vec3(1.0);
         *waveform_0_bg->gradient_1 = vec3(0.25);
         waveform_0_bg->sdf_func = DisplayNodeSDFFunction::CYLINDER_HORIZONTAL;
 
