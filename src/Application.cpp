@@ -63,7 +63,7 @@ namespace Application
 
         *waveform_0_ft->position = glm::vec2(0, 0);
         *waveform_0_ft->alpha_margin = 1.0;
-        *waveform_0_ft->nonlinearity = -12.0;
+        *waveform_0_ft->nonlinearity = 12.0;
         *waveform_0_ft->gradient_0 = vec3(0.0);
         *waveform_0_ft->gradient_1 = vec3(0.0);
         *waveform_0_ft->roughness = 0.0;

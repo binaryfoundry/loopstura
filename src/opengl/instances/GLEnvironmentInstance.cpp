@@ -31,7 +31,7 @@ namespace OpenGL
         #ifdef GL_ES
         precision mediump float;
         #endif
-        #define GRID_SIZE 0.25
+        #define GRID_SIZE 0.25 * 0.25
         vec3 linear(vec3 v) { return pow(v, vec3(2.2)); }
         vec3 gamma(vec3 v) { return pow(v, 1.0 / vec3(2.2)); }
         in vec2 v_texcoord;

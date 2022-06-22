@@ -127,9 +127,9 @@ namespace OpenGL
             vec2 dd = vec2(dFdx(tc.x), dFdy(tc.y));
             vec2 x0 = tc + vec2(-dd.x, 0.0);
             vec2 x1 = tc + vec2(dd.x, 0.0);
-            vec2 y0 = tc + vec2(0.0, dd.y);
-            vec2 y1 = tc + vec2(0.0, -dd.y);
-            float e = 0.05;
+            vec2 y0 = tc + vec2(0.0, -dd.y);
+            vec2 y1 = tc + vec2(0.0, dd.y);
+            float e = 0.15;
             vec3 v0 = vec3(-e, 0.0, shade(-sdf(x0)));
             vec3 v1 = vec3( e, 0.0, shade(-sdf(x1)));
             vec3 w0 = vec3(0.0, -e, shade(-sdf(y0)));
