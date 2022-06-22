@@ -28,44 +28,30 @@ namespace Properties
         T* target_value;
         T origin_value;
 
-        bool local_dirty_flag = true;
-        bool* dirty_flag;
-
-        virtual void Invalidate()
-        {
-            *dirty_flag = true;
-        }
+        std::function<void()> invalidate = [&]() {};
 
     public:
         Property(T value_)
         {
-            dirty_flag = &local_dirty_flag;
             local_value = value_;
             value_ptr = &local_value;
         }
 
         Property(T* value_)
         {
-            dirty_flag = &local_dirty_flag;
             value_ptr = value_;
             local_value = *value_ptr;
         }
 
-        Property(bool* dirty_flag) :
-            dirty_flag(dirty_flag)
-        {
-            value_ptr = &local_value;
-        }
-
-        Property(T value_, bool* dirty_flag_) :
-            dirty_flag(dirty_flag_)
+        Property(T value_, std::function<void()> invalidate) :
+            invalidate(invalidate)
         {
             local_value = value_;
             value_ptr = &local_value;
         }
 
-        Property(T* value_, bool* dirty_flag_) :
-            dirty_flag(dirty_flag_)
+        Property(T* value_, std::function<void()> invalidate) :
+            invalidate(invalidate)
         {
             value_ptr = value_;
         }
@@ -77,7 +63,7 @@ namespace Properties
 
         void Set(T value)
         {
-            (*value_ptr) = value; Invalidate();
+            (*value_ptr) = value; invalidate();
         }
 
         void* Get()
@@ -85,10 +71,10 @@ namespace Properties
             return value_ptr;
         }
 
-        void operator =(const T rhs) { (*value_ptr) = rhs; Invalidate(); }
-        void operator+=(const T rhs) { (*value_ptr) += rhs; Invalidate(); }
-        void operator*=(const T rhs) { (*value_ptr) *= rhs; Invalidate(); }
-        void operator/=(const T rhs) { (*value_ptr) /= rhs; Invalidate(); }
+        void operator =(const T rhs) { (*value_ptr) = rhs; invalidate(); }
+        void operator+=(const T rhs) { (*value_ptr) += rhs; invalidate(); }
+        void operator*=(const T rhs) { (*value_ptr) *= rhs; invalidate(); }
+        void operator/=(const T rhs) { (*value_ptr) /= rhs; invalidate(); }
     };
 
     template<class T>

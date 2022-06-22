@@ -36,6 +36,7 @@ namespace Application
 
         void Init();
 
+        void Invalidate();
         std::vector<DisplayNode*> children;
 
     public:

@@ -39,13 +39,30 @@ namespace Application
             parent->children.push_back(this);
         }
 
+        auto invalidate = [&]() {
+            Invalidate();
+        };
+
         position = std::make_shared<Property<vec2>>(
             vec2(),
-            &dirty_flag);
+            invalidate);
 
         scale = std::make_shared<Property<vec2>>(
             vec2(1.0, 1.0),
-            &dirty_flag);
+            invalidate);
+    }
+
+    void DisplayNode::Invalidate()
+    {
+        dirty_flag = true;
+
+        for (auto& child : children)
+        {
+            if (!child->dirty_flag)
+            {
+                child->Invalidate();
+            }
+        }
     }
 
     void DisplayNode::Validate()
