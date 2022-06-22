@@ -45,11 +45,11 @@ namespace Application
             renderer,
             display_root);
 
-        //context->property_manager->AddTween(
-        //    test_button->brightness,
-        //    0.0f,
-        //    1.0f,
-        //    EasingFunction::EaseOutCubic);
+        context->property_manager->AddTween(
+            test_button->Root()->position,
+            glm::vec2(600, 420),
+            1.0f,
+            EasingFunction::EaseOutCubic);
     }
 
     Application::~Application()
@@ -128,7 +128,7 @@ namespace Application
 
         ImGui::End();
 
-        const float clamped_frame_duration = std::max(fps_timer.End(), 1.0f / 20.0f);
+        const float clamped_frame_duration = std::min(fps_timer.End(), 1.0f / 20.0f);
 
         context->Update(clamped_frame_duration);
 
