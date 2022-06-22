@@ -12,14 +12,14 @@ namespace Components
         Component(parent),
         track(track)
     {
+        *root->position = glm::vec2(0, 0);
+
         waveform_texture = renderer->MakeTextureFloat(
             4096, 1);
 
         waveform_0_ft = std::make_shared<DisplayNode>(
             context,
             root);
-
-        *root->position = glm::vec2(0, 0);
 
         *waveform_0_ft->alpha_margin = 1.0;
         *waveform_0_ft->nonlinearity = 12.0;
