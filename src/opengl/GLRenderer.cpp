@@ -109,8 +109,8 @@ namespace OpenGL
             quad_indices);
 
         environment_buffer = MakeFrameBufferFloat(
-            1024,
-            1024);
+            2048,
+            2048);
 
         environment_instance = std::make_unique<GLEnvironmentInstance>(
             quad_vertices,
