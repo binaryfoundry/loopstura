@@ -50,14 +50,14 @@ namespace Application
 
     void DisplayNode::Validate()
     {
-        if (parent != nullptr)
-        {
-            parent->Validate();
-        }
-
         if (!dirty_flag)
         {
             return;
+        }
+
+        if (parent != nullptr)
+        {
+            parent->Validate();
         }
 
         transform = mat4();
@@ -67,13 +67,13 @@ namespace Application
             transform = parent->transform;
         }
 
-        transform = glm::translate(
-            transform,
-            vec3(position->Value(), 1.0f));
-
         transform = glm::scale(
             transform,
             vec3(scale->Value(), 1.0f));
+
+        transform = glm::translate(
+            transform,
+            vec3(position->Value(), 0.0f));
 
         dirty_flag = false;
     }
