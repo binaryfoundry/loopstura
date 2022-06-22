@@ -9,7 +9,7 @@ namespace Components
         glm::vec2 position,
         glm::vec2 scale,
         DisplayNodeSDFFunction sdf_func,
-        std::shared_ptr<DisplayNode> parent) :
+        DisplayNodePtr parent) :
         Component(parent)
     {
         *root->position = position;

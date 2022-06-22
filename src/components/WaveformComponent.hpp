@@ -23,7 +23,7 @@ namespace Components
             ContextPtr context,
             std::shared_ptr<Track> track,
             std::shared_ptr<Renderer> renderer,
-            std::shared_ptr<DisplayNode> parent);
+            DisplayNodePtr parent);
 
         void Update(RenderState state) override;
     };
