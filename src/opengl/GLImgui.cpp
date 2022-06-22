@@ -172,6 +172,9 @@ namespace OpenGL
         ImGui::Render();
         ImDrawData* draw_data = ImGui::GetDrawData();
 
+        glActiveTexture(
+            GL_TEXTURE0);
+
         glUseProgram(
             gl_shader_program);
 
