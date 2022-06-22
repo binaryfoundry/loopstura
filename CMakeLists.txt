@@ -19,6 +19,7 @@ set(SOURCES
     src/Math.cpp
     src/Application.cpp
     src/Context.cpp
+    src/Component.cpp
     src/Renderer.cpp
     src/Texture.cpp
     src/DisplayNode.cpp
@@ -30,11 +31,20 @@ set(HEADERS
     src/Math.hpp
     src/Application.hpp
     src/Context.hpp
+    src/Component.hpp
     src/Renderer.hpp
     src/Texture.hpp
     src/DisplayNode.hpp
     src/MappedFile.hpp
     src/Timer.hpp)
+
+set(SOURCES_COMPONENTS
+    src/components/ButtonComponent.cpp
+    src/components/WaveformComponent.cpp)
+
+set(HEADERS_COMPONENTS
+    src/components/ButtonComponent.hpp
+    src/components/WaveformComponent.hpp)
 
 set(SOURCES_MAIN
     src/sdl/SDL.cpp
@@ -140,6 +150,9 @@ file(GLOB RESOURCES "${PROJECT_SOURCE_DIR}/resources/*.*")
 SOURCE_GROUP("src" FILES ${SOURCES})
 SOURCE_GROUP("src" FILES ${HEADERS})
 
+SOURCE_GROUP("src\\components" FILES ${SOURCES_COMPONENTS})
+SOURCE_GROUP("src\\components" FILES ${HEADERS_COMPONENTS})
+
 SOURCE_GROUP("src\\properties" FILES ${SOURCES_PROPERTIES})
 SOURCE_GROUP("src\\properties" FILES ${HEADERS_PROPERTIES})
 
@@ -211,6 +224,8 @@ add_executable(
     ${RESOURCES}
     ${SOURCES}
     ${HEADERS}
+    ${SOURCES_COMPONENTS}
+    ${HEADERS_COMPONENTS}
     ${SOURCES_MAIN}
     ${HEADERS_MAIN}
     ${SOURCES_PROPERTIES}

@@ -4,6 +4,7 @@
 #include <string>
 
 #include "Context.hpp"
+#include "Component.hpp"
 #include "DisplayNode.hpp"
 #include "Renderer.hpp"
 #include "Timer.hpp"
@@ -20,19 +21,16 @@ namespace Application
         const std::shared_ptr<Context> context;
         const std::shared_ptr<Renderer> renderer;
 
-        std::unique_ptr<Track> track;
-
         bool dock_created = false;
         void DrawDock(bool* p_open);
 
         DisplayNodePtr display_root;
-        DisplayNodePtr test_button;
-        DisplayNodePtr test_button_2;
 
-        DisplayNodePtr waveform_0_bg;
-        DisplayNodePtr waveform_0;
-        DisplayNodePtr waveform_0_ft;
-        TextureRGBA32FPtr waveform_texture;
+        ComponentPtr test_button;
+        ComponentPtr test_button_2;
+
+        std::shared_ptr<Track> track;
+        ComponentPtr waveform0;
 
         Timer fps_timer;
 
