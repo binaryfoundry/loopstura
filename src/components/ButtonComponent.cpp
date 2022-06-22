@@ -13,12 +13,12 @@ namespace Components
         Component(parent)
     {
         *root->position = position;
-        *root->scale = scale;
 
         button = std::make_shared<DisplayNode>(
             context,
             root);
 
+        *button->scale = scale;
         *button->brightness = 0.0;
         *button->alpha_margin = 1.0;
         *button->gradient_0 = vec3(1.0, 0.843, 0.0) * 0.75f;
