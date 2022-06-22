@@ -85,10 +85,10 @@ namespace Properties
             return value_ptr;
         }
 
-        void operator =(const T&& rhs) { (*value_ptr) = rhs; Invalidate(); }
-        void operator+=(const T&& rhs) { (*value_ptr) += rhs; Invalidate(); }
-        void operator*=(const T&& rhs) { (*value_ptr) *= rhs; Invalidate(); }
-        void operator/=(const T&& rhs) { (*value_ptr) /= rhs; Invalidate(); }
+        void operator =(const T rhs) { (*value_ptr) = rhs; Invalidate(); }
+        void operator+=(const T rhs) { (*value_ptr) += rhs; Invalidate(); }
+        void operator*=(const T rhs) { (*value_ptr) *= rhs; Invalidate(); }
+        void operator/=(const T rhs) { (*value_ptr) /= rhs; Invalidate(); }
     };
 
     template<class T>
