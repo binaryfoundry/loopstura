@@ -21,6 +21,7 @@ namespace OpenGL
         GLuint gl_shader_program = 0;
 
         GLuint gl_projection_uniform_location = 0;
+        GLuint gl_viewport_uniform_location = 0;
 
         GLuint gl_sampler_state = 0;
 

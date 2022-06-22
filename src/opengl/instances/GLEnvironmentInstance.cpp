@@ -17,6 +17,7 @@ namespace OpenGL
         precision mediump float;
         #endif
         uniform mat4 projection;
+        uniform vec4 viewport;
         layout(location = 0) in vec3 v_position;
         layout(location = 1) in vec2 texcoord;
         out vec2 v_texcoord;
@@ -30,13 +31,24 @@ namespace OpenGL
         #ifdef GL_ES
         precision mediump float;
         #endif
+        #define GRID_SIZE 0.25
         vec3 linear(vec3 v) { return pow(v, vec3(2.2)); }
         vec3 gamma(vec3 v) { return pow(v, 1.0 / vec3(2.2)); }
         in vec2 v_texcoord;
         layout(location = 0) out vec4 out_color;
+        uniform vec4 viewport;
+        float grid2(in vec2 uv, in float scale) {
+            vec2 tile = floor(uv/scale);
+            vec2 tile_coord = fract(uv/scale) * 2.0 - 1.0;
+            float max_norm = max(abs(tile_coord.x), abs(tile_coord.y));
+            float square = smoothstep(0.5 - 2.0 * fwidth(max_norm), 0.5, max_norm);
+            return(square);
+        }
         void main() {
-            vec3 c = linear(abs(v_texcoord.xyy));
-            out_color = vec4(gamma(c), 1.0);
+            vec2 uv = gl_FragCoord.xy / min(viewport.z, viewport.w);
+            uv = uv - 0.5f;
+            float result = 1.0 - grid2(uv, GRID_SIZE);
+            out_color = vec4(gamma(vec3(result)), 1.0);
         })";
 
     GLEnvironmentInstance::GLEnvironmentInstance(
@@ -52,6 +64,10 @@ namespace OpenGL
         gl_projection_uniform_location = glGetUniformLocation(
             gl_shader_program,
             "projection");
+
+        gl_viewport_uniform_location = glGetUniformLocation(
+            gl_shader_program,
+            "viewport");
 
         glGenSamplers(
             1, &gl_sampler_state);
@@ -150,6 +166,11 @@ namespace OpenGL
             1,
             false,
             &projection[0][0]);
+
+        glUniform4fv(
+            gl_viewport_uniform_location,
+            1,
+            &state.viewport[0]);
 
         glDrawElements(
             GL_TRIANGLES,
