@@ -53,6 +53,8 @@ namespace OpenGL
             uint32_t height);
 
     protected:
+        void SetViewport(RenderState state);
+
         std::unique_ptr<GLImgui> imgui;
 
         std::shared_ptr<GLStream<float>> quad_vertices;

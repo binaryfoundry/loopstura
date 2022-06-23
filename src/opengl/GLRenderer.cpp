@@ -198,16 +198,23 @@ namespace OpenGL
         return buffer;
     }
 
-    void GLRenderer::Draw(RenderState state)
+    void GLRenderer::SetViewport(
+        RenderState state)
     {
-        glDisable(GL_CULL_FACE);
-        glCullFace(GL_BACK);
-
         glViewport(
             static_cast<uint32_t>(state.viewport.x),
             static_cast<uint32_t>(state.viewport.y),
             static_cast<uint32_t>(state.viewport.z),
             static_cast<uint32_t>(state.viewport.w));
+    }
+
+    void GLRenderer::Draw(RenderState state)
+    {
+        glDisable(GL_CULL_FACE);
+        glCullFace(GL_BACK);
+
+        SetViewport(
+            state);
 
         glClearColor(
             1, 1, 1, 1);
@@ -236,11 +243,8 @@ namespace OpenGL
         environment_buffer->Unbind();
         environment_buffer->GenerateMipMaps();
 
-        glViewport(
-            state.viewport.x,
-            state.viewport.y,
-            state.viewport.z,
-            state.viewport.w);
+        SetViewport(
+            state);
 
         interface_instance->Bind(state);
 
