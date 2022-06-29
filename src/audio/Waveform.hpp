@@ -10,8 +10,6 @@ class Waveform
 private:
     size_t size;
 
-    void Slice(double position, std::vector<float>& data, std::vector<float>& window);
-
 public:
     Waveform(
         const size_t size);
@@ -24,7 +22,11 @@ public:
         return size;
     }
 
-    void Resize(const size_t size);
+    void Resize(
+        const size_t size);
 
-    void Fill(double position, const float speed, std::vector<float>& window);
+    void Fill(
+        const double position,
+        const float speed,
+        std::vector<float>& window);
 };

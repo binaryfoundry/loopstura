@@ -10,7 +10,8 @@ Waveform::Waveform(
     Resize(size);
 }
 
-void Waveform::Resize(const size_t new_size)
+void Waveform::Resize(
+    const size_t new_size)
 {
     size = new_size;
     x_data.resize(size);
@@ -18,7 +19,10 @@ void Waveform::Resize(const size_t new_size)
     max_data.resize(size);
 }
 
-void Waveform::Fill(double position, const float speed, std::vector<float>& window)
+void Waveform::Fill(
+    const double position,
+    const float speed,
+    std::vector<float>& window)
 {
     const double start = position * min_data.size();
 
