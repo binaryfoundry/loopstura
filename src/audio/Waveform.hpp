@@ -26,5 +26,5 @@ public:
 
     void Resize(const size_t size);
 
-    void Fill(double position, std::vector<float>& window);
+    void Fill(double position, const float speed, std::vector<float>& window);
 };

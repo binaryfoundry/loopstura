@@ -61,7 +61,12 @@ namespace Components
 
         const double waveform_position = track->PositionNormalized();
         const std::shared_ptr<Waveform> waveform = track->Waveform();
-        waveform->Fill(waveform_position, *waveform_texture->data);
+
+        waveform->Fill(
+            waveform_position,
+            track->speed_scale,
+            *waveform_texture->data);
+
         waveform_texture->Invalidate();
     }
 }
