@@ -13,12 +13,7 @@ public:
     WAVFile(const std::string path);
     virtual ~WAVFile();
 
-    template<typename T>
-    T const ReadSample(const double pos)
-    {
-        const T* val = (T*)(data + position_to_index(pos));
-        return *val;
-    }
+    double const ReadSample(const double pos);
 
     uint32_t const SampleRate() const
     {

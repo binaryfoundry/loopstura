@@ -74,6 +74,40 @@ void WAVFile::ReadHeader()
     return;
 }
 
+double const WAVFile::ReadSample(const double pos)
+{
+    const size_t num_bytes = bits_per_sample / 8;
+    char* src = data + position_to_index(pos);
+
+    int8_t val8 = 0;
+    int16_t val16 = 0;
+    int32_t val32 = 0;
+    int64_t val64 = 0;
+
+    switch (num_bytes)
+    {
+    case 1:
+        memcpy(&val8, src, 1);
+        return static_cast<double>(val8);
+        break;
+    case 2:
+        memcpy(&val16, src, 2);
+        return static_cast<double>(val16);
+        break;
+    case 4:
+        memcpy(&val32, src, 4);
+        return static_cast<double>(val32);
+        break;
+    case 8:
+        memcpy(&val64, src, 8);
+        return static_cast<double>(val64);
+        break;
+    default:
+        throw std::runtime_error("Invalid number of bytes in int");
+    };
+    return 0.0;
+}
+
 void WAVFile::DrawWaveform()
 {
     const double scale = static_cast<double>(waveform->Size()) / channel_size;
@@ -96,9 +130,12 @@ void WAVFile::DrawWaveform()
         float s_max = 0.0f;
         float s_min = 0.0f;
 
-        for (uint16_t k = 0; k < num_channels; k++)
+        for (size_t k = 0; k < num_channels; k++)
         {
-            const float sample = static_cast<float>(ReadSample<int16_t>(i + k)) / max_int16_t;
+            const double pos = static_cast<double>(i + k);
+            const float sample =
+                static_cast<float>(ReadSample(pos)) /
+                static_cast<float>(max_int16_t);
 
             s_max = std::min(sample, 0.0f);
             s_min = std::max(sample, 0.0f);

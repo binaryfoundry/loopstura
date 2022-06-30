@@ -46,18 +46,18 @@ void Track::Generate(uint16_t* buffer, int length)
 
         const uint32_t position_int = static_cast<uint32_t>(position_whole);
 
-        const int16_t samp0 = wav_file->ReadSample<int16_t>(position_int - 1);
-        const int16_t samp1 = wav_file->ReadSample<int16_t>(position_int + 0);
-        const int16_t samp2 = wav_file->ReadSample<int16_t>(position_int + 1);
-        const int16_t samp3 = wav_file->ReadSample<int16_t>(position_int + 2);
+        const double samp0 = wav_file->ReadSample(position_int - 1);
+        const double samp1 = wav_file->ReadSample(position_int + 0);
+        const double samp2 = wav_file->ReadSample(position_int + 1);
+        const double samp3 = wav_file->ReadSample(position_int + 2);
 
-        const int16_t in_sample = static_cast<int16_t>(CatmullRomInterpolate(
+        const double in_sample = CatmullRomInterpolate(
             samp0, samp1, samp2, samp3,
-            position_frac));
+            position_frac);
 
         position += speed_scale;
 
-        processing_input_buffer[processing_input_buffer_pointer++] = static_cast<double>(in_sample);
+        processing_input_buffer[processing_input_buffer_pointer++] = in_sample;
         if (processing_input_buffer_pointer >= PROCESSING_BUFFER_SIZE)
         {
             // Wrap the circular buffer
