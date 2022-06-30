@@ -20,9 +20,7 @@ private:
     std::atomic<size_t> tail;
 
 public:
-    RingBuffer()
-    {
-    }
+    RingBuffer() = default;
 
     bool Empty()
     {
