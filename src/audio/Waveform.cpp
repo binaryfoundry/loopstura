@@ -26,12 +26,15 @@ void Waveform::Fill(
 {
     const double start = position * min_data.size();
 
-    for (size_t i = 0; i < window.size() / 4; i++)
+    // Window is RGBA32F texture.
+    const uint16_t window_pitch = 4;
+
+    for (size_t i = 0; i < window.size() / window_pitch; i++)
     {
         const uint32_t offset = static_cast<uint32_t>(
             std::floor(start + (speed * i)));
 
-        window[(i * 4) + 0] = max_data[(offset) % size];
-        window[(i * 4) + 1] = -min_data[(offset) % size];
+        window[(i * window_pitch) + 0] = max_data[(offset) % size];
+        window[(i * window_pitch) + 1] = -min_data[(offset) % size];
     }
 }
