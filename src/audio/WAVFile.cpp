@@ -93,10 +93,16 @@ void WAVFile::DrawWaveform()
         // Position in waveform
         const size_t j = static_cast<size_t>(scale * i);
 
-        const float sample = static_cast<float>(ReadSample<int16_t>(i)) / max_int16_t;
+        float s_max = 0.0f;
+        float s_min = 0.0f;
 
-        const float s_max = std::min(sample, 0.0f);
-        const float s_min = std::max(sample, 0.0f);
+        for (uint16_t k = 0; k < num_channels; k++)
+        {
+            const float sample = static_cast<float>(ReadSample<int16_t>(i + k)) / max_int16_t;
+
+            s_max = std::min(sample, 0.0f);
+            s_min = std::max(sample, 0.0f);
+        }
 
         wmax[j] += s_max * s_max;
         wmin[j] += s_min * s_min;
