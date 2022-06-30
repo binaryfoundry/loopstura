@@ -28,6 +28,8 @@ class Track
 
 public:
     Track();
+    Track(const Track&) = delete;
+
     virtual ~Track();
 
     virtual void InitComplete() = 0;

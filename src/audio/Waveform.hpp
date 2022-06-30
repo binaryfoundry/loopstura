@@ -13,6 +13,7 @@ private:
 public:
     Waveform(
         const size_t size);
+    Waveform(const Waveform&) = delete;
 
     std::vector<float> x_data;
     std::vector<float> min_data;

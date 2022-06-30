@@ -27,6 +27,8 @@ private:
 
 public:
     Worker(std::function<void()>&& job);
+    Worker(const Worker&) = delete;
+
     virtual ~Worker();
 
     void Terminate();

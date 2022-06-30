@@ -45,6 +45,9 @@ namespace Properties
         }
 
     public:
+        Animator() = default;
+        Animator(const Animator&) = delete;
+
         void AddTween(
             std::shared_ptr<Property<T>> prop,
             float duration,

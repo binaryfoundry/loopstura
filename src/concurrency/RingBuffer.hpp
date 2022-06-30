@@ -21,6 +21,7 @@ private:
 
 public:
     RingBuffer() = default;
+    RingBuffer(const RingBuffer&) = delete;
 
     bool Empty()
     {

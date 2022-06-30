@@ -56,6 +56,8 @@ namespace Properties
             value_ptr = value_;
         }
 
+        Property(const Property&) = delete;
+
         T Value()
         {
             return *value_ptr;
