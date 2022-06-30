@@ -154,12 +154,12 @@ void Track::ProcessFFT(
         synthesis_frequencies[n] = 0;
     }
 
-    const double pitch_shift = pow(2.0, pitch_shift_semitones / 12.0);
+    const float pitch_shift = powf(2.0f, pitch_shift_semitones / 12.0f);
 
     // Handle pitch shift, storing frequencies in to new bins.
     for (int n = 0; n <= FFT_SIZE / 2; n++)
     {
-        const uint32_t new_bin = floorf(n * pitch_shift + 0.5);
+        const uint32_t new_bin = static_cast<uint32_t>(floorf((pitch_shift * n) + 0.5f));
 
         // Ignore any bins above Nyquist
         if (new_bin <= FFT_SIZE / 2)
