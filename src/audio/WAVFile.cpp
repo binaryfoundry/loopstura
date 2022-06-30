@@ -74,10 +74,12 @@ void WAVFile::ReadHeader()
     return;
 }
 
-double const WAVFile::ReadSample(const double pos)
+double const WAVFile::ReadSample(
+    const size_t pos,
+    const size_t channel)
 {
     const size_t num_bytes = bits_per_sample / 8;
-    char* src = data + position_to_index(pos);
+    char* src = data + position_to_index(pos, channel);
 
     int8_t val8 = 0;
     int16_t val16 = 0;
@@ -132,9 +134,8 @@ void WAVFile::DrawWaveform()
 
         for (size_t k = 0; k < num_channels; k++)
         {
-            const double pos = static_cast<double>(i + k);
             const float sample =
-                static_cast<float>(ReadSample(pos)) /
+                static_cast<float>(ReadSample(i, k)) /
                 static_cast<float>(max_int16_t);
 
             s_max = std::min(sample, 0.0f);

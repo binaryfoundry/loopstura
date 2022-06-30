@@ -45,11 +45,12 @@ void Track::Generate(uint16_t* buffer, int length)
         const double position_frac = modf(position, &position_whole);
 
         const uint32_t position_int = static_cast<uint32_t>(position_whole);
+        const size_t channel = 0;
 
-        const double samp0 = wav_file->ReadSample(position_int - 1);
-        const double samp1 = wav_file->ReadSample(position_int + 0);
-        const double samp2 = wav_file->ReadSample(position_int + 1);
-        const double samp3 = wav_file->ReadSample(position_int + 2);
+        const double samp0 = wav_file->ReadSample(position_int - 1, channel);
+        const double samp1 = wav_file->ReadSample(position_int + 0, channel);
+        const double samp2 = wav_file->ReadSample(position_int + 1, channel);
+        const double samp3 = wav_file->ReadSample(position_int + 2, channel);
 
         const double in_sample = CatmullRomInterpolate(
             samp0, samp1, samp2, samp3,

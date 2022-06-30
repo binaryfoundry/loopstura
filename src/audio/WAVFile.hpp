@@ -13,7 +13,9 @@ public:
     WAVFile(const std::string path);
     virtual ~WAVFile();
 
-    double const ReadSample(const double pos);
+    double const ReadSample(
+        const size_t pos,
+        const size_t channel);
 
     uint32_t const SampleRate() const
     {
@@ -33,10 +35,13 @@ public:
     std::shared_ptr<Waveform> waveform;
 
 private:
-    inline size_t position_to_index(double pos)
+    inline size_t position_to_index(
+        const size_t pos,
+        const size_t channel)
     {
-        return (static_cast<size_t>(pos) * num_channels *
-            (bits_per_sample / 8)) % subchunk2_size;
+        const size_t index = pos * num_channels * (bits_per_sample / 8);
+        const size_t channel_offset = channel * (bits_per_sample / 8);
+        return (index + channel_offset) % subchunk2_size;
     }
 
     void DrawWaveform();
