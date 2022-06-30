@@ -77,12 +77,6 @@ namespace Application
             -2,
             2);
 
-        ImGui::SliderInt(
-            "Hop Size",
-            &track->hop_size,
-            64,
-            1024);
-
         ImGui::SliderFloat(
             "Pitch Shift",
             &track->pitch_shift_semitones,

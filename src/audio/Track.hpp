@@ -33,7 +33,7 @@ public:
     virtual void InitComplete() = 0;
 
     float speed_scale = 1.0;
-    int hop_size = 256;
+
     float pitch_shift_semitones = 0.0;
 
     void Generate(uint16_t* buffer, int length);
@@ -52,6 +52,7 @@ public:
 
 protected:
     double position = 0;
+    uint32_t hop_size = 256;
 
     int hop_size_last = -1;
 
