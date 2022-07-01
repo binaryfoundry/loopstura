@@ -12,9 +12,9 @@ void audio_callback(void* user_data, Uint8* raw_buffer, int bytes)
 SDLTrack::SDLTrack()
 {
     SDL_zero(audio_spec);
-    audio_spec.freq = SAMPLE_FREQ;
+    audio_spec.freq = DEVICE_SAMPLE_FREQ;
     audio_spec.format = AUDIO_S16SYS;
-    audio_spec.channels = NUM_CHANNELS;
+    audio_spec.channels = DEVICE_NUM_CHANNELS;
     audio_spec.samples = 2048;
     audio_spec.callback = audio_callback;
     audio_spec.userdata = this;

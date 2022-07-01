@@ -39,13 +39,14 @@ Track::Track()
 
 void Track::Generate(uint16_t* buffer, int length)
 {
+    const size_t channel = 0;
+
     for (int32_t i = 0; i < length; i++)
     {
         double position_whole;
         const double position_frac = modf(position, &position_whole);
 
         const uint32_t position_int = static_cast<uint32_t>(position_whole);
-        const size_t channel = 0;
 
         const double samp0 = wav_file->ReadSample(position_int - 1, channel);
         const double samp1 = wav_file->ReadSample(position_int + 0, channel);
@@ -102,13 +103,9 @@ void Track::Generate(uint16_t* buffer, int length)
 
         const uint16_t out_sample = static_cast<uint16_t>(out);
 
-        const uint32_t out_idx = i * NUM_CHANNELS;
+        const uint32_t out_idx = (i * DEVICE_NUM_CHANNELS) + channel;
         buffer[i] = out_sample;
     }
-
-    //Queue(
-    //    &sample,
-    //    sizeof(uint16_t));
 }
 
 void Track::ProcessFFT(

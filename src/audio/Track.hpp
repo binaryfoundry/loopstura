@@ -10,10 +10,10 @@
 #include "../signal/FFT.hpp"
 #include "../concurrency/RingBuffer.hpp"
 
-const uint8_t NUM_CHANNELS = 1;
+const uint8_t DEVICE_NUM_CHANNELS = 1;
+const uint32_t DEVICE_SAMPLE_FREQ = 44100;
+
 const uint32_t FFT_SIZE = 1024;
-const uint32_t INPUT_BUFFER_SIZE = 16384;
-const uint32_t SAMPLE_FREQ = 44100;
 const size_t PROCESSING_BUFFER_SIZE = 16384;
 
 constexpr bool IS_POW_2(int v)
