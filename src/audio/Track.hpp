@@ -10,8 +10,11 @@
 #include "../signal/FFT.hpp"
 #include "../concurrency/RingBuffer.hpp"
 
-const uint8_t DEVICE_NUM_CHANNELS = 1;
-const uint32_t DEVICE_SAMPLE_FREQ = 44100;
+
+namespace Application
+{
+namespace Audio
+{
 
 const uint32_t FFT_SIZE = 1024;
 const size_t PROCESSING_BUFFER_SIZE = 16384;
@@ -31,8 +34,6 @@ public:
     Track(const Track&) = delete;
 
     virtual ~Track();
-
-    virtual void InitComplete() = 0;
 
     float speed_scale = 1.0;
 
@@ -86,3 +87,6 @@ protected:
         std::array<double, PROCESSING_BUFFER_SIZE> const& in_buffer, const size_t in_pointer,
         std::array<double, PROCESSING_BUFFER_SIZE>& out_buffer, const size_t out_pointer);
 };
+
+}
+}

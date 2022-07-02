@@ -1,16 +1,29 @@
-#include "SDLTrack.hpp"
+#include "SDLAudio.hpp"
+
+#include <iostream>
+
+namespace Application
+{
+namespace SDL
+{
 
 void audio_callback(void* user_data, Uint8* raw_buffer, int bytes)
 {
     uint16_t* buffer = (uint16_t*)raw_buffer;
     int length = bytes / 2; // 2 bytes per sample for AUDIO_S16SYS
-    SDLTrack* obj = (SDLTrack*)user_data;
+    SDLAudio* obj = (SDLAudio*)user_data;
 
     obj->Generate(buffer, length);
 }
 
-SDLTrack::SDLTrack()
+SDLAudio::SDLAudio()
 {
+    int count = SDL_GetNumAudioDevices(0);
+    for (int i = 0; i < count; ++i)
+    {
+        std::cout << "Device " << i << ": " << SDL_GetAudioDeviceName(i, 0) << std::endl;
+    }
+
     SDL_zero(audio_spec);
     audio_spec.freq = DEVICE_SAMPLE_FREQ;
     audio_spec.format = AUDIO_S16SYS;
@@ -27,15 +40,18 @@ SDLTrack::SDLTrack()
         0);
 }
 
-SDLTrack::~SDLTrack()
+SDLAudio::~SDLAudio()
 {
     SDL_CloseAudioDevice(
         audio_device);
 }
 
-void SDLTrack::InitComplete()
+void SDLAudio::InitComplete()
 {
     SDL_PauseAudioDevice(
         audio_device,
         0);
+}
+
+}
 }

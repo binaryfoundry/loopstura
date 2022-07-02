@@ -6,6 +6,13 @@
 #include "../Math.hpp"
 #include "../signal/Windowing.hpp"
 
+namespace Application
+{
+namespace Audio
+{
+
+const uint8_t DEVICE_NUM_CHANNELS = 1;
+
 double wrap_phase(double phaseIn)
 {
     if (phaseIn >= 0)
@@ -242,4 +249,7 @@ Track::~Track()
 void Track::SetPaused(bool value)
 {
     paused = value;
+}
+
+}
 }

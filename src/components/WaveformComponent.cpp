@@ -6,7 +6,7 @@ namespace Components
 {
     WaveformComponent::WaveformComponent(
         ContextPtr context,
-        std::shared_ptr<Track> track,
+        std::shared_ptr<Audio::Track> track,
         std::shared_ptr<Renderer> renderer,
         DisplayNodePtr parent) :
         Component(parent),
@@ -60,7 +60,7 @@ namespace Components
         *waveform_0_ft->scale = glm::vec2(state.viewport.z, 200);
 
         const double waveform_position = track->PositionNormalized();
-        const std::shared_ptr<Waveform> waveform = track->Waveform();
+        const std::shared_ptr<Audio::Waveform> waveform = track->Waveform();
 
         waveform->Fill(
             waveform_position,

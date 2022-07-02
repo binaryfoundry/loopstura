@@ -3,6 +3,11 @@
 #include <cmath>
 #include <iostream>
 
+namespace Application
+{
+namespace Audio
+{
+
 Waveform::Waveform(
     const size_t size) :
     size(size)
@@ -37,4 +42,7 @@ void Waveform::Fill(
         window[(i * window_pitch) + 0] = max_data[(offset) % size];
         window[(i * window_pitch) + 1] = -min_data[(offset) % size];
     }
+}
+
+}
 }

@@ -9,6 +9,7 @@
 #include "Renderer.hpp"
 #include "Timer.hpp"
 
+#include "audio/Device.hpp"
 #include "audio/Track.hpp"
 
 using namespace Application::Rendering;
@@ -29,7 +30,8 @@ namespace Application
         ComponentPtr test_button;
         ComponentPtr test_button_2;
 
-        std::shared_ptr<Track> track;
+        std::unique_ptr<Audio::Device> device;
+        std::shared_ptr<Audio::Track> track;
         ComponentPtr waveform0;
 
         Timer fps_timer;

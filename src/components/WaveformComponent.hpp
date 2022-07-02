@@ -16,12 +16,12 @@ namespace Components
         DisplayNodePtr waveform_0_ft;
         TextureRGBA32FPtr waveform_texture;
 
-        std::shared_ptr<Track> track;
+        std::shared_ptr<Audio::Track> track;
 
     public:
         WaveformComponent(
             ContextPtr context,
-            std::shared_ptr<Track> track,
+            std::shared_ptr<Audio::Track> track,
             std::shared_ptr<Renderer> renderer,
             DisplayNodePtr parent);
 

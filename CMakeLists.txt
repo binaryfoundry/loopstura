@@ -51,14 +51,14 @@ set(SOURCES_MAIN
     src/sdl/SDLMain.cpp
     src/sdl/SDLFile.cpp
     src/sdl/SDLImgui.cpp
-    src/sdl/SDLTrack.cpp)
+    src/sdl/SDLAudio.cpp)
 
 set(HEADERS_MAIN
     src/sdl/SDL.hpp
     src/sdl/SDLMain.hpp
     src/sdl/SDLFile.hpp
     src/sdl/SDLImgui.hpp
-    src/sdl/SDLTrack.hpp)
+    src/sdl/SDLAudio.hpp)
 
 set(SOURCES_PROPERTIES
     src/properties/Easing.cpp
@@ -73,11 +73,13 @@ set(HEADERS_PROPERTIES
     src/properties/Manager.hpp)
 
 set(SOURCES_AUDIO
+    src/audio/Device.cpp
     src/audio/Track.cpp
     src/audio/Waveform.cpp
     src/audio/WAVFile.hpp)
 
 set(HEADERS_AUDIO
+    src/audio/Device.hpp
     src/audio/Track.hpp
     src/audio/Waveform.hpp
     src/audio/WAVFile.cpp)

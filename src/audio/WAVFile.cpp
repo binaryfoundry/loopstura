@@ -1,5 +1,10 @@
 #include "WAVFile.hpp"
 
+namespace Application
+{
+namespace Audio
+{
+
 uint16_t swap_endian16(const uint16_t val)
 {
     return (val << 8) | (val >> 8);
@@ -166,4 +171,7 @@ void WAVFile::DrawWaveform()
         wmax[i] = wmax[i] / global_max;
         wmin[i] = -wmin[i] / global_min;
     }
+}
+
+}
 }

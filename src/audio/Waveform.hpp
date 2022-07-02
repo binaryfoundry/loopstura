@@ -5,6 +5,11 @@
 
 #include "../Texture.hpp"
 
+namespace Application
+{
+namespace Audio
+{
+
 class Waveform
 {
 private:
@@ -31,3 +36,6 @@ public:
         const float speed,
         std::vector<float>& window);
 };
+
+}
+}

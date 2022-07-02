@@ -7,6 +7,11 @@
 #include "Waveform.hpp"
 #include "../MappedFile.hpp"
 
+namespace Application
+{
+namespace Audio
+{
+
 class WAVFile
 {
 public:
@@ -67,3 +72,6 @@ private:
 
     char* data;
 };
+
+}
+}

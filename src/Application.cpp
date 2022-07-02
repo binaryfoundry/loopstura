@@ -8,7 +8,7 @@
 #include "imgui/imgui.h"
 #include "imgui/imgui_internal.h"
 
-#include "sdl/SDLTrack.hpp"
+#include "sdl/SDLAudio.hpp"
 
 namespace Application
 {
@@ -18,8 +18,12 @@ namespace Application
         renderer(renderer),
         context(context)
     {
-        track = std::make_shared<SDLTrack>();
-        track->InitComplete();
+        device = std::make_unique<SDL::SDLAudio>();
+
+        track = std::make_shared<Audio::Track>();
+
+        device->AddTrack(track);
+        device->InitComplete();
 
         display_root = std::make_shared<DisplayNode>();
 
