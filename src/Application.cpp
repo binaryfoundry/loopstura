@@ -34,14 +34,14 @@ namespace Application
             context,
             glm::vec2(600, 320),
             glm::vec2(100, 100),
-            DisplayNodeSDFFunction::CIRCLE,
+            DisplayNodeSDF::CIRCLE,
             display_root);
 
         test_button_2 = std::make_shared<Components::ButtonComponent>(
             context,
             glm::vec2(300, 320),
             glm::vec2(100, 100),
-            DisplayNodeSDFFunction::BOX_ROUNDED,
+            DisplayNodeSDF::BOX_ROUNDED,
             display_root);
 
         waveform0 = std::make_shared<Components::WaveformComponent>(

@@ -16,7 +16,7 @@ namespace Components
             ContextPtr context,
             glm::vec2 position,
             glm::vec2 scale,
-            DisplayNodeSDFFunction sdf_func,
+            DisplayNodeSDF sdf_func,
             DisplayNodePtr parent);
 
         void Update(RenderState state) override;

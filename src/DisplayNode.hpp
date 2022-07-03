@@ -11,7 +11,7 @@ using namespace Application::Rendering;
 
 namespace Application
 {
-    enum class DisplayNodeSDFFunction
+    enum class DisplayNodeSDF
     {
         NONE,
         CIRCLE,
@@ -56,7 +56,7 @@ namespace Application
         glm::vec2 tex_scale = glm::vec2(1.0f, 1.0f);
         bool maintain_pixel_scaling_horizontal = false;
 
-        DisplayNodeSDFFunction sdf_func = DisplayNodeSDFFunction::NONE;
+        DisplayNodeSDF sdf_func = DisplayNodeSDF::NONE;
         BlendFunc blend_func = BlendFunc::ALPHA;
 
         DisplayNode(
